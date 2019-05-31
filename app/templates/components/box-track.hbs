@@ -11,8 +11,8 @@
   <div class="flex layout-row layout-align-space-around-center">
     {{box-vu-metter sample=sample}}
   </div>
-  <div class="flex-initial ">
-    {{paper-divider}}
+  <div class="flex-initial volumeBar">
+    {{paper-slider class="flex" disabled=(not sample) discrete=true value=volume step=1 min=0 max=100 onChange=(action 'setVolume')}}
   </div>
   <div class="flex-initial layout-row layout-wrap">
     <div class="flex"></div>

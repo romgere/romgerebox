@@ -1,5 +1,5 @@
 $primary: "teal";
-$accent: "light-green";
+$accent: "light-blue";
 $warn: "pink";
 
 @import 'ember-paper';
@@ -22,6 +22,18 @@ $warn: "pink";
 
 .boxTrack md-divider{
   border-top-width: 2px;
+}
+
+.boxTrack .volumeBar{
+  margin-top: -24px;
+}
+.boxTrack .volumeBar md-slider{
+  min-width: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.boxTrack .volumeBar md-slider .md-track.md-track-fill{
+  background-color: #d1d1d1;
 }
 
 canvas.vueMeter{

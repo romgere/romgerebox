@@ -20,6 +20,8 @@ export default Component.extend({
   mute: false,
   solo: false,
 
+  volume : 50,
+
   //Register to parent
   didReceiveAttrs() {
     this.get('boxMain').registerBoxTrack( this);
@@ -47,10 +49,10 @@ export default Component.extend({
         return;
       }
 
-      this.get('sample.file_a').volume = mute ? 0 : 1;
+      this.get('sample.file_a').volume = mute ? 0 : this.get('volume')/100;
       let file_b = this.get('sample.file_b');
       if( file_b ){
-        file_b.volume = mute ? 0 : 1;
+        file_b.volume = mute ? 0 : this.get('volume')/100;
       }
 
       this.set('mute', mute ? true : false);
@@ -164,7 +166,19 @@ export default Component.extend({
 
     removeAction: function(){
       this.clearCurrentSample();
-    }
+    },
+
+    setVolume: function( volume ){
+      this.set('volume', volume);
+
+      let file_a = this.get('sample.file_a');
+      let file_b = this.get('sample.file_b');
+
+      file_a.volume = volume / 100;
+      if( file_b ){
+        file_b.volume = volume / 100;
+      }
+    },
 
   }
 });
