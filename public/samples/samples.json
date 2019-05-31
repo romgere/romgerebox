@@ -1,0 +1,455 @@
+{
+    "versions" : [
+        {
+            "name" : "Version 1",
+            "samples" : [
+                {
+                    "file_a" : "v1/1_lead_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/2_deux_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/3_kosh_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/4_shpok_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/5_tom_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/6_nouana_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/7_scratch_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/8_trill_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/9_bass_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/10_uh_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/11_nugu_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/12_guit_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/13_tromp_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/14_pouin_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/15_tung_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/16_aoun_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/17_hum_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/18_get_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/19_tellme_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v1/20_make_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                }
+            ]
+        },
+        {
+            "name" : "Version 2",
+            "samples" : [
+                {
+                    "file_a" : "v2/beat1_boom_a.ogg",
+                    "file_b" : "v2/beat1_boom_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/beat2_kashi_a.ogg",
+                    "file_b" : "v2/beat2_kashi_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/beat3_paomeu_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/beat4_ptttpeu_a.ogg",
+                    "file_b" : "v2/beat4_ptttpeu_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/beat5_slupttt_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/effet1_poulll_a.ogg",
+                    "file_b" : "v2/effet1_poulll_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/effet2_tucati_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/effet3_tuilopta_a.ogg",
+                    "file_b" : "v2/effet3_tuilopta_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/effet4_tululou_a.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/effet5_tumttt_a.ogg",
+                    "file_b" : "v2/effet5_tumttt_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/melo1_nananana_a.ogg",
+                    "file_b" : "v2/melo1_nananana_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/melo2_pelulu_a.ogg",
+                    "file_b" : "v2/melo2_pelulu_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/melo3_siffle_a.ogg",
+                    "file_b" : "v2/melo3_siffle_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/melo4_tatouti_a.ogg",
+                    "file_b" : "v2/melo4_tatouti_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/melo5_tvutvutvu_a.ogg",
+                    "file_b" : "v2/melo5_tvutvutvu_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/coeur1_oaaah_a.ogg",
+                    "file_b" : "v2/coeur1_oaaah_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/coeur2_cougou_a.ogg",
+                    "file_b" : "v2/coeur2_cougou_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/coeur3_porticoeur_a.ogg",
+                    "file_b" : "v2/coeur3_porticoeur_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/voix1_isit_a.ogg",
+                    "file_b" : "v2/voix1_isit_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v2/voix2_uare_a.ogg",
+                    "file_b" : "v2/voix2_uare_b.ogg",
+                    "color" : "#d1d1d1",
+                    "icon" : "music"
+                }
+            ]
+        },
+        {
+            "name" : "Version 3",
+            "samples" : [
+                {
+                    "file_a" : "v3/drum1_ballet_a.ogg",
+                    "color" : "#b4e5d7",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/drum2_kick_a.ogg",
+                    "color" : "#b4e5d7",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/drum3_snare_a.ogg",
+                    "color" : "#b4e5d7",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/drum4_lead_a.ogg",
+                    "color" : "#b4e5d7",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/drum5_charley_a.ogg",
+                    "color" : "#b4e5d7",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/effet1_long_a.ogg",
+                    "file_b" : "v3/effet1_long_b.ogg",
+                    "color" : "#a8d3d5",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/effet2_daft1_a.ogg",
+                    "color" : "#a8d3d5",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/effet3_tududu_a.ogg",
+                    "color" : "#a8d3d5",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/effet4_daft2_a.ogg",
+                    "color" : "#a8d3d5",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/effet5_rythme_a.ogg",
+                    "file_b" : "v3/effet5_rythme_b.ogg",
+                    "color" : "#a8d3d5",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/melo1_tuu_a.ogg",
+                    "color" : "#d1bcb1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/melo2_indien_a.ogg",
+                    "color" : "#d1bcb1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/melo3_armo_a.ogg",
+                    "color" : "#d1bcb1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/melo4_clav_a.ogg",
+                    "file_b" : "v3/melo4_clav_b.ogg",
+                    "color" : "#d1bcb1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/melo5_siffle_a.ogg",
+                    "color" : "#d1bcb1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/voix1_waya_a.ogg",
+                    "color" : "#e2c59c",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/voix2_ride_a.ogg",
+                    "file_b" : "v3/voix2_ride_b.ogg",
+                    "color" : "#e2c59c",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/voix3_over_a.ogg",
+                    "file_b" : "v3/voix3_over_b.ogg",
+                    "color" : "#e2c59c",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/voix4_colors_a.ogg",
+                    "color" : "#e2c59c",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v3/voix5_sunrise_a.ogg",
+                    "file_b" : "v3/voix5_sunrise_b.ogg",
+                    "color" : "#e2c59c",
+                    "icon" : "music"
+                }
+            ]
+        },
+        {
+            "name" : "Version 4",
+            "samples" : [
+                {
+                    "file_a" : "v4/drum1_kick_a.ogg",
+                    "file_b" : "v4/drum1_kick_b.ogg",
+                    "color" : "#f4e6c8",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/drum2_snare_a.ogg",
+                    "file_b" : "v4/drum2_snare_b.ogg",
+                    "color" : "#f4e6c8",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/drum3_touti_a.ogg",
+                    "color" : "#f4e6c8",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/drum4_charley_a.ogg",
+                    "color" : "#f4e6c8",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/drum5_chatom_a.ogg",
+                    "file_b" : "v4/drum5_chatom_b.ogg",
+                    "color" : "#f4e6c8",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/effect1_bass_a.ogg",
+                    "file_b" : "v4/effect1_bass_b.ogg",
+                    "color" : "#cbe6ea",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/effect2_enigmatic_a.ogg",
+                    "color" : "#cbe6ea",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/effect3_cry_a.ogg",
+                    "color" : "#cbe6ea",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/effect4_odoyouno_a.ogg",
+                    "color" : "#cbe6ea",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/effect5_oua_a.ogg",
+                    "color" : "#cbe6ea",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/melo1_toun_a.ogg",
+                    "file_b" : "v4/melo1_toun_b.ogg",
+                    "color" : "#f8d2d4",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/melo2_flute_a.ogg",
+                    "file_b" : "v4/melo2_flute_b.ogg",
+                    "color" : "#f8d2d4",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/melo3_neou_a.ogg",
+                    "file_b" : "v4/melo3_neou_b.ogg",
+                    "color" : "#f8d2d4",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/melo4_hu_a.ogg",
+                    "color" : "#f8d2d4",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/melo5_ah_a.ogg",
+                    "color" : "#f8d2d4",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/chips1_feel_a.ogg",
+                    "file_b" : "v4/chips1_feel_b.ogg",
+                    "color" : "#d3d5f1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/chips2_chillin_a.ogg",
+                    "color" : "#d3d5f1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/chips3_yeah_a.ogg",
+                    "color" : "#d3d5f1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/chips4_filback_a.ogg",
+                    "file_b" : "v4/chips4_filback_b.ogg",
+                    "color" : "#d3d5f1",
+                    "icon" : "music"
+                },
+                {
+                    "file_a" : "v4/chips5_teylo_a.ogg",
+                    "color" : "#d3d5f1",
+                    "icon" : "music"
+                }
+            ]
+        }
+    ]
+}

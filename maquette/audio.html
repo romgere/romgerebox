@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- https://github.com/streamproc/MediaStreamRecorder -->
+    <script src="//cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>
+
+    <!-- https://github.com/cwilso/volume-meter/ -->
+    <script src="volume-meter.js"></script>
+
+
+    <script type="text/javascript">
+        // Vu mettre
+        var audioContext = null;
+        var meter = null;
+        var canvasContext = null;
+        var WIDTH=500;
+        var HEIGHT=50;
+        var rafID = null;
+
+        var chunks = [];
+        var streamMedia =  new MediaStream();
+        var mediaRecorder = null;
+
+        var audio = null;
+        var audiob = null;
+        var audioc = null;
+        var audiod = null;
+        var audioe = null;
+
+        //Native <audio>, loop OK (avec bidouille), impossible de record
+        function test(){
+            audio =  new Audio('drum1_ballet_a.ogg');
+            audiob = new Audio('voix1_waya_a.ogg');
+            audiob.volume = 0;
+            audioc = new Audio('melo4_clav_a.ogg');
+            audiod = new Audio('voix4_colors_a.ogg');
+            audioe = new Audio('effet3_tududu_a.ogg');
+
+            audio_a = new Audio('voix2_ride_a.ogg');
+            audio_a.volume = 0;
+            audio_b = new Audio('voix2_ride_b.ogg');
+            audio_b.volume = 0;
+
+
+
+
+
+
+            var metronome = new Audio('-metronome.wav');
+
+            metronome.loop = true;
+            metronome.volume = 0;
+            metronome.addEventListener('loadeddata', () => {
+                console.log('metronome load');
+                metronome.play();
+            });
+
+
+            metronome.ended =  function(){
+              console.log('end');
+            };
+
+            metronome.seeking =  function(){
+              console.log('seeking');
+            };
+            var isA = true;
+            setInterval(function(){
+                if(metronome.duration - metronome.currentTime < 0.17 ){
+
+                      console.log('timeout1ms',metronome.currentTime);
+
+                  audio.play();
+                  audiob.play();
+                  audioc.play();
+                  audiod.play();
+                  audioe.play();
+                  metronome.currentTime = 0;
+                  audio.currentTime = 0;
+                  audiob.currentTime = 0;
+                  audioc.currentTime = 0;
+                  audiod.currentTime = 0;
+                  audioe.currentTime = 0;
+
+
+                  audio_a.currentTime = 0;
+                  audio_b.currentTime = 0;
+
+                  if( isA ){
+                      audio_a.play();
+                      audio_b.pause();
+
+                      audio_b.volume = 0;
+                      audio_a.volume = 1;
+                  }
+                  else{
+                      audio_a.pause();
+                      audio_b.play();
+
+                      audio_b.volume = 1;
+                      audio_a.volume = 0;
+                  }
+
+                  isA = !isA;
+                }
+            },1);
+
+            audio_b.addEventListener('loadeddata', () => {
+
+                canvasContext = document.getElementById( "meter" ).getContext("2d");
+
+                // grab an audio context
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioContext = new AudioContext();
+
+
+                var stream_a = audio_a.captureStream ? audio_a.captureStream() : audio_a.mozCaptureStream();
+                mediaStreamSource_a = audioContext.createMediaStreamSource(stream_a);
+
+                var stream_b = audio_b.captureStream ? audio_b.captureStream() : audio_b.mozCaptureStream();
+                mediaStreamSource_b = audioContext.createMediaStreamSource(stream_b);
+
+                // Create a new volume meter and connect it.
+                meter = createAudioMeter(audioContext);
+
+                mediaStreamSource_b.connect(meter);
+                mediaStreamSource_a.connect(meter);
+
+                onLevelChange();
+            });
+
+            // metronome.ontimeupdate= function(i) {
+            //   console.log('timeupdate',this.currentTime);
+            //   // if((this.currentTime / this.duration)>0.97){
+            //   //   audio.play();
+            //   //   audiob.play();
+            //   //   audioc.play();
+            //   //   this.currentTime = 0;
+            //   //   audio.currentTime = 0;
+            //   //   audiob.currentTime = 0;
+            //   //   audioc.currentTime = 0;
+            //   // }
+            // };
+        }
+
+var multiStreamRecorder = null;
+        function rec(){
+          debugger;
+
+
+          var stream = audio.captureStream ? audio.captureStream() : audio.mozCaptureStream();
+          var streamb = audiob.captureStream ? audiob.captureStream() : audiob.mozCaptureStream();
+          var streamc = audioc.captureStream ? audioc.captureStream() : audioc.mozCaptureStream();
+          var streamd = audiod.captureStream ? audiod.captureStream() : audiod.mozCaptureStream();
+          var streame = audioe.captureStream ? audioe.captureStream() : audioe.mozCaptureStream();
+
+
+          var arrayOfStreams = [stream, streamb, streamc, streamd, streame];
+          multiStreamRecorder = new MultiStreamRecorder(arrayOfStreams);
+          multiStreamRecorder.mimeType = 'audio/webm';
+          multiStreamRecorder.ondataavailable = function(blob) {
+              debugger;
+              var audioURL = URL.createObjectURL(blob);
+
+              let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
+              a.innerHTML = audioURL;
+              document.body.appendChild(a);
+          };
+          multiStreamRecorder.start();
+return;
+          // var streamMix = new MediaStream();
+          // streamMix.addTrack(stream.getTracks()[0]);
+          // streamMix.addTrack(streamb.getTracks()[0]);
+          // mediaRecorder = new MediaRecorder( streamMix, {mimeType: 'audio/webm'});
+
+          // const audioMixer = new MultiStreamsMixer([stream, streamb]);
+          // mediaRecorder = new MediaRecorder(audioMixer.getMixedStream());
+
+
+          // stream.addTrack( streamb.getTracks()[0])
+          // mediaRecorder = new MediaRecorder( stream);
+
+          mediaRecorder.onstop = function(e) {
+            console.log("data available after MediaRecorder.stop() called.");
+
+            // var audio = document.createElement('audio');
+            // audio.controls = true;
+
+            var blob = new Blob(chunks, { 'type' : 'audio/webm' });
+            var audioURL = window.URL.createObjectURL(blob);
+
+            let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
+            a.innerHTML = audioURL;
+
+            document.body.appendChild(a);
+
+
+            // audio.src = audioURL;
+            console.log("recorder stopped", audioURL);
+          };
+
+          mediaRecorder.ondataavailable = function(e) {
+            chunks.push(e.data);
+          };
+          mediaRecorder.start();
+        }
+
+
+        function stop(){
+
+                multiStreamRecorder.stop();
+          // mediaRecorder.stop();
+        }
+
+
+        var canvasContext = null;
+        var WIDTH=500;
+        var HEIGHT=50;
+        var rafID = null;
+
+        function onLevelChange( time ) {
+            // clear the background
+            canvasContext.clearRect(0,0,WIDTH,HEIGHT);
+
+            // check if we're currently clipping
+            if (meter.checkClipping())
+                canvasContext.fillStyle = "red";
+            else
+                canvasContext.fillStyle = "green";
+
+            console.log(meter.volume);
+
+            // draw a bar based on the current volume
+            canvasContext.fillRect(0, 0, meter.volume * WIDTH * 1.4, HEIGHT);
+
+            // set up the next visual callback
+            rafID = window.requestAnimationFrame( onLevelChange );
+        }
+
+
+        </script>
+    </head>
+    <body>
+        <a href="#" onclick="test()">test</a><br />
+        <a href="#" onclick="rec()">rec</a><br />
+        <a href="#" onclick="stop()">stop</a><br />
+        <hr />
+        <canvas id="meter" width="500" height="50"></canvas>
+
+    </body>
+</html>
