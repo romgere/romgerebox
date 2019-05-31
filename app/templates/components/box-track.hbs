@@ -14,13 +14,13 @@
   <div class="flex-initial layout-row layout-wrap">
     <div class="flex"></div>
 
-    {{#paper-button iconButton=true warn=mute onClick=(action 'muteAction')  disabled=(not sample)}}
+    {{#paper-button iconButton=true warn=mute onClick=(action 'muteToggle')  disabled=(not sample)}}
       {{paper-icon (if mute 'volume_off' 'volume_up')}}
     {{/paper-button}}
 
     <div class="flex"></div>
 
-    {{#paper-button iconButton=true warn=solo onClick=(action 'soloAction') disabled=(not sample)}}
+    {{#paper-button iconButton=true accent=solo onClick=(action 'soloAction') disabled=(not sample)}}
       {{paper-icon 'hearing'}}
     {{/paper-button}}
 

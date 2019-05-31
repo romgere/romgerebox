@@ -38,6 +38,21 @@ export default Component.extend({
     }
   },
 
+  setMuteState: function( mute ){
+      if( isEmpty(this.get('sample'))){
+        return;
+      }
+
+      this.get('sample.file_a').volume = mute ? 0 : 1;
+      let file_b = this.get('sample.file_b');
+      if( file_b ){
+        file_b.volume = mute ? 0 : 1;
+      }
+
+      this.set('mute', mute ? true : false);
+      this.set('solo', false);
+  },
+
   actions:{
     play: function( params ){
 
@@ -119,21 +134,27 @@ export default Component.extend({
       this.set('dragPending', false);
     },
 
-    muteAction: function(){
-
-      let vol = this.get('mute') ? 1 : 0;
-
-      this.get('sample.file_a').volume = vol;
-      let file_b = this.get('sample.file_b');
-      if( file_b ){
-        file_b.volume = vol;
-      }
-
-      this.toggleProperty('mute');
+    muteToggle: function(){
+      this.setMuteState( ! this.get('mute'));
     },
 
     soloAction: function(){
 
+      if( this.get('solo') ){
+        this.get('boxMain').endSolo();
+        this.set('solo', false);
+        this.setMuteState( false);
+      }
+      else{
+        this.setMuteState( false);
+        this.get('boxMain').askForSolo( this);
+        this.set('solo', true);
+      }
+    },
+
+    //Mute from parent (for other track solo)
+    mute: function( mute){
+      this.setMuteState( mute);
     },
 
 

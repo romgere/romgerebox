@@ -22,9 +22,7 @@ export default Component.extend({
   },
 
   play: function(){
-    debugger;
     let metronomeInterval = setInterval( this.metronomeSync.bind(this), this.get('metronome'));
-
 
     this.set('metronomeInterval', metronomeInterval);
     this.set('metronomeStartTime', new Date());
@@ -77,14 +75,23 @@ export default Component.extend({
     });
   },
 
-  sendActionToTracks : function(action, param = null){
+  sendActionToTracks : function(action, param = null, exclude = null){
     this.get('boxTracks').forEach(function( boxTrack){
-      boxTrack.send(action, param);
+      if( boxTrack != exclude )
+        boxTrack.send(action, param);
     })
   },
 
   registerBoxTrack: function( boxTrack){
     this.get('boxTracks').pushObject(boxTrack);
+  },
+
+  askForSolo: function( boxTrack){
+    this.sendActionToTracks('mute', true, boxTrack);
+  },
+
+  endSolo: function(){
+    this.sendActionToTracks('mute', false);
   },
 
   actions: {
