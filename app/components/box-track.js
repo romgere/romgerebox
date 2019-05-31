@@ -36,6 +36,10 @@ export default Component.extend({
     if( file_b ){
       file_b.pause();
     }
+
+    this.get('boxMain').endSolo();
+    this.set('solo', false);
+    this.setMuteState( false);
   },
 
   setMuteState: function( mute ){

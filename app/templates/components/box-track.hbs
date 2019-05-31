@@ -8,8 +8,11 @@
     {{fa-icon (if sampleIcon sampleIcon 'question-circle-o') size=2 class=(if sampleColor sampleColor 's-color-0') }}
   </div>
 
-  <div class="flex layout-row layout-align-space-around-center" style="height: 300px;">
-    vu
+  <div class="flex layout-row layout-align-space-around-center">
+    {{box-vu-metter sample=sample}}
+  </div>
+  <div class="flex-initial ">
+    {{paper-divider}}
   </div>
   <div class="flex-initial layout-row layout-wrap">
     <div class="flex"></div>

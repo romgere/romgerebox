@@ -20,9 +20,16 @@ $warn: "pink";
 }
 
 
+.boxTrack md-divider{
+  border-top-width: 2px;
+}
 
+canvas.vueMeter{
+  background-color: #FFF;
+}
 
-button.s-color-0{
+button.s-color-0,
+canvas.s-color-0{
   background-color: #d1d1d1 !important;
 }
 .fa.s-color-0{
@@ -33,7 +40,8 @@ button.s-color-0{
   box-shadow: #d1d1d1 0px 0px 10px 5px
 }
 
-button.s-color-1{
+button.s-color-1,
+canvas.s-color-1{
   background-color: #f4e6c8 !important;
 }
 .fa.s-color-1{
@@ -44,7 +52,8 @@ button.s-color-1{
   box-shadow: #f4e6c8 0px 0px 10px 5px
 }
 
-button.s-color-2{
+button.s-color-2,
+canvas.s-color-2{
   background-color: #cbe6ea !important;
 }
 .fa.s-color-2{
@@ -55,7 +64,8 @@ button.s-color-2{
   box-shadow: #cbe6ea 0px 0px 10px 5px
 }
 
-button.s-color-3{
+button.s-color-3,
+canvas.s-color-3{
   background-color: #f8d2d4 !important;
 }
 .fa.s-color-3{
@@ -66,7 +76,8 @@ button.s-color-3{
   box-shadow: #f8d2d4 0px 0px 10px 5px
 }
 
-button.s-color-4{
+button.s-color-4,
+canvas.s-color-4{
   background-color: #d3d5f1 !important;
 }
 .fa.s-color-4{
