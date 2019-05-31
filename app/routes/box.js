@@ -25,7 +25,7 @@ export default Route.extend({
 
       return new Promise((resolveA/*, reject*/) => {
         sample.file_a = new Audio('/samples/'+sample.file_a);
-        sample.file_a.volume = 0;
+        // sample.file_a.volume = 0;
         sample.file_a.loop = true;
         sample.file_a.addEventListener('loadeddata', () => {
             resolveA(sample);
@@ -35,7 +35,7 @@ export default Route.extend({
         if( sample.file_b){
           return new Promise((resolveB/*, reject*/) => {
             sample.file_b = new Audio('/samples/'+sample.file_b);
-            sample.file_b.volume = 0;
+            // sample.file_b.volume = 0;
             sample.file_b.loop = true;
             sample.file_b.addEventListener('loadeddata', () => {
                 resolveB(

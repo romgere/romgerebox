@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 
 import { alias } from '@ember/object/computed';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 
@@ -40,15 +41,64 @@ export default Component.extend({
   actions:{
     play: function( params ){
 
-      debugger;
+      if( isEmpty(this.get('sample'))){
+        return;
+      }
+
+      let file_a = this.get('sample.file_a');
+      let file_b = this.get('sample.file_b');
+
+      if( params.isLoopSideA || ! file_b ){
+        file_a.play();
+        if( file_b ){
+          file_b.pause();
+        }
+      }
+      else{
+        file_b.play();
+        file_a.pause();
+      }
     },
 
     pause: function(){
-      debugger;
+
+      if( isEmpty(this.get('sample'))){
+        return;
+      }
+
+      let file_a = this.get('sample.file_a');
+      let file_b = this.get('sample.file_b');
+
+      file_a.pause();
+      if( file_b ){
+        file_b.pause();
+      }
     },
 
     sync: function( params ){
-      debugger;
+
+      if( isEmpty(this.get('sample'))){
+        return;
+      }
+
+      let file_a = this.get('sample.file_a');
+      let file_b = this.get('sample.file_b');
+      file_a.currentTime = 0;
+      if( file_b ){
+        file_b.currentTime = 0;
+      }
+
+
+      if( params.isLoopSideA || ! file_b ){
+        file_a.play();
+        if( file_b ){
+          file_b.pause();
+        }
+      }
+      else{
+        file_b.play();
+        file_a.pause();
+      }
     },
 
     onDragSample: function( sample ){
