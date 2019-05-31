@@ -4,27 +4,41 @@
   dragOutAction=(action 'onDragOutAction')
 }}
 
-  <div class="flex-initial layout-row layout-align-space-around-center" title={{if sampleIcon "" "Déposez un sample dans cette zone..."}}>
+  {{#unless sampleIcon}}
+    {{#paper-tooltip position='bottom'}}
+      Déposes un sample dans cette zone
+    {{/paper-tooltip}}
+  {{/unless}}
+
+  <div class="flex-initial layout-row layout-align-space-around-center" title=>
     {{fa-icon (if sampleIcon sampleIcon 'question-circle-o') size=2 class=(if sampleColor sampleColor 's-color-0') }}
+
+
   </div>
 
   <div class="flex layout-row layout-align-space-around-center">
     {{box-vu-metter sample=sample}}
   </div>
   <div class="flex-initial volumeBar">
-    {{paper-slider class="flex" disabled=(not sample) discrete=true value=volume step=1 min=0 max=100 onChange=(action 'setVolume')}}
+    {{paper-slider class="flex" disabled=(not sample) discrete=true value=volume step=1 min=0 max=100 onChange=(action 'setVolume') title="Volume"}}
   </div>
   <div class="flex-initial layout-row layout-wrap">
     <div class="flex"></div>
 
     {{#paper-button iconButton=true warn=mute onClick=(action 'muteToggle')  disabled=(not sample)}}
       {{paper-icon (if mute 'volume_off' 'volume_up')}}
+      {{#paper-tooltip position='left'}}
+        Muet ON/OFF
+      {{/paper-tooltip}}
     {{/paper-button}}
 
     <div class="flex"></div>
 
     {{#paper-button iconButton=true accent=solo onClick=(action 'soloAction') disabled=(not sample)}}
       {{paper-icon 'hearing'}}
+      {{#paper-tooltip position='right'}}
+        Solo ON/OFF
+      {{/paper-tooltip}}
     {{/paper-button}}
 
     <div class="flex"></div>
@@ -32,6 +46,9 @@
     <div class="flex-100 layout-row layout-align-space-around-center">
       {{#paper-button iconButton=true onClick=(action 'removeAction') disabled=(not sample)}}
         {{paper-icon 'delete'}}
+        {{#paper-tooltip position='bottom'}}
+          Supprimer le sample
+        {{/paper-tooltip}}
       {{/paper-button}}
     </div>
   </div>

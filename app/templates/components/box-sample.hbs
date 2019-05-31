@@ -8,8 +8,11 @@
 
   {{#draggable-object content=sample}}
 
-    {{#paper-button iconButton=true raised=true class=sample.color }}
+    {{#paper-button iconButton=true raised=true class=sample.color}}
       {{fa-icon sample.icon}}
+      {{#paper-tooltip position='top'}}
+        Fais glisser le sample sur une des 8 pistes
+      {{/paper-tooltip}}
     {{/paper-button}}
   {{/draggable-object}}
 

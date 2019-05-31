@@ -1,15 +1,16 @@
 import Component from '@ember/component';
 
-import { alias } from '@ember/object/computed';
+import { alias, notEmpty } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 
   classNames: ['boxTrack', 'layout-col', 'flex-nogrow'],
 
-  classNameBindings: ['sampleColor', 'dragPending'],
+  classNameBindings: ['sampleColor', 'dragPending','hasSample'],
   sampleColor: alias('sample.color'),
   sampleIcon: alias('sample.icon'),
+  hasSample: notEmpty('sample'),
 
 
   //Sample to play

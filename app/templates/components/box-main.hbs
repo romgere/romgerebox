@@ -4,17 +4,23 @@
     {{#paper-toolbar-tools}}
       {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
         {{paper-icon (if playing "stop" "play_arrow")}}
+        {{#paper-tooltip position='right'}}
+          {{if playing "Stop" "Lecture"}}
+        {{/paper-tooltip}}
       {{/paper-button}}
       <span class="flex"></span>
       {{#paper-button iconButton=true onClick=(transition-to 'index')}}
-        {{paper-icon 'home'}}
+        {{paper-icon 'swap_horizontal_circle'}}
+        {{#paper-tooltip position='left'}}
+          Changer de style
+        {{/paper-tooltip}}
       {{/paper-button}}
       <h2>
         RomgereBox
       </h2>
       <span class="flex"></span>
-        <span id="loopSide">{{if loopSideA "A" "B"}}</span>
-        {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
+      <span id="loopSide">{{if loopSideA "A" "B"}}</span>
+      {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
     {{/paper-toolbar-tools}}
   {{/paper-toolbar}}
 

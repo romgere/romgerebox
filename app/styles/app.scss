@@ -19,7 +19,9 @@ $warn: "pink";
   max-width: 110px;
 }
 
-
+.boxTrack:hover:not(.has-sample){
+  border-color: gray !important;
+}
 .boxTrack md-divider{
   border-top-width: 2px;
 }
