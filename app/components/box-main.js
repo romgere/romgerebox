@@ -10,47 +10,71 @@ export default Component.extend({
 
   boxTracks: null,
 
+  metronomeInterval: null,
+  metronomeStartTime: null,
+
   init() {
     this._super(...arguments);
     this.set('boxTracks', []);
-    setInterval( this.metronomeCheck.bind(this), 1)
+
+
+    setInterval( this.loopProgress.bind(this), 100);
   },
 
   play: function(){
-    this.get('metronome').play();
+    debugger;
+    let metronomeInterval = setInterval( this.metronomeSync.bind(this), this.get('metronome'));
+
+
+    this.set('metronomeInterval', metronomeInterval);
+    this.set('metronomeStartTime', new Date());
+
     this.sendActionToTracks('play', {
         isLoopSideA : this.get('loopSideA')
     });
   },
 
 
-  pause: function(){
-    this.get('metronome').pause();
-    this.sendActionToTracks('pause');
+  stop: function(){
+    let metronomeInterval = this.get('metronomeInterval');
+    if( metronomeInterval ){
+      clearInterval(metronomeInterval);
+    }
+
+    this.set('loopValue', 0);
+    this.set('metronomeStartTime', null);
+
+    this.sendActionToTracks('stop');
   },
 
   /**
    * Call every 1ms, toc check metronome time and go to 0 if needed
    * (prevent BIG blank when use "loop=true" for audio element )
    */
-  metronomeCheck: function(){
-    let metronome = this.get('metronome');
-
-    if( metronome.duration - metronome.currentTime < METRONOME_TOLERANCE ){
-
-      this.toggleProperty('loopSideA');
-
-      metronome.currentTime = 0;
-      this.set('loopValue', 0);
-
-      //Sync child track
-      this.sendActionToTracks('sync', {
-          isLoopSideA : this.get('loopSideA')
-      });
+  loopProgress: function(){
+    let loopDuration = this.get('metronome');
+    let metronomeStartTime = this.get('metronomeStartTime');
+    let loopPercent = 0;
+    if( metronomeStartTime ){
+      let loopCurrentTime = (new Date()).getTime() - metronomeStartTime.getTime();
+      loopPercent = Math.round((loopCurrentTime / loopDuration ) * 100);
     }
 
-    let loopPercent = Math.round((metronome.currentTime / (metronome.duration - METRONOME_TOLERANCE) ) * 100);
     this.set('loopValue', loopPercent);
+  },
+
+  metronomeSync: function(){
+
+    let metronome = this.get('metronome');
+    this.toggleProperty('loopSideA');
+
+    this.set('loopValue', 0);
+    this.set('metronomeStartTime', new Date());
+
+    //Sync child track
+    this.sendActionToTracks('sync', {
+        isLoopSideA : this.get('loopSideA')
+    });
   },
 
   sendActionToTracks : function(action, param = null){
@@ -67,7 +91,7 @@ export default Component.extend({
 
     togglePlay: function(){
       if( this.get('playing')){
-        this.pause();
+        this.stop();
         this.set('playing', false);
       }
       else{

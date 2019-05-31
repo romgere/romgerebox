@@ -60,7 +60,7 @@ export default Component.extend({
       }
     },
 
-    pause: function(){
+    stop: function(){
 
       if( isEmpty(this.get('sample'))){
         return;

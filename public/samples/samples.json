@@ -2,6 +2,7 @@
     "versions" : [
         {
             "name" : "Version 1",
+            "metronome" :  5320,
             "samples" : [
                 {
                     "file_a" : "v1/1_lead_a.ogg",
@@ -107,6 +108,7 @@
         },
         {
             "name" : "Version 2",
+            "metronome" : 4790,
             "samples" : [
                 {
                     "file_a" : "v2/beat1_boom_a.ogg",
@@ -228,6 +230,7 @@
         },
         {
             "name" : "Version 3",
+            "metronome" : 7990,
             "samples" : [
                 {
                     "file_a" : "v3/drum1_ballet_a.ogg",
@@ -339,6 +342,7 @@
         },
         {
             "name" : "Version 4",
+            "metronome" : 7990,
             "samples" : [
                 {
                     "file_a" : "v4/drum1_kick_a.ogg",

@@ -14,7 +14,7 @@ export default Route.extend({
       //Load the "Audio" elements for all samples
       'samples' : this.loadSample(version.samples),
       //Load metronome
-      'metronome' : this.loadMetronome(),
+      'metronome' : version.metronome,
     });
   },
 
@@ -48,16 +48,5 @@ export default Route.extend({
       });
     }));
   },
-
-  loadMetronome : function(){
-    return new Promise((resolve/*, reject*/) => {
-      let metronome = new Audio('/samples/metronome.wav');
-      metronome.volume = 0;
-      metronome.loop = true;
-      metronome.addEventListener('loadeddata', () => {
-          resolve(metronome);
-      });
-    });
-  }
-
+  
 });
