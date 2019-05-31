@@ -6,8 +6,11 @@
         {{paper-icon (if playing "stop" "play_arrow")}}
       {{/paper-button}}
       <span class="flex"></span>
+      {{#paper-button iconButton=true onClick=(transition-to 'index')}}
+        {{paper-icon 'home'}}
+      {{/paper-button}}
       <h2>
-        Romgerebox
+        RomgereBox
       </h2>
       <span class="flex"></span>
         <span id="loopSide">{{if loopSideA "A" "B"}}</span>

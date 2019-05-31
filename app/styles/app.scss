@@ -5,11 +5,16 @@ $warn: "pink";
 @import 'ember-paper';
 
 
+#loopSide{
+  margin-right: -32px;
+  font-weight: bold;
+}
+
 
 .boxTrack{
   border: 2px solid #d4d4d4;
   border-radius: 6px;
-  margin: 10px;
+  margin: 10px 5px;
   padding: 10px 0px 4px 0px;
   max-width: 130px;
 }
