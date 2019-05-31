@@ -7,6 +7,7 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
+  this.route('box', {path : 'box/:version_idx'});
 });
 
 export default Router;

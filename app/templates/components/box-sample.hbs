@@ -1,0 +1,16 @@
+{{#if sample.isUsed}}
+
+  {{#paper-button iconButton=true raised=true disabled=true}}
+    {{fa-icon sample.icon}}
+  {{/paper-button}}
+
+{{else}}
+
+  {{#draggable-object content=sample}}
+
+    {{#paper-button iconButton=true raised=true class=sample.color }}
+      {{fa-icon sample.icon}}
+    {{/paper-button}}
+  {{/draggable-object}}
+
+{{/if}}

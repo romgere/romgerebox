@@ -1,0 +1,5 @@
+{{#each model.versions as |version idx|}}
+  {{#paper-button raised=true onClick=(transition-to "box" idx)}}
+    {{version.name}}
+  {{/paper-button}}
+{{/each}}

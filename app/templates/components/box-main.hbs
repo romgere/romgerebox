@@ -1,0 +1,45 @@
+<div class="layout-col" id="box-main">
+
+  {{#paper-toolbar class="flex-initial"}}
+    {{#paper-toolbar-tools}}
+      {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
+        {{paper-icon (if playing "pause" "play_arrow")}}
+      {{/paper-button}}
+      <span class="flex"></span>
+      <h2>
+        Romgerebox
+      </h2>
+      <span class="flex"></span>
+        <span id="loopSide">{{if loopSideA "A" "B"}}</span>
+        {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA}}
+    {{/paper-toolbar-tools}}
+  {{/paper-toolbar}}
+
+  <div class="flex-initial">
+    <br>
+  </div>
+
+  <div class="flex layout-row layout-align-space-around-start">
+
+    {{#each (repeat 8) as |idx|}}
+      {{box-track boxMain=this}}
+    {{/each}}
+  </div>
+  <div class="flex-initial">
+    <br>
+    <hr />
+    <br>
+  </div>
+  <div class="flex-initial layout-row layout-wrap" id="sample-list">
+    {{#each samples as |sample idx|}}
+      <div class="flex-10 layout-row layout-align-center-start">
+        {{box-sample sample=sample}}
+      </div>
+
+      {{#if (eq idx 9)}}
+        <div class="flex-grow"><br /></div>
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
+{{yield}}
