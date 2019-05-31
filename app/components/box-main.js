@@ -13,12 +13,29 @@ export default Component.extend({
   metronomeInterval: null,
   metronomeStartTime: null,
 
+  loopProgressInterval: null,
+
   init() {
     this._super(...arguments);
     this.set('boxTracks', []);
+    this.set('loopProgressInterval', setInterval( this.loopProgress.bind(this), 100));
+  },
 
+  willDestroy(){
+    this._super(...arguments);
 
-    setInterval( this.loopProgress.bind(this), 100);
+    this.stop();
+
+    let metronomeInterval = this.get('metronomeInterval');
+    if( metronomeInterval ){
+      clearInterval(metronomeInterval);
+    }
+    let loopProgressInterval = this.get('loopProgressInterval');
+    if( loopProgressInterval ){
+      clearInterval(loopProgressInterval);
+    }
+
+    this.set('boxTracks', []);
   },
 
   play: function(){
@@ -106,5 +123,9 @@ export default Component.extend({
         this.set('playing', true);
       }
     },
+
+    willDestroyElement: function(){
+      this.stop();
+    }
   }
 });

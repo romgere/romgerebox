@@ -23,16 +23,24 @@ export default Route.extend({
 
     return Promise.all(samples.map(function( sample){
 
+
       return new Promise((resolveA/*, reject*/) => {
-        sample.file_a = new Audio('/samples/'+sample.file_a);
-        sample.file_a.volume = 0.5;
-        sample.file_a.loop = true;
-        sample.file_a.addEventListener('loadeddata', () => {
-            resolveA(sample);
-        });
+
+        //Déjà chargé
+        if( typeof sample.file_a == 'object'){
+          resolveA(sample);
+        }
+        else{
+          sample.file_a = new Audio('/samples/'+sample.file_a);
+          sample.file_a.volume = 0.5;
+          sample.file_a.loop = true;
+          sample.file_a.addEventListener('loadeddata', () => {
+              resolveA(sample);
+          });
+        }
       }).then(function( sample){
 
-        if( sample.file_b){
+        if( sample.file_b && typeof sample.file_b != 'object'){
           return new Promise((resolveB/*, reject*/) => {
             sample.file_b = new Audio('/samples/'+sample.file_b);
             sample.file_b.volume = 0.5;
