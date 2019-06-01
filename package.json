@@ -41,6 +41,7 @@
     "ember-reactive-helpers": "^0.5.1",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.18.0",
+    "ember-useragent": "^0.9.1",
     "ember-welcome-page": "^3.0.0",
     "eslint-plugin-ember": "^5.0.0",
     "loader.js": "^4.2.3",

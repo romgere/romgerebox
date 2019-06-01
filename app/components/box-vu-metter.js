@@ -46,12 +46,21 @@ export default Component.extend({
       let stream_a = file_a.captureStream ? file_a.captureStream() : file_a.mozCaptureStream();
       let mediaStreamSource_a = audioContext.createMediaStreamSource(stream_a);
       mediaStreamSource_a.connect(meter);
+      //Reconnect to audio output
+      if( this.get('userAgent.browser.isFirefox') ){
+        mediaStreamSource_a.connect(audioContext.destination);
+      }
 
       if( file_b ){
         let stream_b = file_b.captureStream ? file_b.captureStream() : file_b.mozCaptureStream();
         let mediaStreamSource_b = audioContext.createMediaStreamSource(stream_b);
         mediaStreamSource_b.connect(meter);
+        //Reconnect to audio output
+        if( this.get('userAgent.browser.isFirefox') ){
+          mediaStreamSource_b.connect(audioContext.destination);
+        }
       }
+
 
 
       this.onLevelChange();
