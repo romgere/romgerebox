@@ -2,12 +2,36 @@
 
   {{#paper-toolbar class="flex-initial"}}
     {{#paper-toolbar-tools}}
+
       {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
         {{paper-icon (if playing "stop" "play_arrow")}}
         {{#paper-tooltip position='right'}}
           {{if playing "Stop" "Lecture"}}
         {{/paper-tooltip}}
       {{/paper-button}}
+
+      &nbsp;
+      |
+      &nbsp;
+
+      {{#paper-button iconButton=true disabled=(not playing) warn=recording onClick=(action 'toggleRecord')}}
+        {{paper-icon "fiber_manual_record"}}
+        {{#paper-tooltip position='right'}}
+          {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
+        {{/paper-tooltip}}
+      {{/paper-button}}
+
+      <span class="recordingTimeInput {{if recording 'recording'}}">
+        {{ms-to-time recordingTime}}
+      </span>
+
+      {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=(action 'toggleMic')}}
+        {{paper-icon (if micEnable 'mic' 'mic_off')}}
+        {{#paper-tooltip position='right'}}
+          {{if micEnable "Désactiver le micro" "Activer le micro"}}
+        {{/paper-tooltip}}
+      {{/paper-button}}
+
       <span class="flex"></span>
       {{#paper-button iconButton=true onClick=(transition-to 'index')}}
         {{paper-icon 'swap_horizontal_circle'}}

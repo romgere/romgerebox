@@ -7,6 +7,10 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  //Import MediaStreamRecorder.js for "MultiStreamRecorder"
+  app.import('node_modules/msr/MediaStreamRecorder.js');
+  
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //

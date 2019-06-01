@@ -1,12 +1,16 @@
 import Component from '@ember/component';
 
-const METRONOME_TOLERANCE = 0.17;
-
 export default Component.extend({
 
   loopSideA: true,
   loopValue: 0,
   playing: false,
+
+  recording: false,
+  recordStartTime: null,
+  recorderInterval: null,
+  recordingTime: 0,
+
 
   boxTracks: null,
 
@@ -14,6 +18,11 @@ export default Component.extend({
   metronomeStartTime: null,
 
   loopProgressInterval: null,
+
+
+  micReady: false,
+  micEnable: false,
+  micStream: null,
 
   init() {
     this._super(...arguments);
@@ -51,6 +60,11 @@ export default Component.extend({
 
 
   stop: function(){
+
+    if( this.get('recording')){
+      this.stopRecord();
+    }
+
     let metronomeInterval = this.get('metronomeInterval');
     if( metronomeInterval ){
       clearInterval(metronomeInterval);
@@ -80,9 +94,7 @@ export default Component.extend({
 
   metronomeSync: function(){
 
-    let metronome = this.get('metronome');
     this.toggleProperty('loopSideA');
-
     this.set('loopValue', 0);
     this.set('metronomeStartTime', new Date());
 
@@ -99,17 +111,46 @@ export default Component.extend({
     })
   },
 
+  /**
+   * Call by "box-track" component to register
+   */
   registerBoxTrack: function( boxTrack){
     this.get('boxTracks').pushObject(boxTrack);
   },
 
+  /**
+   * Call by "box-track" component to ask for solo (mute other tracks)
+   */
   askForSolo: function( boxTrack){
     this.sendActionToTracks('mute', true, boxTrack);
   },
 
+  /**
+   * Call by "box-track" component to end solo (unmuted all tracks)
+   */
   endSolo: function(){
     this.sendActionToTracks('mute', false);
   },
+
+
+
+  stopRecord: function(){
+    this.set('recordStartTime', null);
+    clearInterval( this.get('recorderInterval'));
+    this.set('recorderInterval', null);
+    this.set('recordingTime', 0);
+  },
+
+  startRecord: function(){
+    this.set('recordStartTime', new Date());
+    this.set('recorderInterval', setInterval( this.recordProgress.bind(this), 100));
+  },
+
+  recordProgress: function(){
+    let recordStartTime = this.get('recordStartTime');
+    this.set('recordingTime', (new Date()).getTime() - recordStartTime.getTime());
+  },
+
 
   actions: {
 
@@ -122,6 +163,48 @@ export default Component.extend({
         this.play();
         this.set('playing', true);
       }
+    },
+
+    toggleRecord: function(){
+      if( this.get('recording')){
+        this.stopRecord();
+      }
+      else{
+        this.startRecord();
+      }
+      this.toggleProperty('recording');
+    },
+
+    toggleMic: function(){
+      if( this.get('micReady') ){
+
+        //If recording, add/remove mic stream to/from recorder@
+        if( this.get('recording') ){
+
+          if( this.get('micEnable')){
+            //TODO....
+          }
+          else{
+            //TODO...
+          }
+
+        }
+
+        ///MultiStreamRecorder
+        this.toggleProperty('micEnable');
+      }
+      else{
+        navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+          this.set('micStream', stream);
+          this.set('micReady', true);
+          this.set('micEnable', true);
+        })
+        .catch(() => {
+          alert("Impossible d'accèder au micro, veuillez essayer de nouveau")
+        });
+      }
+
     },
 
     willDestroyElement: function(){

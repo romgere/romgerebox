@@ -36,6 +36,7 @@ export default Component.extend({
       let audioContext = new AudioContext();
 
       // Create a new volume meter and connect it.
+      /* global createAudioMeter */
       let meter = createAudioMeter(audioContext, VUMETTER_CLIPLVL, VUMETTER_AVG);
       this.set('meter', meter);
 

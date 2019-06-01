@@ -105,3 +105,8 @@ canvas.s-color-4{
 .boxTrack.drag-pending{
   border-color: gray !important;
 }
+
+
+.recordingTimeInput:not(.recording){
+  color: RGBA(var(--primary-500-contrast), 0.26);
+}
