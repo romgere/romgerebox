@@ -110,3 +110,34 @@ canvas.s-color-4{
 .recordingTimeInput:not(.recording){
   color: RGBA(var(--primary-500-contrast), 0.26);
 }
+
+.boxSample{
+  margin-bottom: 10px;
+}
+
+@media (max-width: 599px){
+  #BoxMain-AppTitle{
+    display: none;
+  }
+  #BoxMain-TrackContainer{
+    overflow-x: scroll;
+  }
+  .boxTrack .trackNumber{
+    text-align: center;
+    color: #717171;
+    font-weight: bold;
+  }
+}
+
+@media (min-width: 600px){
+  #BoxMain-TrackContainer{
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: space-around;
+  }
+
+
+  .boxTrack .trackNumber{
+    display: none;
+  }
+}

@@ -10,10 +10,8 @@
     {{/paper-tooltip}}
   {{/unless}}
 
-  <div class="flex-initial layout-row layout-align-space-around-center" title=>
+  <div class="flex-initial layout-row layout-align-space-around-center">
     {{fa-icon (if sampleIcon sampleIcon 'question-circle-o') size=2 class=(if sampleColor sampleColor 's-color-0') }}
-
-
   </div>
 
   <div class="flex layout-row layout-align-space-around-center">
@@ -43,7 +41,7 @@
 
     <div class="flex"></div>
 
-    <div class="flex-100 layout-row layout-align-space-around-center">
+    <div class="flex-100 layout-row">
       {{#paper-button iconButton=true onClick=(action 'removeAction') disabled=(not sample)}}
         {{paper-icon 'delete'}}
         {{#paper-tooltip position='bottom'}}
@@ -51,5 +49,9 @@
         {{/paper-tooltip}}
       {{/paper-button}}
     </div>
+  </div>
+
+  <div class="flex-initial trackNumber">
+    #{{trackNumber}}
   </div>
 {{/draggable-object-target}}

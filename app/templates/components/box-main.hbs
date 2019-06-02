@@ -39,7 +39,7 @@
           Changer de style
         {{/paper-tooltip}}
       {{/paper-button}}
-      <h2>
+      <h2 id="BoxMain-AppTitle">
         RomgereBox
       </h2>
       <span class="flex"></span>
@@ -52,10 +52,9 @@
     <br>
   </div>
 
-  <div class="flex layout-row layout-align-space-around-start">
-
-    {{#each (repeat trackCount) as |idx|}}
-      {{box-track boxMain=this}}
+  <div id="BoxMain-TrackContainer" class="flex layout-row layout-gt-xs-align-space-around-start">
+    {{#each (repeat trackCount) as |empty idx|}}
+      {{box-track boxMain=this trackNumber=(inc idx)}}
     {{/each}}
   </div>
   <div class="flex-initial">
@@ -65,13 +64,13 @@
   </div>
   <div class="flex-initial layout-row layout-wrap" id="sample-list">
     {{#each samples as |sample idx|}}
-      <div class="flex-10 layout-row layout-align-center-start">
+      <div class="flex-10 flex-xs-20  layout-row layout-align-center-start">
         {{box-sample sample=sample}}
       </div>
-
+{{!--
       {{#if (eq idx 9)}}
         <div class="flex-grow"><br /></div>
-      {{/if}}
+      {{/if}} --}}
     {{/each}}
   </div>
 </div>
