@@ -48,19 +48,13 @@
     {{/paper-toolbar-tools}}
   {{/paper-toolbar}}
 
-  <div class="flex-initial">
-    <br>
-  </div>
-
   <div id="BoxMain-TrackContainer" class="flex layout-row layout-gt-xs-align-space-around-start">
     {{#each (repeat trackCount) as |empty idx|}}
       {{box-track boxMain=this trackNumber=(inc idx)}}
     {{/each}}
   </div>
   <div class="flex-initial">
-    <br>
-    <hr />
-    <br>
+    <h3 style="text-align: center;">Sample : </h3>
   </div>
   <div class="flex-initial layout-row layout-wrap" id="sample-list">
     {{#each samples as |sample idx|}}
