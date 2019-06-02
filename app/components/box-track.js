@@ -71,6 +71,10 @@ export default Component.extend({
 
       let file_a = this.get('sample.file_a');
       let file_b = this.get('sample.file_b');
+      file_a.currentTime = 0;
+      if( file_b ){
+        file_b.currentTime = 0;
+      }
 
       if( params.isLoopSideA || ! file_b ){
         file_a.play();
