@@ -1,18 +1,24 @@
 import Component from '@ember/component';
 
+const TRACK_COUNT = 8;
+
 export default Component.extend({
+
+  trackCount: TRACK_COUNT,
 
   loopSideA: true,
   loopValue: 0,
   playing: false,
 
   recording: false,
+  recorder: null,
   recordStartTime: null,
   recorderInterval: null,
   recordingTime: 0,
 
 
   boxTracks: null,
+  boxSamples: null,
 
   metronomeInterval: null,
   metronomeStartTime: null,
@@ -26,7 +32,10 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
+
     this.set('boxTracks', []);
+    this.set('boxSamples', []);
+
     this.set('loopProgressInterval', setInterval( this.loopProgress.bind(this), 100));
   },
 
@@ -121,17 +130,38 @@ export default Component.extend({
   /**
    * Call by "box-track" component to ask for solo (mute other tracks)
    */
-  askForSolo: function( boxTrack){
+  askForSoloForTrack: function( boxTrack){
     this.sendActionToTracks('mute', true, boxTrack);
   },
 
   /**
    * Call by "box-track" component to end solo (unmuted all tracks)
    */
-  endSolo: function(){
+  endSoloForTrack: function(){
     this.sendActionToTracks('mute', false);
   },
 
+  /**
+   * Call by "box-track" component when sample change
+   */
+  sampleChangedForTrack: function( boxTrack, newSample ){
+
+    let idx = this.get('boxTracks').indexOf( boxTrack);
+    let currentSample = this.get('boxSamples')[ idx];
+    this.get('boxSamples')[idx] = newSample;
+
+    //No recording : nothing to do.
+    if( ! this.get('recording')){
+      return;
+    }
+
+    if( currentSample ){
+        //disconnecte sample
+    }
+debugger;
+    //Connect new one
+    this.get('recorder').addStream( newSample.getCaptureStreams());
+  },
 
 
   stopRecord: function(){
@@ -139,11 +169,39 @@ export default Component.extend({
     clearInterval( this.get('recorderInterval'));
     this.set('recorderInterval', null);
     this.set('recordingTime', 0);
+
+
+    this.get('recorder').stop();
+    this.set('recorder', null);
   },
 
   startRecord: function(){
     this.set('recordStartTime', new Date());
     this.set('recorderInterval', setInterval( this.recordProgress.bind(this), 100));
+
+    let streams = this.getTracksStreamArray();
+
+    /* global MultiStreamRecorder */
+    let recorder = new MultiStreamRecorder(streams);
+    recorder.mimeType = 'audio/webm';
+    recorder.ondataavailable = this.recordOnDataAvailable.bind(this);
+    recorder.start();
+
+    this.set('recorder', recorder);
+  },
+
+  recordOnDataAvailable: function( blob){
+    var audioURL = URL.createObjectURL(blob);
+    console.log(audioURL);
+    // let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
+    // a.innerHTML = audioURL;
+    // document.body.appendChild(a);
+  },
+
+  getTracksStreamArray: function(){
+    return this.get('boxSamples').reduce(function(tab, sample){
+      return tab.concat( sample.getCaptureStreams());
+    },[]);
   },
 
   recordProgress: function(){
@@ -190,12 +248,12 @@ export default Component.extend({
 
         }
 
-        ///MultiStreamRecorder
         this.toggleProperty('micEnable');
       }
       else{
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then((stream) => {
+          debugger;
           this.set('micStream', stream);
           this.set('micReady', true);
           this.set('micEnable', true);

@@ -33,6 +33,8 @@ export default Component.extend({
     let sample = this.get('sample')
     this.set('sample', null);
 
+    this.get('boxMain').sampleChangedForTrack( this, null);
+
     sample.set('isUsed', false);
     sample.get('file_a').pause();
     let file_b = sample.get('file_b');
@@ -40,7 +42,7 @@ export default Component.extend({
       file_b.pause();
     }
 
-    this.get('boxMain').endSolo();
+    this.get('boxMain').endSoloForTrack();
     this.set('solo', false);
     this.setMuteState( false);
   },
@@ -130,6 +132,7 @@ export default Component.extend({
       }
 
       this.set('sample', sample);
+      this.get('boxMain').sampleChangedForTrack( this, sample);
       sample.set('isUsed', true);
     },
 
@@ -148,13 +151,13 @@ export default Component.extend({
     soloAction: function(){
 
       if( this.get('solo') ){
-        this.get('boxMain').endSolo();
+        this.get('boxMain').endSoloForTrack();
         this.set('solo', false);
         this.setMuteState( false);
       }
       else{
         this.setMuteState( false);
-        this.get('boxMain').askForSolo( this);
+        this.get('boxMain').askForSoloForTrack( this);
         this.set('solo', true);
       }
     },
