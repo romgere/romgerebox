@@ -224,6 +224,7 @@ debugger;
     },
 
     toggleRecord: function(){
+      alert('Non implémenté :)');
       if( this.get('recording')){
         this.stopRecord();
       }
