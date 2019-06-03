@@ -118,13 +118,17 @@
             var blob = new Blob(chunks, { 'type' : 'audio/webm' });
             var audioURL = window.URL.createObjectURL(blob);
 
+            //TO MP3 ?
+            //https://medium.com/jeremy-gottfrieds-tech-blog/javascript-tutorial-record-audio-and-encode-it-to-mp3-2eedcd466e78
+            //
+            //https://github.com/Kagami/ffmpeg.js/
+            //https://github.com/muaz-khan/Ffmpeg.js/
+
             let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
             a.innerHTML = audioURL;
 
             document.body.appendChild(a);
 
-
-            // audio.src = audioURL;
             console.log("recorder stopped", audioURL);
           };
 
