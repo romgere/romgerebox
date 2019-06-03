@@ -1,11 +1,8 @@
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 
-const WIDTH = 50;
-const HEIGHT = 300;
-const VUMETTER_RATIO = 3;
-const VUMETTER_CLIPLVL = 0.98;
-const VUMETTER_AVG = 0.8;
+
+import Constants from 'romgerebox/constants';
 
 export default Component.extend({
   tagName : 'canvas',
@@ -17,8 +14,8 @@ export default Component.extend({
 
   attributeBindings: ['width', 'height'],
 
-  width: WIDTH,
-  height: HEIGHT,
+  width: Constants.VUMETTER_CANVAS_WIDTH,
+  height: Constants.VUMETTER_CANVAS_HEIGHT,
 
   meter: null,
   canvasContext: null,
@@ -37,7 +34,7 @@ export default Component.extend({
 
       // Create a new volume meter and connect it.
       /* global createAudioMeter */
-      let meter = createAudioMeter(audioContext, VUMETTER_CLIPLVL, VUMETTER_AVG);
+      let meter = createAudioMeter(audioContext, Constants.VUMETTER_CLIPLVL, Constants.VUMETTER_AVG);
       this.set('meter', meter);
 
       let file_a = this.get('sample.file_a');
@@ -73,11 +70,11 @@ export default Component.extend({
     let canvasContext = this.get('canvasContext');
     let meter = this.get('meter');
 
-    canvasContext.clearRect(0,0,WIDTH,HEIGHT);
+    canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
 
     if( meter ){
       canvasContext.fillStyle = "#FFF";
-      canvasContext.fillRect(0, 0, WIDTH, HEIGHT-(meter.volume * HEIGHT * VUMETTER_RATIO));
+      canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
     }
 
     window.requestAnimationFrame( this.onLevelChange.bind(this));

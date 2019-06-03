@@ -1,10 +1,10 @@
 import Component from '@ember/component';
 
-const TRACK_COUNT = 8;
+import Constants from 'romgerebox/constants';
 
 export default Component.extend({
 
-  trackCount: TRACK_COUNT,
+  trackCount: Constants.TRACK_COUNT,
 
   loopSideA: true,
   loopValue: 0,
@@ -158,7 +158,7 @@ export default Component.extend({
     if( currentSample ){
         //disconnecte sample
     }
-debugger;
+
     //Connect new one
     this.get('recorder').addStream( newSample.getCaptureStreams());
   },
