@@ -32,6 +32,15 @@
         {{/paper-tooltip}}
       {{/paper-button}}
 
+      {{#if (and (not recording) chunks)}}
+        {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
+          {{paper-icon 'cloud_download'}}
+          {{#paper-tooltip position='right'}}
+            Télécharger le dernier enregistrement éffectué.
+          {{/paper-tooltip}}
+        {{/paper-button}}
+      {{/if}}
+
       <span class="flex"></span>
       {{#paper-button iconButton=true onClick=(transition-to 'index')}}
         {{paper-icon 'swap_horizontal_circle'}}

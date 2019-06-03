@@ -1,10 +1,13 @@
 import Component from '@ember/component';
-import { alias } from '@ember/object/computed';
-
+import { alias, notEmpty } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 import Constants from 'romgerebox/constants';
 
 export default Component.extend({
+
+  audioService : service('audio'),
+
   tagName : 'canvas',
   classNames : ['vueMeter'],
 
@@ -20,38 +23,47 @@ export default Component.extend({
   meter: null,
   canvasContext: null,
 
+  hasSample: notEmpty('sample'),
+
+  //Keep ref to audio mediaStream to disconnect when sample change
+  mediaStreamSource_a: null,
+  mediaStreamSource_b: null,
+
+  init() {
+    this._super(...arguments);
+
+    // grab the app audio context
+    let audioContext = this.get('audioService.audioContext');
+
+    // Create a new volume meter and connect it.
+    /* global createAudioMeter */
+    let meter = createAudioMeter(audioContext, Constants.VUMETTER_CLIPLVL, Constants.VUMETTER_AVG);
+    this.set('meter', meter);
+  },
 
   didUpdateAttrs() {
     this._super(...arguments);
 
     this.set('canvasContext', this.get('element').getContext("2d"));
 
-    if( this.get('sample') ){
+    let meter = this.get('meter');
 
-      // grab an audio context
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      let audioContext = new AudioContext();
-
-      // Create a new volume meter and connect it.
-      /* global createAudioMeter */
-      let meter = createAudioMeter(audioContext, Constants.VUMETTER_CLIPLVL, Constants.VUMETTER_AVG);
-      this.set('meter', meter);
-
-      let file_a = this.get('sample.file_a');
-      let file_b = this.get('sample.file_b');
+    if( this.get('hasSample') ){
 
 
-      let stream_a = file_a.captureStream ? file_a.captureStream() : file_a.mozCaptureStream();
-      let mediaStreamSource_a = audioContext.createMediaStreamSource(stream_a);
+      let mediaStreamSource_a = this.get('sample.mediaStreamSource_a');
+      let mediaStreamSource_b = this.get('sample.mediaStreamSource_b');
+
+      this.set('mediaStreamSource_a', mediaStreamSource_a);
+      this.set('mediaStreamSource_b', mediaStreamSource_b);
+
       mediaStreamSource_a.connect(meter);
       //Reconnect to audio output
       if( this.get('userAgent.browser.isFirefox') ){
         mediaStreamSource_a.connect(audioContext.destination);
       }
 
-      if( file_b ){
-        let stream_b = file_b.captureStream ? file_b.captureStream() : file_b.mozCaptureStream();
-        let mediaStreamSource_b = audioContext.createMediaStreamSource(stream_b);
+      if( mediaStreamSource_b ){
         mediaStreamSource_b.connect(meter);
         //Reconnect to audio output
         if( this.get('userAgent.browser.isFirefox') ){
@@ -59,9 +71,22 @@ export default Component.extend({
         }
       }
 
-
-
       this.onLevelChange();
+    }
+    //Disconnect the sample from "meter"
+    else{
+
+      let mediaStreamSource_a = this.get('mediaStreamSource_a');
+      let mediaStreamSource_b = this.get('mediaStreamSource_b');
+
+      mediaStreamSource_a.disconnect(meter);
+      if( mediaStreamSource_b ){
+        mediaStreamSource_b.disconnect(meter);
+      }
+
+
+      this.set('mediaStreamSource_a', null);
+      this.set('mediaStreamSource_b', null);
     }
   },
 
@@ -72,12 +97,14 @@ export default Component.extend({
 
     canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
 
-    if( meter ){
+    if( this.get('hasSample') && meter ){
+
       canvasContext.fillStyle = "#FFF";
       canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
+
+      window.requestAnimationFrame( this.onLevelChange.bind(this));
     }
 
-    window.requestAnimationFrame( this.onLevelChange.bind(this));
   },
 
 });

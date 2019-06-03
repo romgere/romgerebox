@@ -1,8 +1,11 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 import Constants from 'romgerebox/constants';
 
 export default Component.extend({
+
+  audioService: service('audio'),
 
   trackCount: Constants.TRACK_COUNT,
 
@@ -12,6 +15,8 @@ export default Component.extend({
 
   recording: false,
   recorder: null,
+  chunks : null,
+  recorderDestinationStream: null,
   recordStartTime: null,
   recorderInterval: null,
   recordingTime: 0,
@@ -155,12 +160,21 @@ export default Component.extend({
       return;
     }
 
+    let recorderDestinationStream = this.get('recorderDestinationStream');
+
+    //disconnect old sample
     if( currentSample ){
-        //disconnecte sample
+        currentSample.getMediaStreams().forEach(function( stream){
+          stream.disconnect(recorderDestinationStream);
+        });
     }
 
     //Connect new one
-    this.get('recorder').addStream( newSample.getCaptureStreams());
+    if( newSample ){
+      newSample.getMediaStreams().forEach(function( stream){
+        stream.connect(recorderDestinationStream);
+      });
+    }
   },
 
 
@@ -176,31 +190,58 @@ export default Component.extend({
   },
 
   startRecord: function(){
+    this.set('chunks', []);
     this.set('recordStartTime', new Date());
     this.set('recorderInterval', setInterval( this.recordProgress.bind(this), 100));
 
-    let streams = this.getTracksStreamArray();
+    let mediaStreams = this.getTracksMediaStreamArray();
 
-    /* global MultiStreamRecorder */
-    let recorder = new MultiStreamRecorder(streams);
-    recorder.mimeType = 'audio/webm';
+    let audioContext = this.get('audioService.audioContext')
+
+    //Create a destination stream for the recorder and connect all source audioMediaStream (from audio file)
+    let recorderDestinationStream = audioContext.createMediaStreamDestination();
+    this.set('recorderDestinationStream', recorderDestinationStream);
+    mediaStreams.forEach(function(stream){
+        stream.connect( recorderDestinationStream);
+    });
+
+    if( this.get('micEnable') ){
+      //TODO....
+    }
+
+    let recorder = new MediaRecorder(recorderDestinationStream.stream);
     recorder.ondataavailable = this.recordOnDataAvailable.bind(this);
+    recorder.onstop = this.downloadAudio.bind(this);
     recorder.start();
 
     this.set('recorder', recorder);
   },
 
-  recordOnDataAvailable: function( blob){
-    var audioURL = URL.createObjectURL(blob);
-    console.log(audioURL);
-    // let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
-    // a.innerHTML = audioURL;
-    // document.body.appendChild(a);
+  recordOnDataAvailable: function( e){
+    this.get('chunks').pushObject(e.data);
   },
 
-  getTracksStreamArray: function(){
+  downloadAudio: function(){
+    let chunks = this.get('chunks');
+
+    var blob = new Blob(chunks, { 'type' : 'audio/webm' });
+    var audioURL = window.URL.createObjectURL(blob);
+
+    //Download file
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = audioURL;
+    a.download = 'audio.webm';
+    a.target = '_blank';
+    a.click();
+
+    console.log(audioURL);
+  },
+
+  getTracksMediaStreamArray: function(){
     return this.get('boxSamples').reduce(function(tab, sample){
-      return tab.concat( sample.getCaptureStreams());
+      return tab.concat( sample.getMediaStreams());
     },[]);
   },
 
@@ -224,7 +265,7 @@ export default Component.extend({
     },
 
     toggleRecord: function(){
-      alert('Non implémenté :)');
+
       if( this.get('recording')){
         this.stopRecord();
       }
@@ -235,12 +276,13 @@ export default Component.extend({
     },
 
     toggleMic: function(){
+
       if( this.get('micReady') ){
 
         //If recording, add/remove mic stream to/from recorder@
         if( this.get('recording') ){
 
-          if( this.get('micEnable')){
+          if( this.get('micEnable') ){
             //TODO....
           }
           else{
@@ -254,8 +296,13 @@ export default Component.extend({
       else{
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then((stream) => {
-          debugger;
           this.set('micStream', stream);
+
+          //Recording, add mic to source
+          if( this.get('recording') ){
+            //TODO...
+          }
+
           this.set('micReady', true);
           this.set('micEnable', true);
         })
@@ -264,6 +311,10 @@ export default Component.extend({
         });
       }
 
+    },
+
+    downloadAudioAction: function(){
+      this.downloadAudio();
     },
 
     willDestroyElement: function(){
