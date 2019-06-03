@@ -3,6 +3,7 @@ import { hash } from 'rsvp';
 
 import SampleObject from 'romgerebox/models/sample';
 
+import Constants from 'romgerebox/constants';
 
 export default Route.extend({
 
@@ -32,7 +33,7 @@ export default Route.extend({
         }
         else{
           sample.file_a = new Audio('/samples/'+sample.file_a);
-          sample.file_a.volume = 0.5;
+          sample.file_a.volume = Constants.INITIAL_TRACK_VOLUME / 100;
           sample.file_a.loop = true;
           sample.file_a.addEventListener('loadeddata', () => {
               resolveA(sample);
@@ -43,7 +44,7 @@ export default Route.extend({
         if( sample.file_b && typeof sample.file_b != 'object'){
           return new Promise((resolveB/*, reject*/) => {
             sample.file_b = new Audio('/samples/'+sample.file_b);
-            sample.file_b.volume = 0.5;
+            sample.file_b.volume = Constants.INITIAL_TRACK_VOLUME / 100;
             sample.file_b.loop = true;
             sample.file_b.addEventListener('loadeddata', () => {
                 resolveB(
