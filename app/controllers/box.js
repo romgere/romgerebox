@@ -8,7 +8,7 @@ import QueryParams from 'ember-parachute';
 export const mixConfigParams = new QueryParams({
 
   mixConf: {
-    defaultValue: Array(8).fill(null,0, 8),
+    defaultValue: Array(Constants.TRACK_COUNT).fill(null,0, Constants.TRACK_COUNT),
     refresh: false,
     replace: true,
     serialize(value) {

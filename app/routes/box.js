@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { hash } from 'rsvp';
 import { inject as service } from '@ember/service';
 
-import SampleObject from 'romgerebox/models/sample';
 import Constants from 'romgerebox/constants';
 
 export default Route.extend({
@@ -26,7 +25,6 @@ export default Route.extend({
 
     return Promise.all(samples.map(( sample) => {
 
-
       return new Promise((resolveA/*, reject*/) => {
 
         //Déjà chargé
@@ -48,13 +46,13 @@ export default Route.extend({
             sample.file_b.loop = true;
             sample.file_b.addEventListener('loadeddata', () => {
                 resolveB(
-                  SampleObject.create(sample)
+                  sample
                 );
             });
           })
         }
 
-        return SampleObject.create(sample);
+        return sample;
       }).then(( sample) => {
         //Create audioStream for our samples
         if( ! sample.get('mediaStreamInit') ){

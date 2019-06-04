@@ -6,7 +6,7 @@ export default EmberObject.extend({
   file_b : null,
 
   //Sample already init ? (gainNode & stream created)
-  mediaInit: false,
+  mediaStreamInit: false,
 
   //Not used by app (use to create gainNode, to delete ?)
   mediaStreamSource_a: null,
@@ -30,7 +30,7 @@ export default EmberObject.extend({
     this.get('gainNode_a').gain.value = gain;
     if( this.get('gainNode_b') ){
       this.get('gainNode_b').gain.value = gain;
-    }    
+    }
   },
 
   color : "#d1d1d1",

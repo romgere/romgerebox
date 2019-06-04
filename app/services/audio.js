@@ -60,7 +60,7 @@ export default Service.extend({
 
     sample.setVolume( Constants.INITIAL_TRACK_VOLUME / 100);
 
-    sample.set('mediaInit', true);
+    sample.set('mediaStreamInit', true);
   },
 
 });
