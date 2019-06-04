@@ -21,7 +21,6 @@ export default Component.extend({
   height: Constants.VUMETTER_CANVAS_HEIGHT,
 
   meter: null,
-  canvasContext: null,
 
   hasSample: notEmpty('sample'),
 
@@ -44,8 +43,16 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
+    this.updateSample();
+  },
 
-    this.set('canvasContext', this.get('element').getContext("2d"));
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.updateSample();
+  },
+
+  updateSample: function(){
+
     let meter = this.get('meter');
 
     //Connect sample stream to meter
@@ -69,19 +76,22 @@ export default Component.extend({
   },
 
   onLevelChange: function(){
+    if( this.get('element') ){
 
-    let canvasContext = this.get('canvasContext');
-    let meter = this.get('meter');
+      let canvasContext = this.get('element').getContext("2d");
+      let meter = this.get('meter');
 
-    canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
+      canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
 
-    if( this.get('hasSample') && meter ){
+      if( this.get('hasSample') && meter ){
 
-      canvasContext.fillStyle = "#FFF";
-      canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
+        canvasContext.fillStyle = "#FFF";
+        canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
 
-      window.requestAnimationFrame( this.onLevelChange.bind(this));
+      }
     }
+
+    window.requestAnimationFrame( this.onLevelChange.bind(this));
 
   },
 

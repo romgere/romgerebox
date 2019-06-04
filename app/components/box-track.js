@@ -63,6 +63,16 @@ export default Component.extend({
       this.set('solo', false);
   },
 
+  setSample: function( sample){
+
+    if( this.get('sample') ){
+      this.clearCurrentSample();
+    }
+
+    this.set('sample', sample);
+    sample.set('isUsed', true);
+  },
+
   actions:{
     play: function( params ){
 
@@ -131,14 +141,8 @@ export default Component.extend({
     },
 
     onDragSample: function( sample ){
-
-      if( this.get('sample') ){
-        this.clearCurrentSample();
-      }
-
-      this.set('sample', sample);
+      this.setSample( sample);
       this.get('boxMain').sampleChangedForTrack( this, sample);
-      sample.set('isUsed', true);
     },
 
     onOverAction: function(){
