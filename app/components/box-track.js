@@ -70,6 +70,8 @@ export default Component.extend({
     }
 
     this.set('sample', sample);
+    this.get('boxMain').sampleChangedForTrack( this, sample);
+    
     sample.set('isUsed', true);
   },
 
@@ -142,7 +144,6 @@ export default Component.extend({
 
     onDragSample: function( sample ){
       this.setSample( sample);
-      this.get('boxMain').sampleChangedForTrack( this, sample);
     },
 
     onOverAction: function(){

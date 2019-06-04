@@ -15,7 +15,7 @@ export const mixConfigParams = new QueryParams({
       return value.join('|');
     },
     deserialize(value = '') {
-      return A(value.split('|')).map((a) => parseInt(a));
+      return A(value.split('|'));
     }
   }
 });

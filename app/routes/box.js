@@ -58,6 +58,9 @@ export default Route.extend({
         if( ! sample.get('mediaStreamInit') ){
           this.get('audioService').createAudioStreamForSample( sample);
         }
+        
+        sample.set('isUsed', false);
+        sample.setVolume( Constants.INITIAL_TRACK_VOLUME / 100);
 
         return sample;
       });
