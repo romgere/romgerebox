@@ -1,3 +1,4 @@
+
 $primary: "teal";
 $accent: "light-blue";
 $warn: "pink";
@@ -42,7 +43,7 @@ canvas.vueMeter{
   background-color: #FFF;
 }
 
-button.s-color-0,
+.boxSample.s-color-0,
 canvas.s-color-0{
   background-color: #d1d1d1 !important;
 }
@@ -54,7 +55,7 @@ canvas.s-color-0{
   box-shadow: #d1d1d1 0px 0px 10px 5px
 }
 
-button.s-color-1,
+.boxSample.s-color-1,
 canvas.s-color-1{
   background-color: #f4e6c8 !important;
 }
@@ -66,7 +67,7 @@ canvas.s-color-1{
   box-shadow: #f4e6c8 0px 0px 10px 5px
 }
 
-button.s-color-2,
+.boxSample.s-color-2,
 canvas.s-color-2{
   background-color: #cbe6ea !important;
 }
@@ -78,7 +79,7 @@ canvas.s-color-2{
   box-shadow: #cbe6ea 0px 0px 10px 5px
 }
 
-button.s-color-3,
+.boxSample.s-color-3,
 canvas.s-color-3{
   background-color: #f8d2d4 !important;
 }
@@ -90,7 +91,7 @@ canvas.s-color-3{
   box-shadow: #f8d2d4 0px 0px 10px 5px
 }
 
-button.s-color-4,
+.boxSample.s-color-4,
 canvas.s-color-4{
   background-color: #d3d5f1 !important;
 }
@@ -112,7 +113,21 @@ canvas.s-color-4{
 }
 
 .boxSample{
-  margin-bottom: 10px;
+  display: inline-block;
+  cursor: grab;
+  margin: 10px 6px 0px 6px;
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  text-align: center;
+  min-width: 0;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.boxSample.is-used{
+  background-color: rgba(0,0,0,.12) !important;
+  cursor: not-allowed;
 }
 
 @media (max-width: 599px){

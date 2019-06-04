@@ -1,19 +1,4 @@
-{{#if sample.isUsed}}
-
-  {{#paper-button iconButton=true raised=true disabled=true}}
-    {{fa-icon sample.icon}}
-  {{/paper-button}}
-
-{{else}}
-
-  {{#draggable-object content=sample}}
-
-    {{#paper-button iconButton=true raised=true class=sample.color}}
-      {{fa-icon sample.icon}}
-      {{#paper-tooltip position='top'}}
-        Fais glisser le sample sur une des 8 pistes
-      {{/paper-tooltip}}
-    {{/paper-button}}
-  {{/draggable-object}}
-
-{{/if}}
+{{fa-icon sample.icon}}
+{{#paper-tooltip position='top'}}
+  {{if sample.isUsed "Ce sample est déjà utilisé"  "Fais glisser un sample sur une des 8 pistes"}}
+{{/paper-tooltip}}

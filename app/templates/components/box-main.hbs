@@ -68,12 +68,16 @@
   <div class="flex-initial layout-row layout-wrap" id="sample-list">
     {{#each samples as |sample idx|}}
       <div class="flex-10 flex-xs-20  layout-row layout-align-center-start">
-        {{box-sample sample=sample}}
+
+        {{#if sample.isUsed}}
+          {{box-sample sample=sample}}
+        {{else}}
+          {{#draggable-object content=sample}}
+            {{box-sample sample=sample}}
+          {{/draggable-object}}
+        {{/if}}
+
       </div>
-{{!--
-      {{#if (eq idx 9)}}
-        <div class="flex-grow"><br /></div>
-      {{/if}} --}}
     {{/each}}
   </div>
 </div>
