@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 
 import Constants from 'romgerebox/constants';
 
@@ -130,6 +131,12 @@ export default Component.extend({
    */
   registerBoxTrack: function( boxTrack){
     this.get('boxTracks').pushObject(boxTrack);
+
+    //Pre-set sample for this box-track (from QP)
+    let trackIdx = this.get('boxTracks.length')-1;
+    if( parseInt(this.get('mixConf')[trackIdx]) >= 0 ){      
+      boxTrack.setSample( this.get('samples')[ this.get('mixConf')[trackIdx]]);
+    }
   },
 
   /**
@@ -151,9 +158,13 @@ export default Component.extend({
    */
   sampleChangedForTrack: function( boxTrack, newSample ){
 
-    let idx = this.get('boxTracks').indexOf( boxTrack);
-    let currentSample = this.get('boxSamples')[ idx];
-    this.get('boxSamples')[idx] = newSample;
+    let idxBox = this.get('boxTracks').indexOf( boxTrack);
+    let idxSample = !newSample ? null :this.get('samples').indexOf( newSample);
+    let currentSample = this.get('boxSamples')[ idxBox];
+    this.get('boxSamples')[idxBox] = newSample;
+
+    //Save to QP
+    this.get('mixConf').replace(idxBox, 1, [idxSample]);
 
     //No recording : nothing to do.
     if( ! this.get('recording')){

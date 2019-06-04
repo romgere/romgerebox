@@ -2,10 +2,13 @@ import Component from '@ember/component';
 
 import { alias, notEmpty } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
 import Constants from 'romgerebox/constants';
 
 export default Component.extend({
+
+  audioService : service('audio'),
 
   classNames: ['boxTrack', 'layout-col', 'flex-nogrow'],
 
@@ -54,14 +57,22 @@ export default Component.extend({
         return;
       }
 
-      this.get('sample.file_a').volume = mute ? 0 : this.get('volume')/100;
-      let file_b = this.get('sample.file_b');
-      if( file_b ){
-        file_b.volume = mute ? 0 : this.get('volume')/100;
-      }
+      this.get('sample').setVolume( mute ? 0 : (this.get('volume') / 100));
 
       this.set('mute', mute ? true : false);
       this.set('solo', false);
+  },
+
+  setSample: function( sample){
+
+    if( this.get('sample') ){
+      this.clearCurrentSample();
+    }
+
+    this.set('sample', sample);
+    this.get('boxMain').sampleChangedForTrack( this, sample);
+    
+    sample.set('isUsed', true);
   },
 
   actions:{
@@ -132,14 +143,7 @@ export default Component.extend({
     },
 
     onDragSample: function( sample ){
-
-      if( this.get('sample') ){
-        this.clearCurrentSample();
-      }
-
-      this.set('sample', sample);
-      this.get('boxMain').sampleChangedForTrack( this, sample);
-      sample.set('isUsed', true);
+      this.setSample( sample);
     },
 
     onOverAction: function(){
@@ -180,14 +184,7 @@ export default Component.extend({
 
     setVolume: function( volume ){
       this.set('volume', volume);
-
-      let file_a = this.get('sample.file_a');
-      let file_b = this.get('sample.file_b');
-
-      file_a.volume = volume / 100;
-      if( file_b ){
-        file_b.volume = volume / 100;
-      }
+      this.get('sample').setVolume( volume / 100);
     },
 
   }

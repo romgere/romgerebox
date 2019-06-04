@@ -21,16 +21,16 @@ export default Component.extend({
   height: Constants.VUMETTER_CANVAS_HEIGHT,
 
   meter: null,
-  canvasContext: null,
 
   hasSample: notEmpty('sample'),
 
-  //Keep ref to audio mediaStream to disconnect when sample change
-  mediaStreamSource_a: null,
-  mediaStreamSource_b: null,
+  //Keep ref to connected Stream and disconnect when sample change
+  connectedStreams: null,
 
   init() {
     this._super(...arguments);
+
+    this.set('connectedStreams', []);
 
     // grab the app audio context
     let audioContext = this.get('audioService.audioContext');
@@ -43,67 +43,55 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
+    this.updateSample();
+  },
 
-    this.set('canvasContext', this.get('element').getContext("2d"));
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.updateSample();
+  },
+
+  updateSample: function(){
 
     let meter = this.get('meter');
 
+    //Connect sample stream to meter
     if( this.get('hasSample') ){
 
-
-      let mediaStreamSource_a = this.get('sample.mediaStreamSource_a');
-      let mediaStreamSource_b = this.get('sample.mediaStreamSource_b');
-
-      this.set('mediaStreamSource_a', mediaStreamSource_a);
-      this.set('mediaStreamSource_b', mediaStreamSource_b);
-
-      mediaStreamSource_a.connect(meter);
-      //Reconnect to audio output
-      if( this.get('userAgent.browser.isFirefox') ){        
-        mediaStreamSource_a.connect(this.get('audioService.audioContext.destination'));
-      }
-
-      if( mediaStreamSource_b ){
-        mediaStreamSource_b.connect(meter);
-        //Reconnect to audio output
-        if( this.get('userAgent.browser.isFirefox') ){
-          mediaStreamSource_b.connect(this.get('audioService.audioContext.destination'));
-        }
-      }
+      this.get('sample').getMediaStreams().forEach(( stream) => {
+        stream.connect( meter);
+        this.get('connectedStreams').pushObject( stream);
+      });
 
       this.onLevelChange();
     }
-    //Disconnect the sample from "meter"
+    //Disconnect the "old sample" (stream) from "meter"
     else{
+      this.get('connectedStreams').forEach(( stream) => {
+        stream.disconnect( meter);
+      });
 
-      let mediaStreamSource_a = this.get('mediaStreamSource_a');
-      let mediaStreamSource_b = this.get('mediaStreamSource_b');
-
-      mediaStreamSource_a.disconnect(meter);
-      if( mediaStreamSource_b ){
-        mediaStreamSource_b.disconnect(meter);
-      }
-
-
-      this.set('mediaStreamSource_a', null);
-      this.set('mediaStreamSource_b', null);
+      this.set('connectedStreams', []);
     }
   },
 
   onLevelChange: function(){
+    if( this.get('element') ){
 
-    let canvasContext = this.get('canvasContext');
-    let meter = this.get('meter');
+      let canvasContext = this.get('element').getContext("2d");
+      let meter = this.get('meter');
 
-    canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
+      canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
 
-    if( this.get('hasSample') && meter ){
+      if( this.get('hasSample') && meter ){
 
-      canvasContext.fillStyle = "#FFF";
-      canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
+        canvasContext.fillStyle = "#FFF";
+        canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
 
-      window.requestAnimationFrame( this.onLevelChange.bind(this));
+      }
     }
+
+    window.requestAnimationFrame( this.onLevelChange.bind(this));
 
   },
 
