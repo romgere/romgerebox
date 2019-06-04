@@ -205,8 +205,9 @@ export default Component.extend({
         stream.connect( recorderDestinationStream);
     });
 
+    //Mic
     if( this.get('micEnable') ){
-      //TODO....
+      this.get('micStream').connect( recorderDestinationStream);
     }
 
     let recorder = new MediaRecorder(recorderDestinationStream.stream);
@@ -215,6 +216,12 @@ export default Component.extend({
     recorder.start();
 
     this.set('recorder', recorder);
+
+    //Start playing if not already playing
+    if( ! this.get('playing')){
+      this.play();
+      this.set('playing', true);
+    }
   },
 
   recordOnDataAvailable: function( e){
@@ -235,8 +242,6 @@ export default Component.extend({
     a.download = 'audio.webm';
     a.target = '_blank';
     a.click();
-
-    console.log(audioURL);
   },
 
   getTracksMediaStreamArray: function(){
@@ -275,42 +280,42 @@ export default Component.extend({
       this.toggleProperty('recording');
     },
 
-    toggleMic: function(){
+    toggleMic: async function(){
 
-      if( this.get('micReady') ){
+      let micStream = this.get('micStream');
 
-        //If recording, add/remove mic stream to/from recorder@
-        if( this.get('recording') ){
+      if( ! this.get('micReady') ){
 
-          if( this.get('micEnable') ){
-            //TODO....
-          }
-          else{
-            //TODO...
-          }
+        try{
+          //Get mic access and create the MediaSourceStream
+          let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          let audioContext = this.get('audioService.audioContext');
+          micStream = audioContext.createMediaStreamSource( stream)
 
-        }
-
-        this.toggleProperty('micEnable');
-      }
-      else{
-        navigator.mediaDevices.getUserMedia({ audio: true })
-        .then((stream) => {
-          this.set('micStream', stream);
-
-          //Recording, add mic to source
-          if( this.get('recording') ){
-            //TODO...
-          }
-
+          this.set('micStream', micStream);
           this.set('micReady', true);
-          this.set('micEnable', true);
-        })
-        .catch(() => {
-          alert("Impossible d'accèder au micro, veuillez essayer de nouveau")
-        });
+        }
+        catch(e){
+          alert("Impossible d'accèder au micro, veuillez essayer de nouveau");
+          return;
+        }
       }
 
+      //Recording => add mic stream to recorder
+      if( this.get('recording') ){
+
+        let recorderDestinationStream = this.get('recorderDestinationStream');
+
+        if( this.get('micEnable') ){
+          micStream.disconnect( recorderDestinationStream);
+        }
+        else{
+          micStream.connect( recorderDestinationStream);
+        }
+      }
+
+
+      this.toggleProperty('micEnable');
     },
 
     downloadAudioAction: function(){

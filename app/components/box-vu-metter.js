@@ -59,15 +59,15 @@ export default Component.extend({
 
       mediaStreamSource_a.connect(meter);
       //Reconnect to audio output
-      if( this.get('userAgent.browser.isFirefox') ){
-        mediaStreamSource_a.connect(audioContext.destination);
+      if( this.get('userAgent.browser.isFirefox') ){        
+        mediaStreamSource_a.connect(this.get('audioService.audioContext.destination'));
       }
 
       if( mediaStreamSource_b ){
         mediaStreamSource_b.connect(meter);
         //Reconnect to audio output
         if( this.get('userAgent.browser.isFirefox') ){
-          mediaStreamSource_b.connect(audioContext.destination);
+          mediaStreamSource_b.connect(this.get('audioService.audioContext.destination'));
         }
       }
 

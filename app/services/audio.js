@@ -19,7 +19,6 @@ export default Service.extend({
    * @param  {sample} sample Sample to used (model)
    */
   createAudioStreamForSample: function( sample ){
-    let tab = [];
 
     let audioContext = this.get('audioContext');
 

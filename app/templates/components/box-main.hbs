@@ -14,7 +14,7 @@
       |
       &nbsp;
 
-      {{#paper-button iconButton=true disabled=(not playing) warn=recording onClick=(action 'toggleRecord')}}
+      {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
         {{paper-icon "fiber_manual_record"}}
         {{#paper-tooltip position='right'}}
           {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
