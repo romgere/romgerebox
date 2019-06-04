@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- https://github.com/streamproc/MediaStreamRecorder -->
+    <script src="//cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>
+
+    <!-- https://github.com/cwilso/volume-meter/ -->
+    <script src="volume-meter.js"></script>
+
+
+    <script type="text/javascript">
+
+        // Vu mettre
+        var meter_a = null;
+        var meter_b = null;
+        var meter_c = null;
+
+        var canvasContext_a = null;
+        var canvasContext_b = null;
+        var canvasContext_c = null;
+
+        var WIDTH=500;
+        var HEIGHT=50;
+
+
+        var chunks = [];
+        var mediaRecorder = null;
+
+        var audioa = null;
+        var audiob = null;
+        var audioc = null;
+
+
+        var audioContext;
+
+        var recDestStream;
+
+
+        var mediaStreamSource_a;
+        var mediaStreamSource_b;
+        var mediaStreamSource_c;
+
+        function test(){
+
+
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+
+            audioa =  new Audio('drum1_ballet_a.ogg');
+            audiob = new Audio('voix1_waya_a.ogg');
+            audioc = new Audio('melo4_clav_a.ogg');
+
+            audioa.loop = true;
+            audiob.loop = true;
+            audioc.loop = true;
+
+            audioa.play();
+            audiob.play();
+            audioc.play();
+
+            audioa.addEventListener('loadeddata', () => {
+                canvasContext_a = document.getElementById( "meter1" ).getContext("2d");
+
+
+                var stream_a = audioa.captureStream ? audioa.captureStream() : audioa.mozCaptureStream();
+                mediaStreamSource_a = audioContext.createMediaStreamSource(stream_a);
+
+                // Create a new volume meter and connect it.
+                meter_a = createAudioMeter(audioContext);
+                mediaStreamSource_a.connect(meter_a);
+                // mediaStreamSource_a.connect(audioContext.destination); //Reconnect to speaker
+                onLevelChange_a();
+            });
+            audiob.addEventListener('loadeddata', () => {
+                canvasContext_b = document.getElementById( "meter2" ).getContext("2d");
+
+                var stream_b = audiob.captureStream ? audiob.captureStream() : audiob.mozCaptureStream();
+                mediaStreamSource_b = audioContext.createMediaStreamSource(stream_b);
+
+                // Create a new volume meter and connect it.
+                meter_b = createAudioMeter(audioContext);
+                mediaStreamSource_b.connect(meter_b);
+                // mediaStreamSource_b.connect(audioContext.destination); //Reconnect to speaker
+                onLevelChange_b();
+            });
+            audioc.addEventListener('loadeddata', () => {
+                canvasContext_c = document.getElementById( "meter3" ).getContext("2d");
+
+                var stream_c = audioc.captureStream ? audioc.captureStream() : audioc.mozCaptureStream();
+                mediaStreamSource_c = audioContext.createMediaStreamSource(stream_c);
+
+                // Create a new volume meter and connect it.
+                meter_c = createAudioMeter(audioContext);
+                mediaStreamSource_c.connect(meter_c);
+                // mediaStreamSource_c.connect(audioContext.destination); //Reconnect to speaker
+                onLevelChange_c();
+            });
+
+        }
+
+        var multiStreamRecorder = null;
+        function rec(){
+
+          recDestStream = audioContext.createMediaStreamDestination();
+
+          mediaStreamSource_a.connect(recDestStream);
+          mediaStreamSource_b.connect(recDestStream);
+          // mediaStreamSource_c.connect(recDestStream); //Pour test
+
+          mediaRecorder = new MediaRecorder(recDestStream.stream);
+
+          mediaRecorder.onstop = function(e) {
+            console.log("data available after MediaRecorder.stop() called.");
+
+            var blob = new Blob(chunks, { 'type' : 'audio/webm' });
+            var audioURL = window.URL.createObjectURL(blob);
+
+            //TO MP3 ?
+            //https://medium.com/jeremy-gottfrieds-tech-blog/javascript-tutorial-record-audio-and-encode-it-to-mp3-2eedcd466e78
+            //
+            //https://github.com/Kagami/ffmpeg.js/
+            //https://github.com/muaz-khan/Ffmpeg.js/
+            //
+            //Volume control for Chrome
+            //
+            //https://developer.mozilla.org/fr/docs/Web/API/GainNode
+
+            let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
+            a.innerHTML = audioURL;
+
+            document.body.appendChild(a);
+
+            console.log("recorder stopped", audioURL);
+          };
+
+          mediaRecorder.ondataavailable = function(e) {
+            chunks.push(e.data);
+          };
+          mediaRecorder.start();
+
+
+        }
+
+
+        function stop(){
+          mediaRecorder.stop();
+        }
+
+        function connectC(){
+            mediaStreamSource_c.connect(recDestStream); //Pour test
+        }
+        function disconnectC(){
+            mediaStreamSource_c.disconnect(recDestStream); //Pour test
+        }
+
+
+        function onLevelChange_a(){
+            canvasContext_a.clearRect(0,0,WIDTH,HEIGHT);
+            canvasContext_a.fillStyle = "green";
+            canvasContext_a.fillRect(0, 0, meter_a.volume * WIDTH * 1.4, HEIGHT);
+            window.requestAnimationFrame( onLevelChange_a );
+        }
+        function onLevelChange_b(){
+            canvasContext_b.clearRect(0,0,WIDTH,HEIGHT);
+            canvasContext_b.fillStyle = "green";
+            canvasContext_b.fillRect(0, 0, meter_b.volume * WIDTH * 1.4, HEIGHT);
+            window.requestAnimationFrame( onLevelChange_b );
+        }
+        function onLevelChange_c(){
+            canvasContext_c.clearRect(0,0,WIDTH,HEIGHT);
+            canvasContext_c.fillStyle = "green";
+            canvasContext_c.fillRect(0, 0, meter_c.volume * WIDTH * 1.4, HEIGHT);
+            window.requestAnimationFrame( onLevelChange_c );
+        }
+
+
+        </script>
+
+    </head>
+    <body>
+        <a href="#" onclick="test()">test</a><br />
+        <a href="#" onclick="rec()">rec</a><br />
+        <a href="#" onclick="stop()">stop</a><br />
+        <hr />
+        <a href="#" onclick="connectC()">connectC</a><br />
+        <a href="#" onclick="disconnectC()">disconnectC</a><br />
+        <hr />
+        <canvas id="meter1" width="500" height="1"></canvas>
+        <hr>
+        <canvas id="meter2" width="500" height="1"></canvas>
+        <hr>
+        <canvas id="meter3" width="500" height="1"></canvas>
+
+    </body>
+</html>

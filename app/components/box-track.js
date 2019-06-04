@@ -3,6 +3,8 @@ import Component from '@ember/component';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 
+import Constants from 'romgerebox/constants';
+
 export default Component.extend({
 
   classNames: ['boxTrack', 'layout-col', 'flex-nogrow'],
@@ -21,7 +23,7 @@ export default Component.extend({
   mute: false,
   solo: false,
 
-  volume : 50,
+  volume : Constants.INITIAL_TRACK_VOLUME,
 
   //Register to parent
   didReceiveAttrs() {

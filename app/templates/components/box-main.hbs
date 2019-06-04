@@ -14,7 +14,7 @@
       |
       &nbsp;
 
-      {{#paper-button iconButton=true disabled=(not playing) warn=recording onClick=(action 'toggleRecord')}}
+      {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
         {{paper-icon "fiber_manual_record"}}
         {{#paper-tooltip position='right'}}
           {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
@@ -31,6 +31,15 @@
           {{if micEnable "Désactiver le micro" "Activer le micro"}}
         {{/paper-tooltip}}
       {{/paper-button}}
+
+      {{#if (and (not recording) chunks)}}
+        {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
+          {{paper-icon 'cloud_download'}}
+          {{#paper-tooltip position='right'}}
+            Télécharger le dernier enregistrement éffectué.
+          {{/paper-tooltip}}
+        {{/paper-button}}
+      {{/if}}
 
       <span class="flex"></span>
       {{#paper-button iconButton=true onClick=(transition-to 'index')}}
@@ -59,12 +68,16 @@
   <div class="flex-initial layout-row layout-wrap" id="sample-list">
     {{#each samples as |sample idx|}}
       <div class="flex-10 flex-xs-20  layout-row layout-align-center-start">
-        {{box-sample sample=sample}}
+
+        {{#if sample.isUsed}}
+          {{box-sample sample=sample}}
+        {{else}}
+          {{#draggable-object content=sample}}
+            {{box-sample sample=sample}}
+          {{/draggable-object}}
+        {{/if}}
+
       </div>
-{{!--
-      {{#if (eq idx 9)}}
-        <div class="flex-grow"><br /></div>
-      {{/if}} --}}
     {{/each}}
   </div>
 </div>

@@ -1,10 +1,13 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
-const TRACK_COUNT = 8;
+import Constants from 'romgerebox/constants';
 
 export default Component.extend({
 
-  trackCount: TRACK_COUNT,
+  audioService: service('audio'),
+
+  trackCount: Constants.TRACK_COUNT,
 
   loopSideA: true,
   loopValue: 0,
@@ -12,6 +15,8 @@ export default Component.extend({
 
   recording: false,
   recorder: null,
+  chunks : null,
+  recorderDestinationStream: null,
   recordStartTime: null,
   recorderInterval: null,
   recordingTime: 0,
@@ -155,12 +160,21 @@ export default Component.extend({
       return;
     }
 
+    let recorderDestinationStream = this.get('recorderDestinationStream');
+
+    //disconnect old sample
     if( currentSample ){
-        //disconnecte sample
+        currentSample.getMediaStreams().forEach(function( stream){
+          stream.disconnect(recorderDestinationStream);
+        });
     }
-debugger;
+
     //Connect new one
-    this.get('recorder').addStream( newSample.getCaptureStreams());
+    if( newSample ){
+      newSample.getMediaStreams().forEach(function( stream){
+        stream.connect(recorderDestinationStream);
+      });
+    }
   },
 
 
@@ -176,31 +190,63 @@ debugger;
   },
 
   startRecord: function(){
+    this.set('chunks', []);
     this.set('recordStartTime', new Date());
     this.set('recorderInterval', setInterval( this.recordProgress.bind(this), 100));
 
-    let streams = this.getTracksStreamArray();
+    let mediaStreams = this.getTracksMediaStreamArray();
 
-    /* global MultiStreamRecorder */
-    let recorder = new MultiStreamRecorder(streams);
-    recorder.mimeType = 'audio/webm';
+    let audioContext = this.get('audioService.audioContext')
+
+    //Create a destination stream for the recorder and connect all source audioMediaStream (from audio file)
+    let recorderDestinationStream = audioContext.createMediaStreamDestination();
+    this.set('recorderDestinationStream', recorderDestinationStream);
+    mediaStreams.forEach(function(stream){
+        stream.connect( recorderDestinationStream);
+    });
+
+    //Mic
+    if( this.get('micEnable') ){
+      this.get('micStream').connect( recorderDestinationStream);
+    }
+
+    let recorder = new MediaRecorder(recorderDestinationStream.stream);
     recorder.ondataavailable = this.recordOnDataAvailable.bind(this);
+    recorder.onstop = this.downloadAudio.bind(this);
     recorder.start();
 
     this.set('recorder', recorder);
+
+    //Start playing if not already playing
+    if( ! this.get('playing')){
+      this.play();
+      this.set('playing', true);
+    }
   },
 
-  recordOnDataAvailable: function( blob){
-    var audioURL = URL.createObjectURL(blob);
-    console.log(audioURL);
-    // let a = Object.assign(document.createElement('a'), { target: '_blank', href: audioURL});
-    // a.innerHTML = audioURL;
-    // document.body.appendChild(a);
+  recordOnDataAvailable: function( e){
+    this.get('chunks').pushObject(e.data);
   },
 
-  getTracksStreamArray: function(){
+  downloadAudio: function(){
+    let chunks = this.get('chunks');
+
+    var blob = new Blob(chunks, { 'type' : 'audio/webm' });
+    var audioURL = window.URL.createObjectURL(blob);
+
+    //Download file
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = audioURL;
+    a.download = 'audio.webm';
+    a.target = '_blank';
+    a.click();
+  },
+
+  getTracksMediaStreamArray: function(){
     return this.get('boxSamples').reduce(function(tab, sample){
-      return tab.concat( sample.getCaptureStreams());
+      return tab.concat( sample.getMediaStreams());
     },[]);
   },
 
@@ -224,7 +270,7 @@ debugger;
     },
 
     toggleRecord: function(){
-      alert('Non implémenté :)');
+
       if( this.get('recording')){
         this.stopRecord();
       }
@@ -234,36 +280,46 @@ debugger;
       this.toggleProperty('recording');
     },
 
-    toggleMic: function(){
-      if( this.get('micReady') ){
+    toggleMic: async function(){
 
-        //If recording, add/remove mic stream to/from recorder@
-        if( this.get('recording') ){
+      let micStream = this.get('micStream');
 
-          if( this.get('micEnable')){
-            //TODO....
-          }
-          else{
-            //TODO...
-          }
+      if( ! this.get('micReady') ){
 
-        }
+        try{
+          //Get mic access and create the MediaSourceStream
+          let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          let audioContext = this.get('audioService.audioContext');
+          micStream = audioContext.createMediaStreamSource( stream)
 
-        this.toggleProperty('micEnable');
-      }
-      else{
-        navigator.mediaDevices.getUserMedia({ audio: true })
-        .then((stream) => {
-          debugger;
-          this.set('micStream', stream);
+          this.set('micStream', micStream);
           this.set('micReady', true);
-          this.set('micEnable', true);
-        })
-        .catch(() => {
-          alert("Impossible d'accèder au micro, veuillez essayer de nouveau")
-        });
+        }
+        catch(e){
+          alert("Impossible d'accèder au micro, veuillez essayer de nouveau");
+          return;
+        }
       }
 
+      //Recording => add mic stream to recorder
+      if( this.get('recording') ){
+
+        let recorderDestinationStream = this.get('recorderDestinationStream');
+
+        if( this.get('micEnable') ){
+          micStream.disconnect( recorderDestinationStream);
+        }
+        else{
+          micStream.connect( recorderDestinationStream);
+        }
+      }
+
+
+      this.toggleProperty('micEnable');
+    },
+
+    downloadAudioAction: function(){
+      this.downloadAudio();
     },
 
     willDestroyElement: function(){
