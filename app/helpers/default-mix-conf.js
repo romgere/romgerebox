@@ -1,5 +1,4 @@
 import { helper } from '@ember/component/helper';
-import { A } from '@ember/array';
 import Constants from 'romgerebox/constants';
 
 export function defaultMixConf() {

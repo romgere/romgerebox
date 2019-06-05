@@ -23,6 +23,7 @@ export default Component.extend({
   meter: null,
 
   hasSample: notEmpty('sample'),
+  currentSample: null,
 
   //Keep ref to connected Stream and disconnect when sample change
   connectedStreams: null,
@@ -58,12 +59,16 @@ export default Component.extend({
     //Connect sample stream to meter
     if( this.get('hasSample') ){
 
-      this.get('sample').getMediaStreams().forEach(( stream) => {
-        stream.connect( meter);
-        this.get('connectedStreams').pushObject( stream);
-      });
+      if( this.get('currentSample') != this.get('sample') ){
+          
+          this.set('currentSample', this.get('sample'));
+          this.get('sample').getMediaStreams().forEach(( stream) => {
+            stream.connect( meter);
+            this.get('connectedStreams').pushObject( stream);
+          });
 
-      this.onLevelChange();
+          this.onLevelChange();
+      }
     }
     //Disconnect the "old sample" (stream) from "meter"
     else{
@@ -72,6 +77,8 @@ export default Component.extend({
       });
 
       this.set('connectedStreams', []);
+
+      this.set('currentSample', null);
     }
   },
 

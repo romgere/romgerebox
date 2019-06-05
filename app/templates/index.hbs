@@ -8,13 +8,33 @@
   {{/paper-toolbar-tools}}
 {{/paper-toolbar}}
 
-<h2 style="text-align: center;">Choisis ton style : </h2>
+<h2 style="text-align: center;">Choisis ton style </h2>
 <div class="layout-row layout-xs-column layout-align-space-around-center">
 
   {{#each model.versions as |version idx|}}
-    {{#paper-button raised=true onClick=(transition-to "box" idx (query-params mixConf=(default-mix-conf)))}}
+    {{#paper-button raised=true primary=true onClick=(transition-to "box" idx (query-params mixConf=(default-mix-conf)))}}
       {{version.name}}
     {{/paper-button}}
   {{/each}}
 
+</div>
+
+<br /><br />
+
+<h2 style="text-align: center;">ou charge un mix </h2>
+<div class="layout-column layout-align-center-center">
+  <p style="text-align: center;">Entres ton code pour retrouver ton mix</p>
+  {{paper-input-mask
+    mask=mixCodeinputMask
+    customValidations=mixCodeValidation
+    label="Mix Code"
+    placeholder="Ton Mix Code"
+    icon="loyalty"
+    type="text"
+    value=mixCode
+    onChange=(action (mut mixCode))
+  }}
+  {{#paper-button disabled=(not mixCodeValid) primary=true raised=true onClick=(action 'loadMixCode')}}
+    Charger
+  {{/paper-button}}
 </div>

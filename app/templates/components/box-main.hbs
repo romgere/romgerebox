@@ -42,16 +42,27 @@
       {{/if}}
 
       <span class="flex"></span>
+
       {{#paper-button iconButton=true onClick=(transition-to 'index')}}
         {{paper-icon 'swap_horizontal_circle'}}
-        {{#paper-tooltip position='left'}}
+        {{#paper-tooltip position='bottom'}}
           Changer de style
         {{/paper-tooltip}}
       {{/paper-button}}
+
       <h2 id="BoxMain-AppTitle">
         RomgereBox
       </h2>
+
+      {{#paper-button iconButton=true onClick=(action 'showMixCode')}}
+        {{paper-icon 'save'}}
+        {{#paper-tooltip position='bottom'}}
+          Sauvegarder le mix
+        {{/paper-tooltip}}
+      {{/paper-button}}
+
       <span class="flex"></span>
+
       <span id="loopSide">{{if loopSideA "A" "B"}}</span>
       {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
     {{/paper-toolbar-tools}}
@@ -81,4 +92,43 @@
     {{/each}}
   </div>
 </div>
-{{yield}}
+
+{{#if showMixCode}}
+  {{#paper-dialog class="flex-50" onClose=(action (mut showMixCode) false)  clickOutsideToClose=true}}
+    <form>
+      {{#paper-toolbar}}
+        {{#paper-toolbar-tools}}
+          <h2>Mix Code</h2>
+          <span class="flex"></span>
+          {{#paper-button iconButton=true onClick=(action (mut showMixCode) false)}}
+            {{paper-icon icon="close"}}
+          {{/paper-button}}
+        {{/paper-toolbar-tools}}
+      {{/paper-toolbar}}
+
+      {{#paper-dialog-content}}
+          <p style="text-align: center;">
+            Notes ton code pour retrouver ton mix plus tard :
+          </p>
+          <div class="layout layout-row">
+            <div class="flex"></div>
+            <div class="flex-inital">
+              {{paper-icon 'loyalty'}}
+              &nbsp;
+            </div>
+            <div class="flex-inital">
+              <h3 style="margin: 0px; color: rgba(0, 0, 0, 0.54)">{{mixCode}}</h3>
+            </div>
+            <div class="flex"></div>
+          </div>
+      {{/paper-dialog-content}}
+
+      {{#paper-dialog-actions class="layout-row"}}
+        <span class="flex"></span>
+        {{#paper-button primary=true onClick=(action (mut showMixCode) false)}}
+          C'est noté !
+        {{/paper-button}}
+      {{/paper-dialog-actions}}
+    </form>
+  {{/paper-dialog}}
+{{/if}}

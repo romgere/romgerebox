@@ -1,8 +1,9 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { A } from '@ember/array';
 
 import Constants from 'romgerebox/constants';
+
+import { intToChar } from 'romgerebox/misc/conv-int-char';
 
 export default Component.extend({
 
@@ -35,6 +36,10 @@ export default Component.extend({
   micReady: false,
   micEnable: false,
   micStream: null,
+
+
+  mixCode: null,
+  showMixCode: false,
 
   init() {
     this._super(...arguments);
@@ -134,7 +139,7 @@ export default Component.extend({
 
     //Pre-set sample for this box-track (from QP)
     let trackIdx = this.get('boxTracks.length')-1;
-    if( parseInt(this.get('mixConf')[trackIdx]) >= 0 ){      
+    if( parseInt(this.get('mixConf')[trackIdx]) >= 0 ){
       boxTrack.setSample( this.get('samples')[ this.get('mixConf')[trackIdx]]);
     }
   },
@@ -331,6 +336,30 @@ export default Component.extend({
 
     downloadAudioAction: function(){
       this.downloadAudio();
+    },
+
+    showMixCode: function(){
+      let nbSample = this.get('boxSamples').filter(s => s != null).length;
+      if( ! nbSample ){
+        alert('Veuillez ajouter au moins un sample au mix');
+      }
+      else{
+
+        let mixCode = intToChar( this.get('versionIdx'))+'-';
+        let idx = 0;
+
+        this.get('mixConf').forEach(function(idxSample){
+
+          mixCode += intToChar( parseInt(idxSample));
+          idx++;
+          if( idx % 4 == 0 && idx < Constants.TRACK_COUNT ){
+            mixCode += '-';
+          }
+        });
+
+        this.set('mixCode', mixCode);
+        this.set('showMixCode', true);
+      }
     },
 
     willDestroyElement: function(){
