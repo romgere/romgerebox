@@ -52,7 +52,19 @@ export default Controller.extend({
 
   actions: {
     loadMixCode: function(){
+      let mixCode = this.get('mixCode');
 
+      let versionIdx = charToInt(mixCode.substring(0,1));
+      let mixConf = [];
+      let usedSample = [];
+      mixCode.substring(1).split('').forEach((c, i) => {
+        if( usedSample.indexOf(c) == -1 ){
+          mixConf[i] = charToInt(c);
+          usedSample.pushObject(c);
+        }
+      });
+
+      this.transitionToRoute('box', versionIdx, {queryParams:{mixConf}});
     },
   }
 });

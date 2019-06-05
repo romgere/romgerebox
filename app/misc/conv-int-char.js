@@ -13,5 +13,5 @@ export function  charToInt(char){
     return null;
   }
 
-  return char.charCodeAt(0);
+  return char.charCodeAt(0) - 65;
 }
