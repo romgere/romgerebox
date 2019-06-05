@@ -5,7 +5,7 @@
 
       {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
         {{paper-icon (if playing "stop" "play_arrow")}}
-        {{#paper-tooltip position='right'}}
+        {{#paper-tooltip position='bottom'}}
           {{if playing "Stop" "Lecture"}}
         {{/paper-tooltip}}
       {{/paper-button}}
@@ -16,7 +16,7 @@
 
       {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
         {{paper-icon "fiber_manual_record"}}
-        {{#paper-tooltip position='right'}}
+        {{#paper-tooltip position='bottom'}}
           {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
         {{/paper-tooltip}}
       {{/paper-button}}
@@ -27,7 +27,7 @@
 
       {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=(action 'toggleMic')}}
         {{paper-icon (if micEnable 'mic' 'mic_off')}}
-        {{#paper-tooltip position='right'}}
+        {{#paper-tooltip position='bottom'}}
           {{if micEnable "Désactiver le micro" "Activer le micro"}}
         {{/paper-tooltip}}
       {{/paper-button}}
@@ -35,7 +35,7 @@
       {{#if (and (not recording) recordedFileUri)}}
         {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
           {{paper-icon 'cloud_download'}}
-          {{#paper-tooltip position='right'}}
+          {{#paper-tooltip position='bottom'}}
             Télécharger le dernier enregistrement éffectué.
           {{/paper-tooltip}}
         {{/paper-button}}
