@@ -251,6 +251,10 @@ export default Component.extend({
     }
     else{
       recorder.startRecording();
+      if( ! this.get('playing')){
+        this.play();
+        this.set('playing', true);
+      }
     }
   },
 
