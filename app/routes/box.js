@@ -15,8 +15,10 @@ export default Route.extend({
     return hash({
       //Load the "Audio" elements for all samples
       'samples' : this.loadSample(version.samples),
-      //Load metronome
+      //Metronome timing
       'metronome' : version.metronome,
+      //Version index
+      'versionIdx' : parseInt(params.version_idx),
     });
   },
 
@@ -58,7 +60,7 @@ export default Route.extend({
         if( ! sample.get('mediaStreamInit') ){
           this.get('audioService').createAudioStreamForSample( sample);
         }
-        
+
         sample.set('isUsed', false);
         sample.setVolume( Constants.INITIAL_TRACK_VOLUME / 100);
 

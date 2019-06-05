@@ -21,9 +21,5 @@ export const mixConfigParams = new QueryParams({
 });
 
 export default Controller.extend(mixConfigParams.Mixin, {
-  setupController(controller, model) {
-    this._super(controller, model);
-    debugger;
-  },
 
 });
