@@ -6,103 +6,103 @@
             "samples" : [
                 {
                     "file_a" : "v1/1_lead_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-1",
                     "icon" : "bug"
                 },
                 {
                     "file_a" : "v1/2_deux_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-1",
                     "icon" : "cog"
                 },
                 {
                     "file_a" : "v1/3_kosh_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-1",
                     "icon" : "eye"
                 },
                 {
                     "file_a" : "v1/4_shpok_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-1",
                     "icon" : "fire"
                 },
                 {
                     "file_a" : "v1/5_tom_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-1",
                     "icon" : "heart"
                 },
                 {
-                    "file_a" : "v1/6_nouana_a.ogg",
-                    "color" : "s-color-0",
-                    "icon" : "star"
-                },
-                {
-                    "file_a" : "v1/7_scratch_a.ogg",
-                    "color" : "s-color-0",
-                    "icon" : "umbrella"
-                },
-                {
-                    "file_a" : "v1/8_trill_a.ogg",
-                    "color" : "s-color-0",
-                    "icon" : "rocket"
-                },
-                {
                     "file_a" : "v1/9_bass_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-1",
                     "icon" : "usd"
                 },
                 {
                     "file_a" : "v1/10_uh_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "bullseye"
                 },
                 {
                     "file_a" : "v1/11_nugu_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "cloud"
                 },
                 {
                     "file_a" : "v1/12_guit_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "flash"
                 },
                 {
                     "file_a" : "v1/13_tromp_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "gift"
                 },
                 {
                     "file_a" : "v1/14_pouin_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "leaf"
                 },
                 {
                     "file_a" : "v1/15_tung_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "puzzle-piece"
                 },
                 {
                     "file_a" : "v1/16_aoun_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "support"
                 },
                 {
                     "file_a" : "v1/17_hum_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-3",
                     "icon" : "tint"
                 },
                 {
                     "file_a" : "v1/18_get_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-4",
                     "icon" : "trophy"
                 },
                 {
                     "file_a" : "v1/19_tellme_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-4",
                     "icon" : "magic"
                 },
                 {
                     "file_a" : "v1/20_make_a.ogg",
-                    "color" : "s-color-0",
+                    "color" : "s-color-4",
                     "icon" : "snowflake-o"
+                },
+                {
+                    "file_a" : "v1/6_nouana_a.ogg",
+                    "color" : "s-color-2",
+                    "icon" : "star"
+                },
+                {
+                    "file_a" : "v1/7_scratch_a.ogg",
+                    "color" : "s-color-2",
+                    "icon" : "umbrella"
+                },
+                {
+                    "file_a" : "v1/8_trill_a.ogg",
+                    "color" : "s-color-2",
+                    "icon" : "rocket"
                 }
             ]
         },
