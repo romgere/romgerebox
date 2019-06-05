@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 
 import Constants from 'romgerebox/constants';
 
-import { intToChar } from 'romgerebox/misc/int-to-char';
+import { intToChar } from 'romgerebox/misc/conv-int-char';
 
 export default Component.extend({
 
