@@ -32,7 +32,7 @@
         {{/paper-tooltip}}
       {{/paper-button}}
 
-      {{#if (and (not recording) chunks)}}
+      {{#if (and (not recording) recordedFileUri)}}
         {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
           {{paper-icon 'cloud_download'}}
           {{#paper-tooltip position='right'}}

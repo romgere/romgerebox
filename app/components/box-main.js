@@ -17,7 +17,7 @@ export default Component.extend({
 
   recording: false,
   recorder: null,
-  chunks : null,
+  recordedFileUri : null,
   recorderDestinationStream: null,
   recordStartTime: null,
   recorderInterval: null,
@@ -197,12 +197,11 @@ export default Component.extend({
   stopRecord: function(){
     this.set('recordStartTime', null);
     clearInterval( this.get('recorderInterval'));
+
     this.set('recorderInterval', null);
     this.set('recordingTime', 0);
 
-
-    this.get('recorder').stop();
-    this.set('recorder', null);
+    this.get('recorder').finishRecording();
   },
 
   startRecord: function(){
@@ -214,9 +213,11 @@ export default Component.extend({
 
     let audioContext = this.get('audioService.audioContext')
 
-    //Create a destination stream for the recorder and connect all source audioMediaStream (from audio file)
-    let recorderDestinationStream = audioContext.createMediaStreamDestination();
+    //Create a stream for the recorder and connect all source audioMediaStream (from audio file)
+    //previously use of "createMediaStreamDestination" method by not working with "WebAudioRecorder"
+    let recorderDestinationStream = audioContext.createGain();
     this.set('recorderDestinationStream', recorderDestinationStream);
+
     mediaStreams.forEach(function(stream){
         stream.connect( recorderDestinationStream);
     });
@@ -226,43 +227,54 @@ export default Component.extend({
       this.get('micStream').connect( recorderDestinationStream);
     }
 
-    let recorder = new MediaRecorder(recorderDestinationStream.stream);
-    recorder.ondataavailable = this.recordOnDataAvailable.bind(this);
-    recorder.onstop = this.downloadAudio.bind(this);
-    recorder.start();
+    let recorder = this.get('recorder');
+    if( ! recorder ){
 
-    this.set('recorder', recorder);
+      /* global WebAudioRecorder */
+      recorder = new WebAudioRecorder(recorderDestinationStream, {
+        workerDir: "web-audio-recorder/",
+        encoding: Constants.RECORDING_FORMAT,
+        onComplete: this.recordOnComplete.bind(this),
+        onEncoderLoaded: (recorder) => {
 
-    //Start playing if not already playing
-    if( ! this.get('playing')){
-      this.play();
-      this.set('playing', true);
+          // recorder.
+          recorder.startRecording();
+          //Start playing if not already playing
+          if( ! this.get('playing')){
+            this.play();
+            this.set('playing', true);
+          }
+        }
+      });
+
+      this.set('recorder', recorder);
+    }
+    else{
+      recorder.startRecording();
     }
   },
 
-  recordOnDataAvailable: function( e){
-    this.get('chunks').pushObject(e.data);
+  recordOnComplete: function(rec, blob){
+    var audioURL = window.URL.createObjectURL(blob);
+    this.set('recordedFileUri', audioURL);
+    this.downloadAudio();
   },
 
   downloadAudio: function(){
-    let chunks = this.get('chunks');
-
-    var blob = new Blob(chunks, { 'type' : 'audio/webm' });
-    var audioURL = window.URL.createObjectURL(blob);
 
     //Download file
     var a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
-    a.href = audioURL;
-    a.download = 'audio.webm';
+    a.href = this.get('recordedFileUri');
+    a.download = 'mon_mix.'+Constants.RECORDING_FORMAT;
     a.target = '_blank';
     a.click();
   },
 
   getTracksMediaStreamArray: function(){
     return this.get('boxSamples').reduce(function(tab, sample){
-      return tab.concat( sample.getMediaStreams());
+      return sample ? tab.concat( sample.getMediaStreams()) : tab;
     },[]);
   },
 
