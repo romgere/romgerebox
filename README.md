@@ -3,6 +3,7 @@
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
+Sample : https://slooply.com/sample-packs/free ?
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
