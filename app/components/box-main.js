@@ -140,7 +140,9 @@ export default Component.extend({
     //Pre-set sample for this box-track (from QP)
     let trackIdx = this.get('boxTracks.length')-1;
     if( parseInt(this.get('mixConf')[trackIdx]) >= 0 ){
-      boxTrack.setSample( this.get('samples')[ this.get('mixConf')[trackIdx]]);
+      let sample = this.get('samples')[ this.get('mixConf')[trackIdx]];
+      if( sample )
+        boxTrack.setSample( sample);
     }
   },
 
