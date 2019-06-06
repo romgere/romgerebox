@@ -58,7 +58,7 @@ export default Service.extend({
       gainNode_b.connect(audioContext.destination);
     }
 
-    sample.setVolume( Constants.INITIAL_TRACK_VOLUME / 100);
+    sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
 
     sample.set('mediaStreamInit', true);
   },

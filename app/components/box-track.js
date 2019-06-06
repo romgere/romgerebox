@@ -27,6 +27,7 @@ export default Component.extend({
   solo: false,
 
   volume : Constants.INITIAL_TRACK_VOLUME,
+  maxVolume: Constants.MAX_TRACK_VOLUME,
 
   //Register to parent
   didReceiveAttrs() {
@@ -57,7 +58,7 @@ export default Component.extend({
         return;
       }
 
-      this.get('sample').setVolume( mute ? 0 : (this.get('volume') / 100));
+      this.get('sample').setVolume( mute ? 0 : (this.get('volume') / Constants.MAX_TRACK_VOLUME));
 
       this.set('mute', mute ? true : false);
       this.set('solo', false);
@@ -71,7 +72,7 @@ export default Component.extend({
 
     this.set('sample', sample);
     this.get('boxMain').sampleChangedForTrack( this, sample);
-    
+
     sample.set('isUsed', true);
   },
 
@@ -184,7 +185,7 @@ export default Component.extend({
 
     setVolume: function( volume ){
       this.set('volume', volume);
-      this.get('sample').setVolume( volume / 100);
+      this.get('sample').setVolume( volume / Constants.MAX_TRACK_VOLUME);
     },
 
   }
