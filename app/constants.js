@@ -1,7 +1,8 @@
 export default Object.freeze({
 
     TRACK_COUNT : 8,
-    INITIAL_TRACK_VOLUME : 50, //percent
+    INITIAL_TRACK_VOLUME : 100, //percent
+    MAX_TRACK_VOLUME : 200, //percent
 
     RECORDING_FORMAT: 'mp3', //https://github.com/higuma/web-audio-recorder-js#Methods
 

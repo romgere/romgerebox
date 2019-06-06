@@ -62,7 +62,7 @@ export default Route.extend({
         }
 
         sample.set('isUsed', false);
-        sample.setVolume( Constants.INITIAL_TRACK_VOLUME / 100);
+        sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
 
         return sample;
       });
