@@ -14,7 +14,7 @@ export default Route.extend({
 
     return hash({
       //Load the "Audio" elements for all samples
-      'samples' : this.loadSample(version.samples),
+      'samples' : this.loadSample(version.samples, version.loopTime),
       //Metronome timing
       'loopTime' : version.loopTime,
       //Version index
@@ -23,17 +23,17 @@ export default Route.extend({
   },
 
 
-  loadSample: function(samples){
+  loadSample: function(samples, loopTime){
 
     return Promise.all(samples.map(async ( sample) => {
 
       if( ! sample.get('mediaStreamInit') ){
-        await this.get('audioService').initAudioSample( sample);
+        await this.get('audioService').initAudioSample( sample, loopTime);
       }
 
       sample.set('isUsed', false);
       sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
-
+      
       return sample;
     }));
   },

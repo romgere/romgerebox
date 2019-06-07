@@ -9,6 +9,8 @@ export default EmberObject.extend({
   file_a : null,
   file_b : null,
 
+  loopSize: 0, //loop duration
+
   doubleSample: notEmpty('file_b'),
 
   //Sample already init ? (bufferSource & gainNode created)
@@ -47,7 +49,7 @@ export default EmberObject.extend({
 
       //"An AudioBufferSourceNode can only be played once"
       //Prepare future play : create new AudioBufferSourceNode
-      this.get('audioService')._createBufferSource( this.get('buffer')).then( (sampleMediaSource) => {
+      this.get('audioService')._createBufferSource( this.get('buffer'), this.get('loopTime')).then( (sampleMediaSource) => {
         sampleMediaSource.connect( this.get('gainNode'));
         this.set('sampleMediaSource', sampleMediaSource);
       });

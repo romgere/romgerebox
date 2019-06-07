@@ -23,9 +23,12 @@ export default Service.extend({
 
   /**
    * Create and set mediaStreamSource on sample for audio file (A & B)
-   * @param  {sample} sample Sample to used (model)
+   * @param Sample sample     Sample to used (model)
+   * @param integer loopTime  Time of loop in second
    */
-  initAudioSample: async function( sample ){
+  initAudioSample: async function( sample, loopTime){
+
+    sample.set('loopTime', loopTime);
 
     let audioContext = this.get('audioContext');
     let sampleMediaSource = null;
@@ -45,7 +48,7 @@ export default Service.extend({
     }
     sample.set('buffer', buffer);
 
-    sampleMediaSource = await this._createBufferSource( buffer);
+    sampleMediaSource = await this._createBufferSource( buffer, loopTime);
     sample.set('sampleMediaSource', sampleMediaSource);
 
 
@@ -91,7 +94,7 @@ export default Service.extend({
    * @param  ArrayBuffer buffer         Sample Array buffer
    * @return AudioBuffer                 Buffer source for playing array(s) buffer(s)
    */
-  _createBufferSource: function( buffer){
+  _createBufferSource: function( buffer, loopTime){
 
     let audioContext = this.get('audioContext');
     return new Promise((resolve, reject) => {
@@ -102,6 +105,7 @@ export default Service.extend({
           let audio = audioContext.createBufferSource();
           audio.buffer = response;
           audio.loop = true;
+          audio.loopEnd = loopTime;
 
           resolve( audio);
       }, reject);
