@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- https://github.com/streamproc/MediaStreamRecorder -->
+    <script src="//cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>
+
+    <!-- https://github.com/cwilso/volume-meter/ -->
+    <script src="volume-meter.js"></script>
+
+
+    <script type="text/javascript">
+
+
+
+        var audioa = null;
+        var audiob = null;
+        var audioc = null;
+
+
+        var startedAt = 0;
+
+        
+        var audioContext;
+        var recDestStream;
+
+        function load(){
+
+          window.AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioContext = new AudioContext();
+
+          var urla = 'drum1_ballet_a.ogg';
+
+          var url  = 'voix2_ride_a.ogg';
+          var urlb  = 'voix2_ride_b.ogg';
+
+
+          var urlc = 'voix1_waya_a.ogg';
+
+
+
+
+          /* --- set up web audio --- */
+
+          //...and the source
+          audioa = audioContext.createBufferSource();
+          audioa.connect(audioContext.destination);
+
+
+          var requesta = new XMLHttpRequest();
+          //open the request
+          requesta.open('GET', urla, true);
+          //webaudio paramaters
+          requesta.responseType = 'arraybuffer';
+          //Once the request has completed... do this
+          requesta.onload = function() {
+              audioContext.decodeAudioData(requesta.response, function(response) {
+                  /* --- play the sound AFTER the buffer loaded --- */
+                  //set the buffer to the response we just received.
+                  audioa.buffer = response;
+                  audioa.loop = true;
+
+                  audioa.addEventListener('ended', function(){
+                    console.log('ended');
+                  });
+              }, function () { console.error('The request failed.'); } );audioa
+          }
+          //Now that the request has been defined, actually make the request. (send it)
+          requesta.send();
+
+
+
+          audiob = audioContext.createBufferSource();
+          audiob.connect(audioContext.destination);
+
+          /* --- load buffer ---  */
+          var request = new XMLHttpRequest();
+          //open the request
+          request.open('GET', url, true);
+          //webaudio paramaters
+          request.responseType = 'arraybuffer';
+          //Once the request has completed... do this
+          request.onload = function() {
+
+
+
+            var requestb = new XMLHttpRequest();
+            //open the request
+            requestb.open('GET', urlb, true);
+            //webaudio paramaters
+            requestb.responseType = 'arraybuffer';
+            //Once the request has completed... do this
+            requestb.onload = function() {
+
+                //Concat
+                let buffer1 = request.response;
+                let buffer2 = requestb.response;
+
+                var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
+                tmp.set(new Uint8Array(buffer1), 0);
+                tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
+
+                audioContext.decodeAudioData(tmp.buffer, function(response) {
+                    /* --- play the sound AFTER the buffer loaded --- */
+                    //set the buffer to the response we just received.
+                    audiob.buffer = response;
+                    audiob.loop = true;
+                    //start(0) should play asap.
+                    // audiob.start(0);
+                }, function () { console.error('The request failed.'); } );
+            };
+            requestb.send();
+          }
+          //Now that the request has been defined, actually make the request. (send it)
+          request.send();
+
+
+          //...and the source
+          audioc = audioContext.createBufferSource();
+          audioc.connect(audioContext.destination);
+
+
+          var requestc = new XMLHttpRequest();
+          //open the request
+          requestc.open('GET', urlc, true);
+          //requestc paramaters
+          requestc.responseType = 'arraybuffer';
+          //Once the request has completed... do this
+          requestc.onload = function() {
+              audioContext.decodeAudioData(requestc.response, function(response) {
+                  /* --- play the sound AFTER the buffer loaded --- */
+                  //set the buffer to the response we just received.
+                  audioc.buffer = response;
+                  audioc.loop = true;
+
+              }, function () { console.error('The request failed.'); } );audioa
+          }
+          //Now that the request has been defined, actually make the request. (send it)
+          requestc.send();
+        }
+
+
+
+        function stop(){
+          audioa.stop(0);
+          audiob.stop(0);
+        }
+        function start(){
+          startedAt = audioContext.currentTime;
+          audioa.start(0);
+          audiob.start(0);
+        }
+
+
+        function add(){
+          let startTime = (audioContext.currentTime - startedAt) % audioc.buffer.duration;
+
+
+          audioc.start(0, startTime);
+        }
+
+
+        </script>
+
+    </head>
+    <body>
+        <a href="#" onclick="load()">load</a><br />
+        <hr />
+        <a href="#" onclick="add()">add</a><br />
+        <hr />
+        <a href="#" onclick="start()">start</a><br />
+        <a href="#" onclick="stop()">stop</a><br />
+    </body>
+</html>

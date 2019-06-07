@@ -11,9 +11,12 @@ export default Component.extend({
 
   trackCount: Constants.TRACK_COUNT,
 
+  playing: false,
+  playStartTime : 0, //"audioContext.currentTime" when start playing for sync
+
+
   loopSideA: true,
   loopValue: 0,
-  playing: false,
 
   recording: false,
   recorder: null,
@@ -26,9 +29,6 @@ export default Component.extend({
 
   boxTracks: null,
   boxSamples: null,
-
-  metronomeInterval: null,
-  metronomeStartTime: null,
 
   loopProgressInterval: null,
 
@@ -47,7 +47,7 @@ export default Component.extend({
     this.set('boxTracks', []);
     this.set('boxSamples', []);
 
-    this.set('loopProgressInterval', setInterval( this.loopProgress.bind(this), 100));
+    this.set('loopProgressInterval', setInterval( this.loopProgress.bind(this), 50));
   },
 
   willDestroy(){
@@ -68,13 +68,11 @@ export default Component.extend({
   },
 
   play: function(){
-    let metronomeInterval = setInterval( this.metronomeSync.bind(this), this.get('metronome'));
-
-    this.set('metronomeInterval', metronomeInterval);
-    this.set('metronomeStartTime', new Date());
-
+    this.set('playStartTime', this.get('audioService.audioContext').currentTime );
     this.sendActionToTracks('play', {
-        isLoopSideA : this.get('loopSideA')
+      isLoopSideA : this.get('loopSideA'),
+      startTime : this._getCurrentLoopTime(),
+      loopTime: this.get('loopTime'),
     });
   },
 
@@ -85,44 +83,38 @@ export default Component.extend({
       this.stopRecord();
     }
 
-    let metronomeInterval = this.get('metronomeInterval');
-    if( metronomeInterval ){
-      clearInterval(metronomeInterval);
-    }
-
-    this.set('loopValue', 0);
-    this.set('metronomeStartTime', null);
+    this.set('playStartTime', 0);
 
     this.sendActionToTracks('stop');
   },
 
   /**
-   * Call every 1ms, toc check metronome time and go to 0 if needed
-   * (prevent BIG blank when use "loop=true" for audio element )
+   * @return integer current time elapsed in current loop
    */
-  loopProgress: function(){
-    let loopDuration = this.get('metronome');
-    let metronomeStartTime = this.get('metronomeStartTime');
-    let loopPercent = 0;
-    if( metronomeStartTime ){
-      let loopCurrentTime = (new Date()).getTime() - metronomeStartTime.getTime();
-      loopPercent = Math.round((loopCurrentTime / loopDuration ) * 100);
+  _getCurrentLoopTime: function( forDoubleLoop = false){
+    if( ! this.get('playing') ){
+      return 0;
     }
 
+    let currentTime = this.get('audioService.audioContext').currentTime;
+    let playingTime = currentTime - this.get('playStartTime');
+    return playingTime % (this.get('loopTime') * (forDoubleLoop ? 2 : 1));
+  },
+
+  /**
+   * Calculate loop percent and deal with loop changement
+   */
+  loopProgress: function(){
+
+    //Current passed time for a set of loop (A & B )
+    let loopA = this._getCurrentLoopTime( true) < this.get('loopTime');
+    this.set('loopSideA', loopA);
+
+    //Percent for current loop
+    let loopPercent = Math.ceil( (this._getCurrentLoopTime() / this.get('loopTime')) * 100 );
     this.set('loopValue', loopPercent);
   },
 
-  metronomeSync: function(){
-
-    this.toggleProperty('loopSideA');
-    this.set('loopValue', 0);
-    this.set('metronomeStartTime', new Date());
-
-    //Sync child track
-    this.sendActionToTracks('sync', {
-        isLoopSideA : this.get('loopSideA')
-    });
-  },
 
   sendActionToTracks : function(action, param = null, exclude = null){
     this.get('boxTracks').forEach(function( boxTrack){
@@ -173,24 +165,34 @@ export default Component.extend({
     //Save to QP
     this.get('mixConf').replace(idxBox, 1, [idxSample]);
 
+
+
     //No recording : nothing to do.
-    if( ! this.get('recording')){
-      return;
-    }
+    if( this.get('recording')){
 
-    let recorderDestinationStream = this.get('recorderDestinationStream');
+      let recorderDestinationStream = this.get('recorderDestinationStream');
 
-    //disconnect old sample
-    if( currentSample ){
-        currentSample.getMediaStreams().forEach(function( stream){
-          stream.disconnect(recorderDestinationStream);
+      //disconnect old sample
+      if( currentSample ){
+          currentSample.getMediaStreams().forEach(function( stream){
+            stream.disconnect(recorderDestinationStream);
+          });
+      }
+
+      //Connect new one
+      if( newSample ){
+        newSample.getMediaStreams().forEach(function( stream){
+          stream.connect(recorderDestinationStream);
         });
+      }
     }
 
-    //Connect new one
-    if( newSample ){
-      newSample.getMediaStreams().forEach(function( stream){
-        stream.connect(recorderDestinationStream);
+    //Play sample
+    if( newSample && this.get('playing') ){
+      boxTrack.send('play', {
+          isLoopSideA : this.get('loopSideA'),
+          startTime : this._getCurrentLoopTime(),
+          loopTime: this.get('loopTime'),
       });
     }
   },
