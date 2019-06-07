@@ -2,7 +2,7 @@
     "versions" : [
         {
             "name" : "Old School",
-            "metronome" :  5332,
+            "loopTime" :  5.333,
             "samples" : [
                 {
                     "file_a" : "v1/1_lead_a.ogg",
@@ -108,7 +108,7 @@
         },
         {
             "name" : "Beat box",
-            "metronome"   : 4790,
+            "loopTime"   : 4.8,
             "samples" : [
                 {
                     "file_a" : "v2/beat1_boom_a.ogg",
@@ -230,7 +230,7 @@
         },
         {
             "name" : "Fusion",
-            "metronome" : 7990,
+            "loopTime" : 8,
             "samples" : [
                 {
                     "file_a" : "v3/drum1_ballet_a.ogg",
@@ -342,7 +342,7 @@
         },
         {
             "name" : "Électro",
-            "metronome" : 7990,
+            "loopTime" : 8,
             "samples" : [
                 {
                     "file_a" : "v4/drum1_kick_a.ogg",

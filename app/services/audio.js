@@ -3,6 +3,8 @@ import { inject as service } from '@ember/service';
 
 import Constants from 'romgerebox/constants';
 
+import { cloneBuffer } from 'romgerebox/misc/clone-buffer';
+
 export default Service.extend({
 
   userAgent : service(),
@@ -21,46 +23,93 @@ export default Service.extend({
 
   /**
    * Create and set mediaStreamSource on sample for audio file (A & B)
-   * @param  {sample} sample Sample to used (model)
+   * @param Sample sample     Sample to used (model)
+   * @param integer loopTime  Time of loop in second
    */
-  createAudioStreamForSample: function( sample ){
+  initAudioSample: async function( sample, loopTime){
+
+    sample.set('loopTime', loopTime);
 
     let audioContext = this.get('audioContext');
+    let sampleMediaSource = null;
 
-    let file_a = sample.get('file_a');
+    //Load buffer and create BufferSource with buffer(s)s
+    let buffer = await this._loadAudioBufferFromFile( sample.get('file_a'));
+    if( sample.get('doubleSample') ){
 
-    let mediaStreamSource_a = audioContext.createMediaElementSource(file_a);
-    sample.set('mediaStreamSource_a', mediaStreamSource_a);
+      let buffer_b = await this._loadAudioBufferFromFile( sample.get('file_b'));
 
-    //Disconnect "main <audio> stream" from default output (speaker)
-    mediaStreamSource_a.disconnect();
+      //Concat buffers
+      let tmp = new Uint8Array(buffer.byteLength + buffer_b.byteLength);
+      tmp.set(new Uint8Array(buffer), 0);
+      tmp.set(new Uint8Array(buffer_b), buffer.byteLength);
+
+      buffer = tmp.buffer;
+    }
+    sample.set('buffer', buffer);
+
+    sampleMediaSource = await this._createBufferSource( buffer, loopTime);
+    sample.set('sampleMediaSource', sampleMediaSource);
+
 
     //Create GainNode to control volume
-    let gainNode_a = audioContext.createGain();
-    mediaStreamSource_a.connect( gainNode_a);
-    sample.set('gainNode_a', gainNode_a);
+    let gainNode = audioContext.createGain();
+    sampleMediaSource.connect( gainNode);
+    sample.set('gainNode', gainNode);
 
     //Connecte gainNode to output
-    gainNode_a.connect(audioContext.destination);
-
-
-    let file_b = sample.get('file_b');
-    if( file_b ){
-
-      let mediaStreamSource_b = audioContext.createMediaElementSource(file_b);
-      sample.set('mediaStreamSource_b', mediaStreamSource_b);
-      mediaStreamSource_b.disconnect();
-
-      let gainNode_b = audioContext.createGain();
-      mediaStreamSource_b.connect( gainNode_b);
-      sample.set('gainNode_b', gainNode_b);
-
-      gainNode_b.connect(audioContext.destination);
-    }
+    gainNode.connect(audioContext.destination);
 
     sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
-
-    sample.set('mediaStreamInit', true);
+    sample.set('audioService', this);
+    sample.set('sampleInit', true);
   },
+
+  /**
+   * Load audio file and create audio buffer
+   * @author mestresj
+   * @param  string url             URL of audio file
+   * @return Promise<ArrayBuffer>   Promise resolve with AudioBuffer if success
+   */
+  _loadAudioBufferFromFile: function( url ){
+
+    let request = new XMLHttpRequest();
+    request.open('GET', '/samples/'+url, true);
+    request.responseType = 'arraybuffer';
+    return new Promise((resolve, reject) => {
+
+      request.onload = function(){
+          resolve(request.response);
+      };
+
+      request.onError = reject;
+
+      request.send();
+    });
+  },
+
+  /**
+   * Create a bufferSource with buffer(s)
+   * @author mestresj
+   * @param  ArrayBuffer buffer         Sample Array buffer
+   * @return AudioBuffer                 Buffer source for playing array(s) buffer(s)
+   */
+  _createBufferSource: function( buffer, loopTime){
+
+    let audioContext = this.get('audioContext');
+    return new Promise((resolve, reject) => {
+
+      //Clone buffer to keep it in sample to create again an audioBufferSource each time we stop it
+      audioContext.decodeAudioData( cloneBuffer(buffer), function(response) {
+
+          let audio = audioContext.createBufferSource();
+          audio.buffer = response;
+          audio.loop = true;
+          audio.loopEnd = loopTime;
+
+          resolve( audio);
+      }, reject);
+    });
+  }
 
 });

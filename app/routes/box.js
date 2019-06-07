@@ -14,58 +14,27 @@ export default Route.extend({
 
     return hash({
       //Load the "Audio" elements for all samples
-      'samples' : this.loadSample(version.samples),
+      'samples' : this.loadSample(version.samples, version.loopTime),
       //Metronome timing
-      'metronome' : version.metronome,
+      'loopTime' : version.loopTime,
       //Version index
       'versionIdx' : parseInt(params.version_idx),
     });
   },
 
 
-  loadSample: function(samples){
+  loadSample: function(samples, loopTime){
 
-    return Promise.all(samples.map(( sample) => {
+    return Promise.all(samples.map(async ( sample) => {
 
-      return new Promise((resolveA/*, reject*/) => {
+      if( ! sample.get('mediaStreamInit') ){
+        await this.get('audioService').initAudioSample( sample, loopTime);
+      }
 
-        //Déjà chargé
-        if( typeof sample.file_a == 'object'){
-          resolveA(sample);
-        }
-        else{
-          sample.file_a = new Audio('/samples/'+sample.file_a);
-          sample.file_a.loop = true;
-          sample.file_a.addEventListener('loadeddata', () => {
-              resolveA(sample);
-          });
-        }
-      }).then(( sample) => {
-
-        if( sample.file_b && typeof sample.file_b != 'object'){
-          return new Promise((resolveB/*, reject*/) => {
-            sample.file_b = new Audio('/samples/'+sample.file_b);
-            sample.file_b.loop = true;
-            sample.file_b.addEventListener('loadeddata', () => {
-                resolveB(
-                  sample
-                );
-            });
-          })
-        }
-
-        return sample;
-      }).then(( sample) => {
-        //Create audioStream for our samples
-        if( ! sample.get('mediaStreamInit') ){
-          this.get('audioService').createAudioStreamForSample( sample);
-        }
-
-        sample.set('isUsed', false);
-        sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
-
-        return sample;
-      });
+      sample.set('isUsed', false);
+      sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
+      
+      return sample;
     }));
   },
 

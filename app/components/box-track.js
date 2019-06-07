@@ -37,16 +37,12 @@ export default Component.extend({
 
   clearCurrentSample: function(){
     let sample = this.get('sample')
-    this.set('sample', null);
 
+    this.set('sample', null);
     this.get('boxMain').sampleChangedForTrack( this, null);
 
     sample.set('isUsed', false);
-    sample.get('file_a').pause();
-    let file_b = sample.get('file_b');
-    if( file_b ){
-      file_b.pause();
-    }
+    sample.stop();
 
     this.get('boxMain').endSoloForTrack();
     this.set('solo', false);
@@ -83,22 +79,12 @@ export default Component.extend({
         return;
       }
 
-      let file_a = this.get('sample.file_a');
-      let file_b = this.get('sample.file_b');
-      file_a.currentTime = 0;
-      if( file_b ){
-        file_b.currentTime = 0;
+      if( params.isLoopSideA || ! this.get('sample.doubleSample')){
+        this.get('sample').play( params.startTime);
       }
-
-      if( params.isLoopSideA || ! file_b ){
-        file_a.play();
-        if( file_b ){
-          file_b.pause();
-        }
-      }
+      //deal with loopB on double sample
       else{
-        file_b.play();
-        file_a.pause();
+        this.get('sample').play( params.startTime + params.loopTime);
       }
     },
 
@@ -108,40 +94,9 @@ export default Component.extend({
         return;
       }
 
-      let file_a = this.get('sample.file_a');
-      let file_b = this.get('sample.file_b');
-
-      file_a.pause();
-      if( file_b ){
-        file_b.pause();
-      }
+      this.get('sample').stop();
     },
 
-    sync: function( params ){
-
-      if( isEmpty(this.get('sample'))){
-        return;
-      }
-
-      let file_a = this.get('sample.file_a');
-      let file_b = this.get('sample.file_b');
-      file_a.currentTime = 0;
-      if( file_b ){
-        file_b.currentTime = 0;
-      }
-
-
-      if( params.isLoopSideA || ! file_b ){
-        file_a.play();
-        if( file_b ){
-          file_b.pause();
-        }
-      }
-      else{
-        file_b.play();
-        file_a.pause();
-      }
-    },
 
     onDragSample: function( sample ){
       this.setSample( sample);
