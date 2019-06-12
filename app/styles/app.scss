@@ -142,6 +142,9 @@ canvas.s-color-4{
     color: #717171;
     font-weight: bold;
   }
+  .sm-hidden{
+    display: none;
+  }
 }
 
 @media (min-width: 600px){
@@ -151,8 +154,9 @@ canvas.s-color-4{
     justify-content: space-around;
   }
 
-
   .boxTrack .trackNumber{
     display: none;
   }
+
+
 }
