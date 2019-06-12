@@ -2,70 +2,71 @@
 
   {{#paper-toolbar class="flex-initial"}}
     {{#paper-toolbar-tools}}
-
-      <div class="flex-33">
-        {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
-          {{paper-icon (if playing "stop" "play_arrow")}}
-          {{#paper-tooltip position='bottom'}}
-            {{if playing "Stop" "Lecture"}}
-          {{/paper-tooltip}}
-        {{/paper-button}}
-
-        &nbsp;
-        |
-        &nbsp;
-
-        {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
-          {{paper-icon "fiber_manual_record"}}
-          {{#paper-tooltip position='bottom'}}
-            {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
-          {{/paper-tooltip}}
-        {{/paper-button}}
-
-        <span class="recordingTimeInput {{if recording 'recording'}}">
-          {{ms-to-time recordingTime}}
-        </span>
-
-        {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=(action 'toggleMic')}}
-          {{paper-icon (if micEnable 'mic' 'mic_off')}}
-          {{#paper-tooltip position='bottom'}}
-            {{if micEnable "Désactiver le micro" "Activer le micro"}}
-          {{/paper-tooltip}}
-        {{/paper-button}}
-
-        {{#if (and (not recording) recordedFileUri)}}
-          {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
-            {{paper-icon 'cloud_download'}}
+      <div class="layout-row flex-100">
+        <div class="flex-gt-sm-33 flex-50">
+          {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
+            {{paper-icon (if playing "stop" "play_arrow")}}
             {{#paper-tooltip position='bottom'}}
-              Télécharger le dernier enregistrement éffectué.
+              {{if playing "Stop" "Lecture"}}
             {{/paper-tooltip}}
           {{/paper-button}}
-        {{/if}}
-      </div>
+          <span class="sm-hidden">
+            &nbsp;
+            |
+            &nbsp;
+          </span>
+          {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
+            {{paper-icon "fiber_manual_record"}}
+            {{#paper-tooltip position='bottom'}}
+              {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
+            {{/paper-tooltip}}
+          {{/paper-button}}
 
-      <div class="flex-33 layout-row layout-align-center-center">
-        {{#paper-button iconButton=true onClick=(transition-to 'index')}}
-          {{paper-icon 'swap_horizontal_circle'}}
-          {{#paper-tooltip position='bottom'}}
-            Changer de style
-          {{/paper-tooltip}}
-        {{/paper-button}}
+          <span class="recordingTimeInput sm-hidden {{if recording 'recording'}}">
+            {{ms-to-time recordingTime}}
+          </span>
 
-        <h2 id="BoxMain-AppTitle">
-          Romgere's Box
-        </h2>
+          {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=(action 'toggleMic')}}
+            {{paper-icon (if micEnable 'mic' 'mic_off')}}
+            {{#paper-tooltip position='bottom'}}
+              {{if micEnable "Désactiver le micro" "Activer le micro"}}
+            {{/paper-tooltip}}
+          {{/paper-button}}
 
-        {{#paper-button iconButton=true onClick=(action 'showMixCode')}}
-          {{paper-icon 'save'}}
-          {{#paper-tooltip position='bottom'}}
-            Sauvegarder le mix
-          {{/paper-tooltip}}
-        {{/paper-button}}
-      </div>
+          {{#if (and (not recording) recordedFileUri)}}
+            {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
+              {{paper-icon 'cloud_download'}}
+              {{#paper-tooltip position='bottom'}}
+                Télécharger le dernier enregistrement éffectué.
+              {{/paper-tooltip}}
+            {{/paper-button}}
+          {{/if}}
+        </div>
 
-      <div class="flex-33 layout-row layout-align-end-center">
-        <span id="loopSide">{{if loopSideA "A" "B"}}</span>
-        {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
+        <div class="flex-gt-sm-33 flex-30 layout-row layout-align-center-center">
+          {{#paper-button iconButton=true onClick=(transition-to 'index')}}
+            {{paper-icon 'swap_horizontal_circle'}}
+            {{#paper-tooltip position='bottom'}}
+              Changer de style
+            {{/paper-tooltip}}
+          {{/paper-button}}
+
+          <h2 id="BoxMain-AppTitle">
+            Romgere's Box
+          </h2>
+
+          {{#paper-button iconButton=true onClick=(action 'showMixCode')}}
+            {{paper-icon 'save'}}
+            {{#paper-tooltip position='bottom'}}
+              Sauvegarder le mix
+            {{/paper-tooltip}}
+          {{/paper-button}}
+        </div>
+
+        <div class="flex-gt-sm-33 flex-20 layout-row layout-align-end-center">
+          <span id="loopSide">{{if loopSideA "A" "B"}}</span>
+          {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
+        </div>
       </div>
     {{/paper-toolbar-tools}}
   {{/paper-toolbar}}
