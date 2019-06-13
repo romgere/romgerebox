@@ -7,7 +7,7 @@
           {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
             {{paper-icon (if playing "stop" "play_arrow")}}
             {{#paper-tooltip position='bottom'}}
-              {{if playing "Stop" "Lecture"}}
+              {{if playing (t 'box_main.stop') (t 'box_main.play')}}
             {{/paper-tooltip}}
           {{/paper-button}}
           <span class="sm-hidden">
@@ -18,7 +18,7 @@
           {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
             {{paper-icon "fiber_manual_record"}}
             {{#paper-tooltip position='bottom'}}
-              {{if recording "Arrêter l'enregistrement" "Démarrer l'enregistrement"}}
+              {{if recording (t 'box_main.record_stop') (t 'box_main.record')}}
             {{/paper-tooltip}}
           {{/paper-button}}
 
@@ -29,7 +29,7 @@
           {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=(action 'toggleMic')}}
             {{paper-icon (if micEnable 'mic' 'mic_off')}}
             {{#paper-tooltip position='bottom'}}
-              {{if micEnable "Désactiver le micro" "Activer le micro"}}
+              {{if micEnable (t 'box_main.mic_off') (t 'box_main.mic_on')}}
             {{/paper-tooltip}}
           {{/paper-button}}
 
@@ -37,7 +37,7 @@
             {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
               {{paper-icon 'cloud_download'}}
               {{#paper-tooltip position='bottom'}}
-                Télécharger le dernier enregistrement éffectué.
+                {{t 'box_main.download_record'}}
               {{/paper-tooltip}}
             {{/paper-button}}
           {{/if}}
@@ -45,20 +45,20 @@
 
         <div class="flex-gt-sm-33 flex-30 layout-row layout-align-center-center">
           {{#paper-button iconButton=true onClick=(transition-to 'index')}}
-            {{paper-icon 'swap_horizontal_circle'}}
+            {{paper-icon 'home'}}
             {{#paper-tooltip position='bottom'}}
-              Changer de style
+              {{t 'box_main.home'}}
             {{/paper-tooltip}}
           {{/paper-button}}
 
           <h2 id="BoxMain-AppTitle">
-            Romgere's Box
+            {{t 'app_title'}}
           </h2>
 
           {{#paper-button iconButton=true onClick=(action 'showMixCode')}}
             {{paper-icon 'save'}}
             {{#paper-tooltip position='bottom'}}
-              Sauvegarder le mix
+              {{t 'box_main.show_mix_code'}}
             {{/paper-tooltip}}
           {{/paper-button}}
         </div>
@@ -77,7 +77,7 @@
     {{/each}}
   </div>
   <div class="flex-initial">
-    <h3 style="text-align: center;">Sample : </h3>
+    <h3 style="text-align: center;">{{t 'box_main.sample_title'}} : </h3>
   </div>
   <div class="flex-initial layout-row layout-wrap" id="sample-list">
     {{#each samples as |sample idx|}}
@@ -101,7 +101,7 @@
     <form>
       {{#paper-toolbar}}
         {{#paper-toolbar-tools}}
-          <h2>Mix Code</h2>
+          <h2>{{t 'box_main.mix_code_title'}}</h2>
           <span class="flex"></span>
           {{#paper-button iconButton=true onClick=(action (mut showMixCode) false)}}
             {{paper-icon icon="close"}}
@@ -111,7 +111,7 @@
 
       {{#paper-dialog-content}}
           <p style="text-align: center;">
-            Notes ton code pour retrouver ton mix plus tard :
+            {{t 'box_main.mix_code_notice'}}
           </p>
           <div class="layout layout-row">
             <div class="flex"></div>
@@ -129,7 +129,7 @@
       {{#paper-dialog-actions class="layout-row"}}
         <span class="flex"></span>
         {{#paper-button primary=true onClick=(action (mut showMixCode) false)}}
-          C'est noté !
+          {{t 'box_main.mix_code_close_btn'}}
         {{/paper-button}}
       {{/paper-dialog-actions}}
     </form>

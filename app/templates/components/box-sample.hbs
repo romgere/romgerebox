@@ -1,4 +1,4 @@
 {{fa-icon sample.icon}}
 {{#paper-tooltip position='top'}}
-  {{if sample.isUsed "Ce sample est déjà utilisé"  "Fais glisser un sample sur une des 8 pistes"}}
+  {{t (if sample.isUsed 'box_sample.used_tooltip' 'box_sample.drag_tooltip')}}
 {{/paper-tooltip}}

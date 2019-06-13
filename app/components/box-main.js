@@ -7,6 +7,7 @@ import { intToChar } from 'romgerebox/misc/conv-int-char';
 
 export default Component.extend({
 
+  intl: service(),
   audioService: service('audio'),
 
   trackCount: Constants.TRACK_COUNT,
@@ -275,7 +276,7 @@ export default Component.extend({
     document.body.appendChild(a);
     a.style = "display: none";
     a.href = this.get('recordedFileUri');
-    a.download = 'mon_mix.'+Constants.RECORDING_FORMAT;
+    a.download = 'mix.'+Constants.RECORDING_FORMAT;
     a.target = '_blank';
     a.click();
   },
@@ -332,7 +333,7 @@ export default Component.extend({
           this.set('micReady', true);
         }
         catch(e){
-          alert("Impossible d'accèder au micro, veuillez essayer de nouveau");
+          alert( this.get('intl').t('box_main.error.mic_not_available'));
           return;
         }
       }
@@ -361,7 +362,7 @@ export default Component.extend({
     showMixCode: function(){
       let nbSample = this.get('boxSamples').filter(s => s != null).length;
       if( ! nbSample ){
-        alert('Veuillez ajouter au moins un sample au mix');
+        alert( this.get('intl').t('box_main.error.add_one_sample'));
       }
       else{
 

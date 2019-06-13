@@ -1,14 +1,19 @@
 {{#paper-toolbar class="flex-initial"}}
   {{#paper-toolbar-tools}}
-    <span class="flex"></span>
-    <h2>
-      Romgere's Box
-    </h2>
-    <span class="flex"></span>
+    <div class="flex-60 flex-offset-20">
+      <h2 style="margin-left: 0px; text-align: center;">
+        {{t 'app_title'}}
+      </h2>
+    </div>
+    <div class="flex-20 layout-row layout-align-end-center">
+      {{#each availableLocales as |locale|}}
+        {{flag-btn locale=locale selected=(eq locale currentLocale) onChange=(action 'localeChangeAction')}}
+      {{/each}}
+    </div>
   {{/paper-toolbar-tools}}
 {{/paper-toolbar}}
 
-<h2 style="text-align: center;">Choisis ton style </h2>
+<h2 style="text-align: center;">{{t 'index.choose_version'}}</h2>
 <div class="layout-row layout-xs-column layout-align-space-around-center">
 
   {{#each model.versions as |version idx|}}
@@ -21,20 +26,22 @@
 
 <br /><br />
 
-<h2 style="text-align: center;">ou charge un mix </h2>
+<h2 style="text-align: center;">
+  {{t 'index.load_mix_code'}}
+</h2>
 <div class="layout-column layout-align-center-center">
-  <p style="text-align: center;">Entres ton code pour retrouver ton mix</p>
+  <p style="text-align: center;">{{t 'index.enter_mix_code'}}</p>
   {{paper-input-mask
     mask=mixCodeinputMask
     customValidations=mixCodeValidation
-    label="Mix Code"
-    placeholder="Ton Mix Code"
+    label=(t 'index.mix_code_input.label')
+    placeholder=(t 'index.mix_code_input.placeholder')
     icon="loyalty"
     type="text"
     value=mixCode
     onChange=(action (mut mixCode))
   }}
   {{#paper-button disabled=(not mixCodeValid) primary=true raised=true onClick=(action 'loadMixCode')}}
-    Charger
+    {{t 'index.load'}}
   {{/paper-button}}
 </div>

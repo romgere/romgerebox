@@ -1,0 +1,37 @@
+app_title: Romgere's Box
+index:
+  choose_version: Choose your style
+  load_mix_code: or load a mix
+  enter_mix_code: Enter your code to load your mix
+  mix_code_input:
+    label: Mix Code
+    placeholder: Your Mix Code
+    invalid: Invalid Mix code, please check your code
+  load: Load
+box_loading: Loading samples...
+box_main:
+  play: Play
+  stop: Stop
+  record: Start recording
+  record_stop: Stop recording
+  mic_on: Enable microphone
+  mic_off: Disable microphone
+  download_record: Download your last recorded mix
+  home: Change your style
+  show_mix_code: Save the mix
+  mix_code_title: Mix Code
+  mix_code_notice: Keep your code to recover your mix later
+  mix_code_close_btn: Got it !
+  sample_title: Samples
+  error:
+    mic_not_available: Microphone access seem to remain unavailable, please try again
+    add_one_sample: Add at least one sample to your mix to get your Mix Code
+box_track:
+  drop_tooltip: Drop a sample in this area
+  volume_title: Change volume
+  mute_tooltip: Mute ON/OFF
+  solo_tooltip: Solo ON/OFF
+  delete_tooltip: Delete sample
+box_sample:
+  used_tooltip: Sample already in use
+  drag_tooltip: Drag a sample on one of the track

@@ -1,11 +1,18 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+
 import { charToInt, intToChar } from 'romgerebox/misc/conv-int-char';
 import Constants from 'romgerebox/constants';
 
-
-
 export default Controller.extend({
+
+  intl: service(),
+
+  /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
+  availableLocales : ['fr', 'en'],
+  currentLocale: alias('intl.locale.firstObject'),
 
   mixCode: '',
   mixCodeValid: computed('mixCode', 'mixCodeValidationRegexp', function(){
@@ -41,16 +48,30 @@ export default Controller.extend({
 
     this.set('mixCodeValidationRegexp', new RegExp(regExp));
 
+    this.updateMixCodeValidation();
+  },
+
+  /**
+   * Call when locale change to change validation message translation
+   */
+  updateMixCodeValidation: function(){
     let mixCodeValidation = [{
-      message: 'Mix code non valide, vérifies ton code',
+      message: this.get('intl').t('index.mix_code_input.invalid'),
       validate: (inputValue) => {
         return this.get('mixCodeValidationRegexp').test(inputValue);
       }
     }];
     this.set('mixCodeValidation', mixCodeValidation );
+
   },
 
   actions: {
+
+    localeChangeAction: function( locale){
+      this.updateMixCodeValidation();
+      localStorage.setItem('romgereBoxLocale', locale);
+    },
+
     loadMixCode: function(){
       let mixCode = this.get('mixCode');
 

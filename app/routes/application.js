@@ -1,12 +1,26 @@
 import Route from '@ember/routing/route';
-
-import { inject } from '@ember/service'
-
+import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
 import SampleObject from 'romgerebox/models/sample';
 
 export default Route.extend({
 
-    ajaxService: inject('ajax'),
+    intl: service(),
+    ajaxService: service('ajax'),
+
+    beforeModel() {
+      this._super(...arguments);
+      let locale = localStorage.getItem('romgereBoxLocale');
+      if(  isEmpty(locale) ){
+        locale = window.navigator.language.substring(0,2);
+      }
+      if( locale == "fr"){
+        this.get('intl').setLocale('fr');
+      }
+      else{
+        this.get('intl').setLocale('en');
+      }
+    },
 
     model: async function(){
         let samplesConf = await this.get('ajaxService').request( './samples/samples.json');
