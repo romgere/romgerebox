@@ -35,3 +35,4 @@ box_track:
 box_sample:
   used_tooltip: Ce sample est déjà utilisé
   drag_tooltip: Fais glisser un sample sur l'une des pistes
+unlock_audio: Votre navigateur a suspendu l'accès audio, veuillez cliquez/toucher l'écran pour débloquer l'audio et utiliser l'application
