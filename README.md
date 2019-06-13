@@ -1,8 +1,8 @@
 # romgerebox
 
-Music "Loop box", inspired by [incredibox](https://www.incredibox.com/) : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
+Music "Loop box" : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
 
-Samples come from [slooply.com](https://slooply.com/sample-packs/free).
+Samples come from [slooply.com](https://slooply.com/sample-packs/free) / Inspired by [incredibox](https://www.incredibox.com/).
 
 
 ## Prerequisites
