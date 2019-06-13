@@ -1,6 +1,6 @@
 # romgerebox
 
-"Beat box" app, inspired by [incredibox](https://www.incredibox.com/) : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
+Music "Loop box", inspired by [incredibox](https://www.incredibox.com/) : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
 
 Samples come from [slooply.com](https://slooply.com/sample-packs/free).
 
