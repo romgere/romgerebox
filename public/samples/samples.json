@@ -1,106 +1,106 @@
-{  
+{
   "versions":[
     {
       "name":"Hip-hop #1",
       "loopTime":10.667,
       "samples":[
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Crash_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Crash_90_D_.mp3",
           "color":"s-color-1",
           "icon":"bug"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Cym_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Cym_90_D_.mp3",
           "color":"s-color-1",
           "icon":"cog"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_DrumsMix1_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_DrumsMix1_90_D_.mp3",
           "color":"s-color-1",
           "icon":"eye"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_DrumsMix2_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_DrumsMix2_90_D_.mp3",
           "color":"s-color-1",
           "icon":"fire"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_HitHat1_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_HitHat1_90_D_.mp3",
           "color":"s-color-1",
           "icon":"heart"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_HitHat2_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_HitHat2_90_D_.mp3",
           "color":"s-color-1",
           "icon":"star"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Kick_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Kick_90_D_.mp3",
           "color":"s-color-1",
           "icon":"umbrella"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_OpenHitHat_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_OpenHitHat_90_D_.mp3",
           "color":"s-color-1",
           "icon":"rocket"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Snare_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Snare_90_D_.mp3",
           "color":"s-color-1",
           "icon":"usd"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_TomTom_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_TomTom_90_D_.mp3",
           "color":"s-color-1",
           "icon":"bullseye"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Winds_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Drums_Winds_90_D_.mp3",
           "color":"s-color-1",
           "icon":"cloud"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Bass_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Bass_90_D_.mp3",
           "color":"s-color-2",
           "icon":"flash"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Brass_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Brass_90_D_.mp3",
           "color":"s-color-2",
           "icon":"gift"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_GuitarWahWah_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_GuitarWahWah_90_D_.mp3",
           "color":"s-color-3",
           "icon":"leaf"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_MelodyMix1_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_MelodyMix1_90_D_.mp3",
           "color":"s-color-3",
-          "icon":"piece"
+          "icon":"puzzle-piece"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_MelodyMix2_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_MelodyMix2_90_D_.mp3",
           "color":"s-color-3",
           "icon":"support"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Organ_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Organ_90_D_.mp3",
           "color":"s-color-4",
           "icon":"tint"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Piano_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Piano_90_D_.mp3",
           "color":"s-color-4",
           "icon":"trophy"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_PianoIIPart_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_PianoIIPart_90_D_.mp3",
           "color":"s-color-4",
           "icon":"magic"
         },
         {
-          "file_a":"hiphop_classique\/v1\/Kit1_Strings_90_D_.ogg",
+          "file_a":"hiphop_classique\/v1\/Kit1_Strings_90_D_.mp3",
           "color":"s-color-4",
           "icon":"snowflake-o"
         }
@@ -111,97 +111,97 @@
       "loopTime":11.294,
       "samples":[
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Claps_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Claps_85_F_.mp3",
           "color":"s-color-1",
           "icon":"bug"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Crash_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Crash_85_F_.mp3",
           "color":"s-color-1",
           "icon":"cog"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_DrumsMix1_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_DrumsMix1_85_F_.mp3",
           "color":"s-color-1",
           "icon":"eye"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_DrumsMix2_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_DrumsMix2_85_F_.mp3",
           "color":"s-color-1",
           "icon":"fire"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_HitHat1_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_HitHat1_85_F_.mp3",
           "color":"s-color-1",
           "icon":"heart"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_HitHat2_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_HitHat2_85_F_.mp3",
           "color":"s-color-1",
           "icon":"star"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Kick_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Kick_85_F_.mp3",
           "color":"s-color-1",
           "icon":"umbrella"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Snare_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_Snare_85_F_.mp3",
           "color":"s-color-1",
           "icon":"rocket"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_SnareRoll_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_SnareRoll_85_F_.mp3",
           "color":"s-color-1",
           "icon":"usd"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Drums_VinylFX_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Drums_VinylFX_85_F_.mp3",
           "color":"s-color-1",
           "icon":"bullseye"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_AnalogLead_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_AnalogLead_85_F_.mp3",
           "color":"s-color-2",
           "icon":"cloud"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Bass_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Bass_85_F_.mp3",
           "color":"s-color-2",
           "icon":"flash"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_EGuitar_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_EGuitar_85_F_.mp3",
           "color":"s-color-2",
           "icon":"gift"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_MelodyMix1_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_MelodyMix1_85_F_.mp3",
           "color":"s-color-3",
           "icon":"leaf"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_MelodyMix2_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_MelodyMix2_85_F_.mp3",
           "color":"s-color-3",
-          "icon":"piece"
+          "icon":"puzzle-piece"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Organ_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Organ_85_F_.mp3",
           "color":"s-color-4",
           "icon":"support"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Piano_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Piano_85_F_.mp3",
           "color":"s-color-4",
           "icon":"tint"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Strings_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Strings_85_F_.mp3",
           "color":"s-color-4",
           "icon":"trophy"
         },
         {
-          "file_a":"hiphop_classique\/v2\/Kit2_Strings_Brass_85_F_.ogg",
+          "file_a":"hiphop_classique\/v2\/Kit2_Strings_Brass_85_F_.mp3",
           "color":"s-color-4",
           "icon":"magic"
         }
@@ -212,72 +212,72 @@
       "loopTime":6.154,
       "samples":[
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_Cymbal_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_Cymbal_.mp3",
           "color":"s-color-1",
           "icon":"bug"
         },
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_HH_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_HH_.mp3",
           "color":"s-color-1",
           "icon":"cog"
         },
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_Kick_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_Kick_.mp3",
           "color":"s-color-1",
           "icon":"eye"
         },
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_Snare_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_Snare_.mp3",
           "color":"s-color-1",
           "icon":"fire"
         },
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_Crash_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_Crash_.mp3",
           "color":"s-color-3",
           "icon":"heart"
         },
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_Toms_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_Toms_.mp3",
           "color":"s-color-3",
           "icon":"star"
         },
         {
-          "file_a":"orchestral\/drums\/14_D_78BPM_vinyl_perc_.ogg",
+          "file_a":"orchestral\/drums\/14_D_78BPM_vinyl_perc_.mp3",
           "color":"s-color-3",
           "icon":"umbrella"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_Bass_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_Bass_.mp3",
           "color":"s-color-2",
           "icon":"rocket"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_Brass_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_Brass_.mp3",
           "color":"s-color-2",
           "icon":"usd"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_Choir_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_Choir_.mp3",
           "color":"s-color-2",
           "icon":"bullseye"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_Strings_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_Strings_.mp3",
           "color":"s-color-2",
           "icon":"cloud"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_ViolaRuns_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_ViolaRuns_.mp3",
           "color":"s-color-2",
           "icon":"flash"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_Piano1_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_Piano1_.mp3",
           "color":"s-color-4",
           "icon":"gift"
         },
         {
-          "file_a":"orchestral\/14_D_78BPM_Piano2_.ogg",
+          "file_a":"orchestral\/14_D_78BPM_Piano2_.mp3",
           "color":"s-color-4",
           "icon":"leaf"
         }
@@ -288,102 +288,102 @@
       "loopTime":12,
       "samples":[
         {
-          "file_a":"black_diamond\/Bass_Drum_Kit_01_80_A.ogg",
+          "file_a":"black_diamond\/Bass_Drum_Kit_01_80_A.mp3",
           "color":"s-color-1",
           "icon":"bug"
         },
         {
-          "file_a":"black_diamond\/Drums_Mix_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Drums_Mix_01_80_A_01.mp3",
           "color":"s-color-1",
           "icon":"cog"
         },
         {
-          "file_a":"black_diamond\/Drums_Mix_01_80_A_02.ogg",
+          "file_a":"black_diamond\/Drums_Mix_01_80_A_02.mp3",
           "color":"s-color-1",
           "icon":"eye"
         },
         {
-          "file_a":"black_diamond\/Hi-Hat_Drum_Kit_01_80_A.ogg",
+          "file_a":"black_diamond\/Hi-Hat_Drum_Kit_01_80_A.mp3",
           "color":"s-color-1",
           "icon":"fire"
         },
         {
-          "file_a":"black_diamond\/Snare_Drum_Kit_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Snare_Drum_Kit_01_80_A_01.mp3",
           "color":"s-color-1",
           "icon":"heart"
         },
         {
-          "file_a":"black_diamond\/Synth_Arp_Kit_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Synth_Arp_Kit_01_80_A_01.mp3",
           "color":"s-color-2",
           "icon":"star"
         },
         {
-          "file_a":"black_diamond\/Synth_Arp_Kit_01_80_A_02.ogg",
+          "file_a":"black_diamond\/Synth_Arp_Kit_01_80_A_02.mp3",
           "color":"s-color-2",
           "icon":"umbrella"
         },
         {
-          "file_a":"black_diamond\/Synth_Bass_Kit_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Synth_Bass_Kit_01_80_A_01.mp3",
           "color":"s-color-2",
           "icon":"rocket"
         },
         {
-          "file_a":"black_diamond\/Synth_Bass_Kit_01_80_A_02.ogg",
+          "file_a":"black_diamond\/Synth_Bass_Kit_01_80_A_02.mp3",
           "color":"s-color-2",
           "icon":"usd"
         },
         {
-          "file_a":"black_diamond\/Synth_Bass_Kit_01_80_A_Intro.ogg",
+          "file_a":"black_diamond\/Synth_Bass_Kit_01_80_A_Intro.mp3",
           "color":"s-color-2",
           "icon":"bullseye"
         },
         {
-          "file_a":"black_diamond\/Synth_Pad_Kit_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Synth_Pad_Kit_01_80_A_01.mp3",
           "color":"s-color-2",
           "icon":"cloud"
         },
         {
-          "file_a":"black_diamond\/Synth_Pad_Kit_01_80_A_02.ogg",
+          "file_a":"black_diamond\/Synth_Pad_Kit_01_80_A_02.mp3",
           "color":"s-color-2",
           "icon":"flash"
         },
         {
-          "file_a":"black_diamond\/Synth_Pad_Kit_01_80_A_Inrto.ogg",
+          "file_a":"black_diamond\/Synth_Pad_Kit_01_80_A_Inrto.mp3",
           "color":"s-color-2",
           "icon":"gift"
         },
         {
-          "file_a":"black_diamond\/Synth_Poly_Kit_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Synth_Poly_Kit_01_80_A_01.mp3",
           "color":"s-color-2",
           "icon":"leaf"
         },
         {
-          "file_a":"black_diamond\/Synth_Poly_Kit_01_80_A_02.ogg",
+          "file_a":"black_diamond\/Synth_Poly_Kit_01_80_A_02.mp3",
           "color":"s-color-2",
-          "icon":"piece"
+          "icon":"puzzle-piece"
         },
         {
-          "file_a":"black_diamond\/Vox_Kit_01_80_A_01.ogg",
+          "file_a":"black_diamond\/Vox_Kit_01_80_A_01.mp3",
           "color":"s-color-3",
           "icon":"support"
         },
         {
-          "file_a":"black_diamond\/Vox_Kit_01_80_A_02.ogg",
+          "file_a":"black_diamond\/Vox_Kit_01_80_A_02.mp3",
           "color":"s-color-3",
           "icon":"tint"
         },
         {
-          "file_a":"black_diamond\/Vox_Kit_01_80_A_Intro.ogg",
+          "file_a":"black_diamond\/Vox_Kit_01_80_A_Intro.mp3",
           "color":"s-color-3",
           "icon":"trophy"
         },
         {
-          "file_a":"black_diamond\/Gated_Pad_Kit_01_80_A_Intro.ogg",
+          "file_a":"black_diamond\/Gated_Pad_Kit_01_80_A_Intro.mp3",
           "color":"s-color-4",
           "icon":"magic"
         },
         {
-          "file_a":"black_diamond\/Gated_Pad_Kit_01_80_A.ogg",
+          "file_a":"black_diamond\/Gated_Pad_Kit_01_80_A.mp3",
           "color":"s-color-4",
           "icon":"snowflake-o"
         }
@@ -394,107 +394,107 @@
       "loopTime":14.769,
       "samples":[
         {
-          "file_a":"fame_and_paper\/808_BASS_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/808_BASS_KIT3_65_A_.mp3",
           "color":"s-color-1",
           "icon":"bug"
         },
         {
-          "file_a":"fame_and_paper\/BASS_DRUM_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/BASS_DRUM_KIT3_65_A_.mp3",
           "color":"s-color-1",
           "icon":"cog"
         },
         {
-          "file_a":"fame_and_paper\/BRASS_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/BRASS_KIT3_65_A_.mp3",
           "color":"s-color-1",
           "icon":"eye"
         },
         {
-          "file_a":"fame_and_paper\/DRUMS_MIX_KIT3_65_A__01.ogg",
+          "file_a":"fame_and_paper\/DRUMS_MIX_KIT3_65_A__01.mp3",
           "color":"s-color-1",
           "icon":"fire"
         },
         {
-          "file_a":"fame_and_paper\/DRUMS_MIX_KIT3_65_A__02.ogg",
+          "file_a":"fame_and_paper\/DRUMS_MIX_KIT3_65_A__02.mp3",
           "color":"s-color-1",
           "icon":"heart"
         },
         {
-          "file_a":"fame_and_paper\/SNARE_DRUM_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/SNARE_DRUM_KIT3_65_A_.mp3",
           "color":"s-color-1",
           "icon":"star"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__01.ogg",
+          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__01.mp3",
           "color":"s-color-2",
           "icon":"umbrella"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__02.ogg",
+          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__02.mp3",
           "color":"s-color-2",
           "icon":"rocket"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__03.ogg",
+          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__03.mp3",
           "color":"s-color-2",
           "icon":"usd"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__04.ogg",
+          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__04.mp3",
           "color":"s-color-2",
           "icon":"bullseye"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__05.ogg",
+          "file_a":"fame_and_paper\/SYNTH_ARP_KIT3_65_A__05.mp3",
           "color":"s-color-2",
           "icon":"cloud"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_BASS_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/SYNTH_BASS_KIT3_65_A_.mp3",
           "color":"s-color-3",
           "icon":"flash"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_FX_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/SYNTH_FX_KIT3_65_A_.mp3",
           "color":"s-color-3",
           "icon":"gift"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_LEAD_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/SYNTH_LEAD_KIT3_65_A_.mp3",
           "color":"s-color-3",
           "icon":"leaf"
         },
         {
-          "file_a":"fame_and_paper\/SYNTH_PAD_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/SYNTH_PAD_KIT3_65_A_.mp3",
           "color":"s-color-3",
-          "icon":"piece"
+          "icon":"puzzle-piece"
         },
         {
-          "file_a":"fame_and_paper\/BELL_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/BELL_KIT3_65_A_.mp3",
           "color":"s-color-4",
           "icon":"support"
         },
         {
-          "file_a":"fame_and_paper\/CHOIR_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/CHOIR_KIT3_65_A_.mp3",
           "color":"s-color-4",
           "icon":"tint"
         },
         {
-          "file_a":"fame_and_paper\/CLAP_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/CLAP_KIT3_65_A_.mp3",
           "color":"s-color-4",
           "icon":"trophy"
         },
         {
-          "file_a":"fame_and_paper\/HI-HAT_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/HI-HAT_KIT3_65_A_.mp3",
           "color":"s-color-4",
           "icon":"magic"
         },
         {
-          "file_a":"fame_and_paper\/PERC_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/PERC_KIT3_65_A_.mp3",
           "color":"s-color-4",
           "icon":"snowflake-o"
         },
         {
-          "file_a":"fame_and_paper\/STRINGS_KIT3_65_A_.ogg",
+          "file_a":"fame_and_paper\/STRINGS_KIT3_65_A_.mp3",
           "color":"s-color-4",
           "icon":"thermometer-full"
         }
@@ -505,112 +505,112 @@
       "loopTime":7.385,
       "samples":[
         {
-          "file_a":"dream_trap\/Kit2_TOM_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_TOM_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"bug"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_808BD_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_808BD_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"cog"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_Cymbal_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_Cymbal_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"eye"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_HiHat_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_HiHat_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"fire"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_Kick_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_Kick_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"heart"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_Mix1_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_Mix1_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"star"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_Mix2_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_Mix2_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"umbrella"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_PercMix_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_PercMix_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"rocket"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_Revers_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_Revers_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"usd"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_Snare_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_Snare_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"bullseye"
         },
         {
-          "file_a":"dream_trap\/Kit2_Drums_SnareRoll_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Drums_SnareRoll_D_65BPM.mp3",
           "color":"s-color-1",
           "icon":"cloud"
         },
         {
-          "file_a":"dream_trap\/Kit2_FuzzyLead_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_FuzzyLead_D_65BPM.mp3",
           "color":"s-color-2",
           "icon":"flash"
         },
         {
-          "file_a":"dream_trap\/Kit2_MainLead1_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_MainLead1_D_65BPM.mp3",
           "color":"s-color-2",
           "icon":"gift"
         },
         {
-          "file_a":"dream_trap\/Kit2_MainLead2_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_MainLead2_D_65BPM.mp3",
           "color":"s-color-2",
           "icon":"leaf"
         },
         {
-          "file_a":"dream_trap\/Kit2_Brass_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Brass_D_65BPM.mp3",
           "color":"s-color-3",
-          "icon":"piece"
+          "icon":"puzzle-piece"
         },
         {
-          "file_a":"dream_trap\/Kit2_Pad_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Pad_D_65BPM.mp3",
           "color":"s-color-3",
           "icon":"support"
         },
         {
-          "file_a":"dream_trap\/Kit2_PadOrchestra_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_PadOrchestra_D_65BPM.mp3",
           "color":"s-color-3",
           "icon":"tint"
         },
         {
-          "file_a":"dream_trap\/Kit2_Piano_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_Piano_D_65BPM.mp3",
           "color":"s-color-3",
           "icon":"trophy"
         },
         {
-          "file_a":"dream_trap\/Kit2_SynthArp_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_SynthArp_D_65BPM.mp3",
           "color":"s-color-3",
           "icon":"magic"
         },
         {
-          "file_a":"dream_trap\/Kit2_SynthBass_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_SynthBass_D_65BPM.mp3",
           "color":"s-color-3",
           "icon":"snowflake-o"
         },
         {
-          "file_a":"dream_trap\/Kit2_MelodyMix1_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_MelodyMix1_D_65BPM.mp3",
           "color":"s-color-4",
           "icon":"thermometer-full"
         },
         {
-          "file_a":"dream_trap\/Kit2_MelodyMix2_D_65BPM.ogg",
+          "file_a":"dream_trap\/Kit2_MelodyMix2_D_65BPM.mp3",
           "color":"s-color-4",
           "icon":"bullhorn"
         }

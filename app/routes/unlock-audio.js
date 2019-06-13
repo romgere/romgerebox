@@ -6,6 +6,8 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
 
   audioService: service('audio'),
+
+  /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
   events : ['touchstart','touchend', 'mousedown','keydown'],
 
   handleEvent: function(){
