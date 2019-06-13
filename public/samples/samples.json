@@ -454,6 +454,83 @@
                     "icon" : "snowflake-o"
                 }
             ]
+        },
+        {
+            "name" : "Classique",
+            "metronome" :  6154,
+            "samples" : [
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_Crash_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_Cymbal_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_HH_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_Kick_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_Snare_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_Toms_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/drums/14_D_78BPM_vinyl_perc_.wav",
+                    "color" : "s-color-1",
+                    "icon" : "bug"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_Bass_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_Brass_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_Choir_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_Piano1_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_Piano2_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_Strings_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                },
+                {
+                    "file_a" : "classique/14_D_78BPM_ViolaRuns_.wav",
+                    "color" : "s-color-2",
+                    "icon" : "heart"
+                }
+            ]
         }
+
     ]
 }

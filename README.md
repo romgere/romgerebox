@@ -3,6 +3,7 @@
 "Beat box" app, inspired by [incredibox](https://www.incredibox.com/) : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
 
 
+Sample : https://slooply.com/sample-packs/free ?
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
