@@ -7,6 +7,9 @@ export default Route.extend({
 
     intl: service(),
     ajaxService: service('ajax'),
+    audioService: service('audio'),
+
+    audioUnlockPreviousTransition: null,
 
     beforeModel() {
       this._super(...arguments);
@@ -33,4 +36,33 @@ export default Route.extend({
 
         return samplesConf;
     },
+
+    afterModel(model, transition) {
+      this._super(model, transition);
+      let audioContext = this.get('audioService.audioContext');
+      if (audioContext.state !== 'suspended'){
+        return;
+      }
+
+      if( transition.targetName != 'unlock-audio'){
+        //Deal with "suspended" audio Context on Safari
+        transition.abort();
+        this.set('audioUnlockPreviousTransition', transition);
+        this.transitionTo('unlock-audio');
+      }
+    },
+
+    actions: {
+      replayInitialeTransition: function(){
+        let transition = this.get('audioUnlockPreviousTransition');
+        if( transition){
+          this.set('audioUnlockPreviousTransition', null);
+          transition.retry();
+        }
+        else{
+          this.transitionTo('index');
+        }
+      }
+    }
+
 });

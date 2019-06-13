@@ -8,6 +8,7 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('box', {path : 'box/:version_idx'});
+  this.route('unlock-audio');
 });
 
 export default Router;
