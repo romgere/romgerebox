@@ -1,0 +1,35 @@
+{{#paper-card class=" flex-gt-xs-70 flex-gt-sm-50 flex-100" as |card|}}
+  {{#card.content class="layout-row"}}
+
+    <div class="flex-33">
+      {{#paper-button iconButton=true  warn=recording onClick=recordAction}}
+        {{paper-icon "fiber_manual_record"}}
+        {{#paper-tooltip position='bottom'}}
+          {{if recording (t 'box_main.record_stop') (t 'box_main.record')}}
+        {{/paper-tooltip}}
+      {{/paper-button}}
+
+      {{#if showDownload}}
+        {{#paper-button iconButton=true primary=true onClick=downloadAction}}
+          {{paper-icon 'cloud_download'}}
+          {{#paper-tooltip position='bottom'}}
+            {{t 'box_main.download_record'}}
+          {{/paper-tooltip}}
+        {{/paper-button}}
+      {{/if}}
+    </div>
+    <div class="flex-33 layout-row layout-align-center-center">
+      <span class="recordingTimeInput {{if recording 'recording'}}">
+        {{ms-to-time recordingTime}}
+      </span>
+    </div>
+    <div class="flex-33 layout-row layout-align-end-center">
+      {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=micAction}}
+        {{paper-icon (if micEnable 'mic' 'mic_off')}}
+        {{#paper-tooltip position='bottom'}}
+          {{if micEnable (t 'box_main.mic_off') (t 'box_main.mic_on')}}
+        {{/paper-tooltip}}
+      {{/paper-button}}
+    </div>
+  {{/card.content}}
+{{/paper-card}}

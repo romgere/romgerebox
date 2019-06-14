@@ -1,75 +1,26 @@
 <div class="layout-col" id="box-main">
 
-  {{#paper-toolbar class="flex-initial"}}
-    {{#paper-toolbar-tools}}
-      <div class="layout-row flex-100" id="boxMain-toolbar-inner">
-        <div class="flex-gt-sm-33 flex-50">
-          {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
-            {{paper-icon (if playing "stop" "play_arrow")}}
-            {{#paper-tooltip position='bottom'}}
-              {{if playing (t 'box_main.stop') (t 'box_main.play')}}
-            {{/paper-tooltip}}
-          {{/paper-button}}
-          <span class="sm-hidden">
-            &nbsp;
-            |
-            &nbsp;
-          </span>
-          {{#paper-button iconButton=true warn=recording onClick=(action 'toggleRecord')}}
-            {{paper-icon "fiber_manual_record"}}
-            {{#paper-tooltip position='bottom'}}
-              {{if recording (t 'box_main.record_stop') (t 'box_main.record')}}
-            {{/paper-tooltip}}
-          {{/paper-button}}
+  {{box-main-toolbar
+    playing=playing
+    loopSideA=loopSideA
+    loopValue=loopValue
+    playAction=(action 'togglePlay')
+    homeAction=(transition-to 'index')
+    saveAction=(action 'showMixCode')
+  }}
 
-          <span class="recordingTimeInput sm-hidden {{if recording 'recording'}}">
-            {{ms-to-time recordingTime}}
-          </span>
 
-          {{#paper-button iconButton=true accent=micEnable warn=(not micEnable) onClick=(action 'toggleMic')}}
-            {{paper-icon (if micEnable 'mic' 'mic_off')}}
-            {{#paper-tooltip position='bottom'}}
-              {{if micEnable (t 'box_main.mic_off') (t 'box_main.mic_on')}}
-            {{/paper-tooltip}}
-          {{/paper-button}}
-
-          {{#if (and (not recording) recordedFileUri)}}
-            {{#paper-button iconButton=true onClick=(action 'downloadAudioAction')}}
-              {{paper-icon 'cloud_download'}}
-              {{#paper-tooltip position='bottom'}}
-                {{t 'box_main.download_record'}}
-              {{/paper-tooltip}}
-            {{/paper-button}}
-          {{/if}}
-        </div>
-
-        <div class="flex-gt-sm-33 flex-30 layout-row layout-align-center-center">
-          {{#paper-button iconButton=true onClick=(transition-to 'index')}}
-            {{paper-icon 'home'}}
-            {{#paper-tooltip position='bottom'}}
-              {{t 'box_main.home'}}
-            {{/paper-tooltip}}
-          {{/paper-button}}
-
-          <h2 id="BoxMain-AppTitle" class="sm-hidden">
-            {{t 'app_title'}}
-          </h2>
-
-          {{#paper-button iconButton=true onClick=(action 'showMixCode')}}
-            {{paper-icon 'save'}}
-            {{#paper-tooltip position='bottom'}}
-              {{t 'box_main.show_mix_code'}}
-            {{/paper-tooltip}}
-          {{/paper-button}}
-        </div>
-
-        <div class="flex-gt-sm-33 flex-20 layout-row layout-align-end-center">
-          <span id="loopSide">{{if loopSideA "A" "B"}}</span>
-          {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
-        </div>
-      </div>
-    {{/paper-toolbar-tools}}
-  {{/paper-toolbar}}
+  <div id="recordCard-container" class="flex layout-row layout-align-center-center">
+    {{box-main-recordbox
+      recording=recording
+      showDownload=(and (not recording) recordedFileUri)
+      recordingTime=recordingTime
+      micEnable=micEnable
+      recordAction=(action 'toggleRecord')
+      micAction=(action 'toggleMic')
+      downloadAction=(action 'downloadAudioAction')
+    }}
+  </div>
 
   <div id="BoxMain-TrackContainer" class="flex layout-row layout-gt-xs-align-space-around-start">
     {{#each (repeat trackCount) as |empty idx|}}
