@@ -7,7 +7,7 @@ export default Object.freeze({
     RECORDING_FORMAT: 'mp3', //https://github.com/higuma/web-audio-recorder-js#Methods
     RECORDING_MAX_TIME: 300, //MAx record duration (second)
 
-    VUMETTER_CANVAS_WIDTH : 50,
+    VUMETTER_CANVAS_WIDTH : 1, //Full width with css
     VUMETTER_CANVAS_HEIGHT : 300,
     VUMETTER_RATIO : 3,
     VUMETTER_CLIPLVL : 0.98,

@@ -2,7 +2,7 @@
 
   {{#paper-toolbar class="flex-initial"}}
     {{#paper-toolbar-tools}}
-      <div class="layout-row flex-100">
+      <div class="layout-row flex-100" id="boxMain-toolbar-inner">
         <div class="flex-gt-sm-33 flex-50">
           {{#paper-button iconButton=true onClick=(action 'togglePlay')}}
             {{paper-icon (if playing "stop" "play_arrow")}}
@@ -51,7 +51,7 @@
             {{/paper-tooltip}}
           {{/paper-button}}
 
-          <h2 id="BoxMain-AppTitle">
+          <h2 id="BoxMain-AppTitle" class="sm-hidden">
             {{t 'app_title'}}
           </h2>
 

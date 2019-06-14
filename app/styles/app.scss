@@ -39,8 +39,17 @@ $warn: "pink";
   background-color: #d1d1d1;
 }
 
+.boxTrack .md-button,
+.boxTrack .md-button.md-icon-button{
+  margin: 0px 5px;
+}
+
+
+
 canvas.vueMeter{
-  background-color: #FFF;
+  background-color: #FFF;  
+  width: 100%;
+  height: max-content;
 }
 
 .boxSample.s-color-0,
@@ -142,10 +151,16 @@ canvas.s-color-4{
     color: #717171;
     font-weight: bold;
   }
+  #boxMain-toolbar-inner button{
+    margin: 0px 3px;
+  }
+}
+@media (max-width: 959px){
   .sm-hidden{
     display: none;
   }
 }
+
 
 @media (min-width: 600px){
   #BoxMain-TrackContainer{
@@ -157,7 +172,6 @@ canvas.s-color-4{
   .boxTrack .trackNumber{
     display: none;
   }
-
 
 }
 
