@@ -18,13 +18,13 @@
     {{box-vu-metter sample=sample}}
   </div>
   <div class="flex-initial volumeBar">
-    {{paper-slider class="flex" disabled=(not sample) discrete=true value=volume step=1 min=0 max=maxVolume onChange=(action 'setVolume') title=(t 'box_track.volume_title')}}
+    {{paper-slider class="flex" disabled=(not sample) discrete=true value=sample.volume step=1 min=0 max=maxVolume onChange=(action (mut sample.volume)) title=(t 'box_track.volume_title')}}
   </div>
   <div class="flex-initial layout-row layout-wrap">
     <div class="flex-100 layout-row layout-align-space-around-center layout-xs-column layout-sm-column">
 
-      {{#paper-button iconButton=true warn=mute onClick=(action 'muteToggle')  disabled=(not sample)}}
-        {{paper-icon (if mute 'volume_off' 'volume_up')}}
+      {{#paper-button iconButton=true warn=sample.mute onClick=(action 'muteToggle')  disabled=(not sample)}}
+        {{paper-icon (if sample.mute 'volume_off' 'volume_up')}}
         {{#paper-tooltip position='left'}}
           {{t 'box_track.mute_tooltip'}}
         {{/paper-tooltip}}

@@ -142,15 +142,21 @@ export default Component.extend({
   /**
    * Call by "box-track" component to ask for solo (mute other tracks)
    */
-  askForSoloForTrack: function( boxTrack){
-    this.sendActionToTracks('mute', true, boxTrack);
+  askForSoloForTrack: function( soloSample){
+    this.get('boxSamples').forEach(( sample) => {
+      if( sample != soloSample){
+        sample.set('mute', true);
+      }
+    });
   },
 
   /**
    * Call by "box-track" component to end solo (unmuted all tracks)
    */
   endSoloForTrack: function(){
-    this.sendActionToTracks('mute', false);
+    this.get('boxSamples').forEach(( sample) => {
+      sample.set('mute', false);
+    });
   },
 
   /**
@@ -159,7 +165,7 @@ export default Component.extend({
   sampleChangedForTrack: function( boxTrack, newSample ){
 
     let idxBox = this.get('boxTracks').indexOf( boxTrack);
-    let idxSample = !newSample ? null :this.get('samples').indexOf( newSample);
+    let idxSample = !newSample ? null : this.get('samples').indexOf( newSample);
     let currentSample = this.get('boxSamples')[ idxBox];
     this.get('boxSamples')[idxBox] = newSample;
 

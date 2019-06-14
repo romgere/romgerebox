@@ -23,10 +23,10 @@ export default Component.extend({
 
   dragPending: false,
 
-  mute: false,
+  mute: alias('sample.mute'),
   solo: false,
 
-  volume : Constants.INITIAL_TRACK_VOLUME,
+  volume : alias('sample.volume'),
   maxVolume: Constants.MAX_TRACK_VOLUME,
 
   //Register to parent
@@ -50,14 +50,12 @@ export default Component.extend({
   },
 
   setMuteState: function( mute ){
-      if( isEmpty(this.get('sample'))){
-        return;
-      }
+    if( isEmpty(this.get('sample'))){
+      return;
+    }
 
-      this.get('sample').setVolume( mute ? 0 : (this.get('volume') / Constants.MAX_TRACK_VOLUME));
-
-      this.set('mute', mute ? true : false);
-      this.set('solo', false);
+    this.get('sample').set('mute', mute);
+    this.set('solo', false);
   },
 
   setSample: function( sample){
@@ -123,7 +121,7 @@ export default Component.extend({
       }
       else{
         this.setMuteState( false);
-        this.get('boxMain').askForSoloForTrack( this);
+        this.get('boxMain').askForSoloForTrack( this.get('sample'));
         this.set('solo', true);
       }
     },
@@ -133,15 +131,8 @@ export default Component.extend({
       this.setMuteState( mute);
     },
 
-
     removeAction: function(){
       this.clearCurrentSample();
     },
-
-    setVolume: function( volume ){
-      this.set('volume', volume);
-      this.get('sample').setVolume( volume / Constants.MAX_TRACK_VOLUME);
-    },
-
   }
 });
