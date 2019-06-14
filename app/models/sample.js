@@ -103,4 +103,26 @@ export default EmberObject.extend({
       this.set('isPlaying', true);
     }
   },
+
+  playOnce: function(){
+    return new Promise((resolve, reject) => {
+
+      let sampleMediaSource = this.get('sampleMediaSource');
+
+      sampleMediaSource.loop = false;
+      sampleMediaSource.start(0, 0);
+
+      sampleMediaSource.onended = () => {
+
+        this.set('sampleMediaSource', null);
+        //"An AudioBufferSourceNode can only be played once"
+        //Prepare future play : create new AudioBufferSourceNode
+        this.get('audioService')._createBufferSource( this.get('buffer'), this.get('loopTime')).then( (sampleMediaSource) => {
+          sampleMediaSource.connect( this.get('gainNode'));
+          this.set('sampleMediaSource', sampleMediaSource);
+          resolve();
+        }, reject);
+      }
+    });
+  }
 });

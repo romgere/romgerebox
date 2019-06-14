@@ -144,7 +144,7 @@ export default Component.extend({
    */
   askForSoloForTrack: function( soloSample){
     this.get('boxSamples').forEach(( sample) => {
-      if( sample != soloSample){
+      if( sample && sample != soloSample){
         sample.set('mute', true);
       }
     });
@@ -155,7 +155,8 @@ export default Component.extend({
    */
   endSoloForTrack: function(){
     this.get('boxSamples').forEach(( sample) => {
-      sample.set('mute', false);
+      if( sample )
+        sample.set('mute', false);
     });
   },
 
