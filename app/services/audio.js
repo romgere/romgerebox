@@ -60,7 +60,7 @@ export default Service.extend({
     //Connecte gainNode to output
     gainNode.connect(audioContext.destination);
 
-    sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
+    sample.set('volume', Constants.INITIAL_TRACK_VOLUME);
     sample.set('audioService', this);
     sample.set('sampleInit', true);
   },

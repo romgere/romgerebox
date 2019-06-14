@@ -60,7 +60,7 @@ export default Component.extend({
     if( this.get('hasSample') ){
 
       if( this.get('currentSample') != this.get('sample') ){
-          
+
           this.set('currentSample', this.get('sample'));
           this.get('sample').getMediaStreams().forEach(( stream) => {
             stream.connect( meter);

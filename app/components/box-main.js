@@ -49,6 +49,26 @@ export default Component.extend({
     this.set('boxSamples', []);
 
     this.set('loopProgressInterval', setInterval( this.loopProgress.bind(this), 50));
+
+    let audioContext = this.get('audioService.audioContext')
+
+    //Create, once for all, a stream for the recorder
+    let recorderDestinationStream = audioContext.createGain();
+    this.set('recorderDestinationStream', recorderDestinationStream);
+
+    //Same for recorder
+    /* global WebAudioRecorder */
+    let recorder = new WebAudioRecorder(recorderDestinationStream, {
+      workerDir: "web-audio-recorder/",
+      encoding: Constants.RECORDING_FORMAT,
+      options: {
+        timeLimit: Constants.RECORDING_MAX_TIME,
+      },
+      onComplete: this.recordOnComplete.bind(this),
+      onTimeout: () => { this.stopRecord(); } //Stop "recording" state on timeout
+    });
+
+    this.set('recorder', recorder);
   },
 
   willDestroy(){
@@ -142,15 +162,22 @@ export default Component.extend({
   /**
    * Call by "box-track" component to ask for solo (mute other tracks)
    */
-  askForSoloForTrack: function( boxTrack){
-    this.sendActionToTracks('mute', true, boxTrack);
+  askForSoloForTrack: function( soloSample){
+    this.get('boxSamples').forEach(( sample) => {
+      if( sample && sample != soloSample){
+        sample.set('mute', true);
+      }
+    });
   },
 
   /**
    * Call by "box-track" component to end solo (unmuted all tracks)
    */
   endSoloForTrack: function(){
-    this.sendActionToTracks('mute', false);
+    this.get('boxSamples').forEach(( sample) => {
+      if( sample )
+        sample.set('mute', false);
+    });
   },
 
   /**
@@ -159,7 +186,7 @@ export default Component.extend({
   sampleChangedForTrack: function( boxTrack, newSample ){
 
     let idxBox = this.get('boxTracks').indexOf( boxTrack);
-    let idxSample = !newSample ? null :this.get('samples').indexOf( newSample);
+    let idxSample = !newSample ? null : this.get('samples').indexOf( newSample);
     let currentSample = this.get('boxSamples')[ idxBox];
     this.get('boxSamples')[idxBox] = newSample;
 
@@ -216,12 +243,9 @@ export default Component.extend({
 
     let mediaStreams = this.getTracksMediaStreamArray();
 
-    let audioContext = this.get('audioService.audioContext')
 
-    //Create a stream for the recorder and connect all source audioMediaStream (from audio file)
-    //previously use of "createMediaStreamDestination" method by not working with "WebAudioRecorder"
-    let recorderDestinationStream = audioContext.createGain();
-    this.set('recorderDestinationStream', recorderDestinationStream);
+    //connect all source audioMediaStream (from audio file)
+    let recorderDestinationStream = this.get('recorderDestinationStream');
 
     mediaStreams.forEach(function(stream){
         stream.connect( recorderDestinationStream);
@@ -232,34 +256,12 @@ export default Component.extend({
       this.get('micStream').connect( recorderDestinationStream);
     }
 
+    //Start recording
     let recorder = this.get('recorder');
-    if( ! recorder ){
-
-      /* global WebAudioRecorder */
-      recorder = new WebAudioRecorder(recorderDestinationStream, {
-        workerDir: "web-audio-recorder/",
-        encoding: Constants.RECORDING_FORMAT,
-        onComplete: this.recordOnComplete.bind(this),
-        onEncoderLoaded: (recorder) => {
-
-          // recorder.
-          recorder.startRecording();
-          //Start playing if not already playing
-          if( ! this.get('playing')){
-            this.play();
-            this.set('playing', true);
-          }
-        }
-      });
-
-      this.set('recorder', recorder);
-    }
-    else{
-      recorder.startRecording();
-      if( ! this.get('playing')){
-        this.play();
-        this.set('playing', true);
-      }
+    recorder.startRecording();
+    if( ! this.get('playing')){
+      this.play();
+      this.set('playing', true);
     }
   },
 

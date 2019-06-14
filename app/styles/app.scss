@@ -39,8 +39,22 @@ $warn: "red";
   background-color: #d1d1d1;
 }
 
+.boxTrack .md-button,
+.boxTrack .md-button.md-icon-button{
+  margin: 0px 5px;
+}
+
+
+
 canvas.vueMeter{
   background-color: #FFF;
+  width: 100%;
+  height: max-content;
+}
+
+canvas#micVuMeter{
+  width: 100%;
+  background-color: paper-color($warn, '500');
 }
 
 .boxSample.s-color-0,
@@ -107,9 +121,17 @@ canvas.s-color-4{
   border-color: gray !important;
 }
 
+#recordCard-container md-card md-card-content{
+  padding: 0px;
+}
 
+.recordingTimeInput{
+  height: 40px;
+  line-height: 40px;
+  font-size: 22px;
+}
 .recordingTimeInput:not(.recording){
-  color: RGBA(var(--primary-500-contrast), 0.26);
+  color: rgba(0, 0, 0, 0.12);
 }
 
 .boxSample{
@@ -131,9 +153,6 @@ canvas.s-color-4{
 }
 
 @media (max-width: 599px){
-  #BoxMain-AppTitle{
-    display: none;
-  }
   #BoxMain-TrackContainer{
     overflow-x: scroll;
   }
@@ -142,10 +161,16 @@ canvas.s-color-4{
     color: #717171;
     font-weight: bold;
   }
+  #boxMain-toolbar-inner button{
+    margin: 0px 3px;
+  }
+}
+@media (max-width: 959px){
   .sm-hidden{
     display: none;
   }
 }
+
 
 @media (min-width: 600px){
   #BoxMain-TrackContainer{
@@ -157,7 +182,6 @@ canvas.s-color-4{
   .boxTrack .trackNumber{
     display: none;
   }
-
 
 }
 

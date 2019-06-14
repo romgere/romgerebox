@@ -1,0 +1,39 @@
+{{#paper-toolbar class="flex-initial"}}
+  {{#paper-toolbar-tools}}
+    <div class="layout-row flex-100" id="boxMain-toolbar-inner">
+      <div class="flex-20">
+        {{#paper-button iconButton=true onClick=playAction}}
+          {{paper-icon (if playing "stop" "play_arrow")}}
+          {{#paper-tooltip position='bottom'}}
+            {{if playing (t 'box_main.stop') (t 'box_main.play')}}
+          {{/paper-tooltip}}
+        {{/paper-button}}
+      </div>
+
+      <div class="flex-60 layout-row layout-align-center-center">
+        {{#paper-button iconButton=true onClick=homeAction}}
+          {{paper-icon 'home'}}
+          {{#paper-tooltip position='bottom'}}
+            {{t 'box_main.home'}}
+          {{/paper-tooltip}}
+        {{/paper-button}}
+
+        <h2 id="BoxMain-AppTitle">
+          {{t 'app_title'}}
+        </h2>
+
+        {{#paper-button iconButton=true onClick=saveAction}}
+          {{paper-icon 'save'}}
+          {{#paper-tooltip position='bottom'}}
+            {{t 'box_main.show_mix_code'}}
+          {{/paper-tooltip}}
+        {{/paper-button}}
+      </div>
+
+      <div class="flex-20 layout-row layout-align-end-center">
+        <span id="loopSide">{{if loopSideA "A" "B"}}</span>
+        {{paper-progress-circular value=loopValue warn=(not loopSideA) accent=loopSideA diameter=40}}
+      </div>
+    </div>
+  {{/paper-toolbar-tools}}
+{{/paper-toolbar}}

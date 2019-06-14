@@ -31,9 +31,10 @@ export default Route.extend({
         await this.get('audioService').initAudioSample( sample, loopTime);
       }
 
+      //New mix "reset" old changes
       sample.set('isUsed', false);
-      sample.setVolume( Constants.INITIAL_TRACK_VOLUME / Constants.MAX_TRACK_VOLUME);
-      
+      sample.set('volume', Constants.INITIAL_TRACK_VOLUME );
+
       return sample;
     }));
   },
