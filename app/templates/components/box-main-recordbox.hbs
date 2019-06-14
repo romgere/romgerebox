@@ -1,5 +1,5 @@
 {{#paper-card class=" flex-gt-xs-70 flex-gt-sm-50 flex-100" as |card|}}
-  {{#card.content class="layout-row"}}
+  {{#card.content class="layout-row layout-wrap"}}
 
     <div class="flex-33">
       {{#paper-button iconButton=true  warn=recording onClick=recordAction}}
@@ -31,5 +31,6 @@
         {{/paper-tooltip}}
       {{/paper-button}}
     </div>
+    <canvas width={{canvasWidth}} height={{canvasHeigth}} id="micVuMeter"></canvas>
   {{/card.content}}
 {{/paper-card}}

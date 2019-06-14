@@ -52,6 +52,11 @@ canvas.vueMeter{
   height: max-content;
 }
 
+canvas#micVuMeter{
+  width: 100%;
+  background-color: paper-color($warn, '500');
+}
+
 .boxSample.s-color-0,
 canvas.s-color-0{
   background-color: #d1d1d1 !important;

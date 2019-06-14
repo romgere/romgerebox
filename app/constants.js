@@ -12,4 +12,8 @@ export default Object.freeze({
     VUMETTER_RATIO : 3,
     VUMETTER_CLIPLVL : 0.98,
     VUMETTER_AVG : 0.8,
+
+
+    MIC_VUMETTER_CANVAS_WIDTH : 200, //Full width with css
+    MIC_VUMETTER_CANVAS_HEIGHT : 4,
 });
