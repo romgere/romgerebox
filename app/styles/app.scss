@@ -6,9 +6,12 @@ $warn: "pink";
 @import 'ember-paper';
 
 
-#loopSide{
-  margin-right: -27px;
+#loopSide,
+#loopCount{
+  margin-right: -40px;
   font-weight: bold;
+  width: 40px;
+  text-align: center;
 }
 
 
