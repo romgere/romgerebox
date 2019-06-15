@@ -18,6 +18,7 @@ export default Component.extend({
 
   loopSideA: true,
   loopValue: 0,
+  loopCount: 1,
 
   recording: false,
   recorder: null,
@@ -122,18 +123,29 @@ export default Component.extend({
     return playingTime % (this.get('loopTime') * (forDoubleLoop ? 2 : 1));
   },
 
+  _getLoopCount: function(){
+
+    let currentTime = this.get('audioService.audioContext').currentTime;
+    let playingTime = currentTime - this.get('playStartTime');
+    return Math.ceil(playingTime / this.get('loopTime'));
+  },
+
   /**
    * Calculate loop percent and deal with loop changement
    */
   loopProgress: function(){
 
-    //Current passed time for a set of loop (A & B )
-    let loopA = this._getCurrentLoopTime( true) < this.get('loopTime');
-    this.set('loopSideA', loopA);
+    if( this.get('playing')){
+      //Current passed time for a set of loop (A & B )
+      let loopA = this._getCurrentLoopTime( true) < this.get('loopTime');
+      this.set('loopSideA', loopA);
 
-    //Percent for current loop
-    let loopPercent = Math.ceil( (this._getCurrentLoopTime() / this.get('loopTime')) * 100 );
-    this.set('loopValue', loopPercent);
+      this.set('loopCount', this._getLoopCount());
+
+      //Percent for current loop
+      let loopPercent = Math.ceil( (this._getCurrentLoopTime() / this.get('loopTime')) * 100 );
+      this.set('loopValue', loopPercent);
+    }
   },
 
 

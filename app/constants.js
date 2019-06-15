@@ -4,6 +4,8 @@ export default Object.freeze({
     INITIAL_TRACK_VOLUME : 100, //percent
     MAX_TRACK_VOLUME : 200, //percent
 
+    LOOP_INFO_TYPE : 'count', //"side" or "count" define wich information is display inside loop circle.
+
     RECORDING_FORMAT: 'mp3', //https://github.com/higuma/web-audio-recorder-js#Methods
     RECORDING_MAX_TIME: 300, //MAx record duration (second)
 
