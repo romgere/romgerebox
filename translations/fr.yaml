@@ -2,11 +2,11 @@ app_title: Romgere's Box
 index:
   choose_version: Choisis ton style
   load_mix_code: ou charge un mix
-  enter_mix_code: Entres ton code pour retrouver ton mix
+  enter_mix_code: Entre ton code pour retrouver ton mix
   mix_code_input:
     label: Mix Code
     placeholder: Ton Mix Code
-    invalid: Mix code non valide, vérifies ton code
+    invalid: Mix code non valide, vérifie ton code
   load: Charger
 box_loading: Chargement des samples...
 box_main:
@@ -20,14 +20,14 @@ box_main:
   home: Changer de style
   show_mix_code: Sauvegarder le mix
   mix_code_title: Mix Code
-  mix_code_notice: Notes ton code pour retrouver ton mix plus tard
+  mix_code_notice: Note ton code pour retrouver ton mix plus tard
   mix_code_close_btn: C'est noté !
   sample_title: Samples
   error:
-    mic_not_available: Impossible d'accèder au micro, essais de nouveau
-    add_one_sample: Ajoutes au moins un sample au mix pour obtenir ton Mix Code
+    mic_not_available: Impossible d'accéder au micro, essaie de nouveau
+    add_one_sample: Ajoute au moins un sample au mix pour obtenir ton Mix Code
 box_track:
-  drop_tooltip: Déposes un sample dans cette zone
+  drop_tooltip: Dépose un sample dans cette zone
   volume_title: Changer le volume
   mute_tooltip: Muet ON/OFF
   solo_tooltip: Solo ON/OFF
