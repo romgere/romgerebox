@@ -56,16 +56,20 @@ export default Route.extend({
       }
     },
 
+    replayInitialeTransition: function(){
+      let transition = this.get('audioUnlockPreviousTransition');
+      if( transition){
+        this.set('audioUnlockPreviousTransition', null);
+        transition.retry();
+      }
+      else{
+        this.transitionTo('index');
+      }
+    },
+
     actions: {
-      replayInitialeTransition: function(){
-        let transition = this.get('audioUnlockPreviousTransition');
-        if( transition){
-          this.set('audioUnlockPreviousTransition', null);
-          transition.retry();
-        }
-        else{
-          this.transitionTo('index');
-        }
+      replayInitialeTransition() {
+        this.replayInitialeTransition()
       }
     }
 

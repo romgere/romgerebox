@@ -1,9 +1,13 @@
-{{#paper-dialog class="flex-50" fullscreen=fullscreen clickOutsideToClose=false}}
-    {{#paper-dialog-content}}
-        <p style="text-align: center;">
-          {{t 'unlock_audio'}}
-          <br /><br />
-          {{paper-icon 'lock' size=48}}
-        </p>
-    {{/paper-dialog-content}}
-{{/paper-dialog}}
+<UkModal
+  @modalClass="uk-flex-top"
+  @dialogClass="uk-margin-auto-vertical"
+  @visible={{true}}
+as |modal|>
+  <modal.body>
+    <p class="uk-text-center">
+      {{t 'unlock_audio'}}
+      <br /><br />
+      <FaIcon @icon="lock" @size="2x" />
+    </p>
+  </modal.body>
+</UkModal>
