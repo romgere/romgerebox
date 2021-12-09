@@ -1,8 +1,8 @@
-import Controller from '@ember/controller';
-import { A } from '@ember/array';
+import Controller from '@ember/controller'
+import { A } from '@ember/array'
 
-import Constants from 'romgerebox/constants';
-import QueryParams from 'ember-parachute';
+import Constants from 'romgerebox/constants'
+import QueryParams from 'ember-parachute'
 
 
 export const mixConfigParams = new QueryParams({
@@ -12,14 +12,14 @@ export const mixConfigParams = new QueryParams({
     refresh: false,
     replace: true,
     serialize(value) {
-      return value.join('|');
+      return value.join('|')
     },
     deserialize(value = '') {
-      return A(value.split('|'));
+      return A(value.split('|'))
     }
   }
-});
+})
 
-export default Controller.extend(mixConfigParams.Mixin, {
+export default class BoxController extends Controller.extend(mixConfigParams.Mixin) {
 
-});
+}

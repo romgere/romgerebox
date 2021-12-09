@@ -1,90 +1,68 @@
+<nav class="uk-navbar-container" uk-navbar>
+  <LinkTo @route="index" class="uk-navbar-item uk-logo">
+    {{t 'app_title'}}
+  </LinkTo>
+</nav>
+
+<BoxToolbar
+  @playing={{this.playing}}
+  @loopSideA={{this.loopSideA}}
+  @loopValue={{this.loopValue}}
+  @loopCount={{this.loopCount}}
+
+  @recording={{this.recording}}
+  @showDownload={{and (not this.recording) this.recordedFileUri}}
+  @recordingTime={{this.recordingTime}}
+  @micEnable={{this.micEnable}}
+
+  @playAction={{this.togglePlay}}
+  @saveAction={{this.showMixCodeModal}}
+  @recordAction={{this.toggleRecord}}
+  @micAction={{this.toggleMic}}
+  @downloadAction={{this.downloadAudioAction}}
+/>
+
+
 <div class="layout-col" id="box-main">
+  
 
-  {{box-main-toolbar
-    playing=playing
-    loopSideA=loopSideA
-    loopValue=loopValue
-    loopCount=loopCount
-    playAction=(action 'togglePlay')
-    homeAction=(transition-to 'index')
-    saveAction=(action 'showMixCode')
-  }}
-
-
-  <div id="recordCard-container" class="flex layout-row layout-align-center-center">
-    {{box-main-recordbox
-      recording=recording
-      showDownload=(and (not recording) recordedFileUri)
-      recordingTime=recordingTime
-      micEnable=micEnable
-      micStream=micStream
-      recordAction=(action 'toggleRecord')
-      micAction=(action 'toggleMic')
-      downloadAction=(action 'downloadAudioAction')
-    }}
-  </div>
+{{!-- 
 
   <div id="BoxMain-TrackContainer" class="flex layout-row layout-gt-xs-align-space-around-start">
-    {{#each (repeat trackCount) as |empty idx|}}
+    {{#each this.trackCountArray as |empty idx|}}
       {{box-track boxMain=this trackNumber=(inc idx)}}
     {{/each}}
-  </div>
-  <div class="flex-initial">
-    <h3 style="text-align: center;">{{t 'box_main.sample_title'}} : </h3>
-  </div>
-  <div class="flex-initial layout-row layout-wrap" id="sample-list">
-    {{#each samples as |sample idx|}}
-      <div class="flex-10 flex-xs-20  layout-row layout-align-center-start">
+  </div> --}}
 
-        {{#if sample.isUsed}}
-          {{box-sample sample=sample}}
-        {{else}}
-          {{#draggable-object content=sample}}
-            {{box-sample sample=sample}}
-          {{/draggable-object}}
-        {{/if}}
-
-      </div>
-    {{/each}}
-  </div>
+  <h3 class="uk-text-center">{{t 'box_main.sample_title'}} : </h3>
+  <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
+    {{#each @samples as |sample|}}
+      {{#if sample.isUsed}}
+        <BoxSample @sample={{sample}} />
+      {{else}}
+        <DraggableObject @content={{sample}}>
+          <BoxSample @sample={{sample}} />
+        </DraggableObject>
+      {{/if}}
+    {{/each}}  
+  </UkFlex>
 </div>
 
-{{#if showMixCode}}
-  {{#paper-dialog class="flex-50" onClose=(action (mut showMixCode) false)  clickOutsideToClose=true}}
-    <form>
-      {{#paper-toolbar}}
-        {{#paper-toolbar-tools}}
-          <h2>{{t 'box_main.mix_code_title'}}</h2>
-          <span class="flex"></span>
-          {{#paper-button iconButton=true onClick=(action (mut showMixCode) false)}}
-            {{paper-icon icon="close"}}
-          {{/paper-button}}
-        {{/paper-toolbar-tools}}
-      {{/paper-toolbar}}
 
-      {{#paper-dialog-content}}
-          <p style="text-align: center;">
-            {{t 'box_main.mix_code_notice'}}
-          </p>
-          <div class="layout layout-row">
-            <div class="flex"></div>
-            <div class="flex-inital">
-              {{paper-icon 'loyalty'}}
-              &nbsp;
-            </div>
-            <div class="flex-inital">
-              <h3 style="margin: 0px; color: rgba(0, 0, 0, 0.54)">{{mixCode}}</h3>
-            </div>
-            <div class="flex"></div>
-          </div>
-      {{/paper-dialog-content}}
-
-      {{#paper-dialog-actions class="layout-row"}}
-        <span class="flex"></span>
-        {{#paper-button primary=true onClick=(action (mut showMixCode) false)}}
-          {{t 'box_main.mix_code_close_btn'}}
-        {{/paper-button}}
-      {{/paper-dialog-actions}}
-    </form>
-  {{/paper-dialog}}
-{{/if}}
+<UkModal @visible={{this.showMixCode}} @on-hide={{fn (mut this.showMixCode) false}} as |modal|>
+  <modal.header>
+    <h2 class="uk-modal-title">{{t 'box_main.mix_code_title'}}</h2>
+  </modal.header>
+  <modal.body>
+    <p class="uk-text-center">
+      {{t 'box_main.mix_code_notice'}}
+    </p>
+    <p class="uk-text-lead uk-text-primary">
+      <FaIcon @icon="tag" />
+      {{this.mixCode}}
+    </p>
+  </modal.body>
+  <modal.footer @class="uk-text-right">
+    <UkButton @color="primary" @label={{t 'box_main.mix_code_close_btn'}} @on-click={{fn (mut this.showMixCode) false}} />
+  </modal.footer>
+</UkModal>
