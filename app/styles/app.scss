@@ -1,4 +1,5 @@
 @import 'ember-uikit';
+@import 'box-sample';
 
 // $primary: "indigo";
 // $accent: "blue";
@@ -61,65 +62,7 @@
 //   background-color: paper-color($warn, '500');
 // }
 
-// .boxSample.s-color-0,
-// canvas.s-color-0{
-//   background-color: #d1d1d1 !important;
-// }
-// .fa.s-color-0{
-//   color: #d1d1d1;
-// }
-// .boxTrack.s-color-0{
-//   border-color: #d1d1d1 !important;
-//   box-shadow: #d1d1d1 0px 0px 10px 5px
-// }
-
-// .boxSample.s-color-1,
-// canvas.s-color-1{
-//   background-color: #f4e6c8 !important;
-// }
-// .fa.s-color-1{
-//   color: #f4e6c8;
-// }
-// .boxTrack.s-color-1{
-//   border-color: #f4e6c8 !important;
-//   box-shadow: #f4e6c8 0px 0px 10px 5px
-// }
-
-// .boxSample.s-color-2,
-// canvas.s-color-2{
-//   background-color: #cbe6ea !important;
-// }
-// .fa.s-color-2{
-//   color: #cbe6ea;
-// }
-// .boxTrack.s-color-2{
-//   border-color: #cbe6ea !important;
-//   box-shadow: #cbe6ea 0px 0px 10px 5px
-// }
-
-// .boxSample.s-color-3,
-// canvas.s-color-3{
-//   background-color: #f8d2d4 !important;
-// }
-// .fa.s-color-3{
-//   color: #f8d2d4;
-// }
-// .boxTrack.s-color-3{
-//   border-color: #f8d2d4 !important;
-//   box-shadow: #f8d2d4 0px 0px 10px 5px
-// }
-
-// .boxSample.s-color-4,
-// canvas.s-color-4{
-//   background-color: #d3d5f1 !important;
-// }
-// .fa.s-color-4{
-//   color: #d3d5f1;
-// }
-// .boxTrack.s-color-4{
-//   border-color: #d3d5f1 !important;
-//   box-shadow: #d3d5f1 0px 0px 10px 5px
-// }
+//
 
 // .boxTrack.drag-pending{
 //   border-color: gray !important;
@@ -136,24 +79,6 @@
 // }
 // .recordingTimeInput:not(.recording){
 //   color: rgba(0, 0, 0, 0.12);
-// }
-
-// .boxSample{
-//   display: inline-block;
-//   cursor: grab;
-//   margin: 10px 6px 0px 6px;
-//   height: 24px;
-//   line-height: 24px;
-//   width: 24px;
-//   text-align: center;
-//   min-width: 0;
-//   padding: 8px;
-//   border-radius: 50%;
-// }
-
-// .boxSample.is-used{
-//   background-color: rgba(0,0,0,.12) !important;
-//   cursor: not-allowed;
 // }
 
 // @media (max-width: 599px){

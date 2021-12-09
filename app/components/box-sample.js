@@ -1,21 +1,26 @@
-import Component from '@ember/component';
-import { alias, or } from '@ember/object/computed';
+import Component from '@glimmer/component'
+import { tracked } from '@glimmer/tracking'
+import { action } from '@ember/object'
 
-export default Component.extend({
-  classNames: ['boxSample'],
-  classNameBindings: ['sampleColor', 'isUsed'],
-  sampleColor: alias('sample.color'),
+export default class BoxSampleComponent extends Component{
+  
+  @tracked isSinglePlaying = false
 
-  isSinglePlaying: false,
-  isUsed: or('isSinglePlaying','sample.isUsed'),
-
-  doubleClick: function(){
-    if( ! this.get('isUsed')){
-      this.set('isSinglePlaying', true);
-      this.get('sample').playOnce().then(() => {
-        this.set('isSinglePlaying', false);
-      });
+  get additionnalClasses() {
+    let classes = [ this.args.sample.color ]
+    if (this.isSinglePlaying || this.args.sample.isUsed) {
+      classes.push('is-used')
     }
-  },
-
-});
+    return classes
+  }
+  
+  @action
+  play() {
+    if (!this.isUsed) {
+      this.isSinglePlaying = true
+      this.args.sample.playOnce().finally(() => {
+        this.isSinglePlaying = false
+      })
+    }
+  }
+}
