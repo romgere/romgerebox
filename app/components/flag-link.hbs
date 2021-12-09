@@ -1,0 +1,5 @@
+<li class={{if (eq @locale this.intl.primaryLocale) "uk-active"}}>
+  <a href="#" {{on "click" this.changeLocale}}>
+    {{t (concat "languages." @locale)}}
+  </a>
+</li>
