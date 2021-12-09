@@ -2,11 +2,12 @@ import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import SampleObject from 'romgerebox/models/sample';
+import fetch from 'fetch';
 
 export default Route.extend({
 
     intl: service(),
-    ajaxService: service('ajax'),
+    
     audioService: service('audio'),
 
     audioUnlockPreviousTransition: null,
@@ -26,7 +27,10 @@ export default Route.extend({
     },
 
     model: async function(){
-        let samplesConf = await this.get('ajaxService').request( './samples/samples.json');
+        let samplesConf = await fetch('./samples/samples.json').then(function(response) {
+          return response.json();
+        })
+        
         //Create Ember Object for sample
         samplesConf.versions.forEach(function( version){
           version.samples = version.samples.map(function(sample){

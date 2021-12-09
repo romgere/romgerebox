@@ -1,4 +1,4 @@
-{{fa-icon sample.icon}}
+<FaIcon @icon={{@sample.icon}} />
 {{#paper-tooltip position='top'}}
-  {{t (if sample.isUsed 'box_sample.used_tooltip' 'box_sample.drag_tooltip')}}
+  {{t (if @sample.isUsed 'box_sample.used_tooltip' 'box_sample.drag_tooltip')}}
 {{/paper-tooltip}}
