@@ -3,12 +3,15 @@ import { action } from '@ember/object'
 import { inject as service } from '@ember/service'
 import Constants from 'romgerebox/constants'
 import { intToChar } from 'romgerebox/misc/conv-int-char'
+import { tracked } from '@glimmer/tracking'
 
 export default class BoxMainComponent extends Component {
 
   @service intl
 
   @service('audio') audio
+
+  @tracked showMixCode = false
 
   get trackCount() {
     return this.audio.trackSamples.filter((s) => s !== undefined).length
@@ -30,6 +33,59 @@ export default class BoxMainComponent extends Component {
     return undefined
   }
 
+  get currentMixConf() {
+    return this.audio.trackSamples.map((s) => {
+      let i = this.args.samples.indexOf(s)
+      return i >= 0 ? i : undefined
+    })
+  }
+
+  get currentMixCode() {
+    let mixCode = intToChar( this.args.versionIdx)
+
+    this.currentMixConf.forEach((sampleIdx, idx) => {
+
+      if( idx % 4 === 0 ){
+        mixCode += '-'
+      }
+
+      mixCode += intToChar( parseInt(sampleIdx))    
+    })
+
+    return mixCode
+  }
+
+  @action
+  updateFromMixConf() {
+    let { mixConf } = this.args
+    if (this.currentMixConf.join() !== mixConf.join()) {
+      mixConf.forEach((sampleIdx, trackIdx) => {
+        if (sampleIdx >= 0) {
+          this.audio.bindSample(trackIdx, this.args.samples[sampleIdx])
+        } else {
+          this.audio.unbindSample(trackIdx)
+        }
+      })
+    }
+  }
+
+  @action
+  updateMixConf() {
+    this.args.onMixConfUpdate(this.currentMixConf)
+  }
+
+  @action
+  bindSample(trackIdx, sample) {
+    this.audio.bindSample(trackIdx, sample)
+    this.updateMixConf()
+  }
+
+  @action
+  unbindSample(trackIdx) {
+    this.audio.unbindSample(trackIdx)
+    this.updateMixConf()
+  }
+  
 
   @action
   changeVolume(trackIdx, value) {
@@ -84,7 +140,7 @@ export default class BoxMainComponent extends Component {
         try {
           await this.audio.requireMicro()
         } catch(e) {
-          alert( this.intl.t('box_main.error.mic_not_available'));
+          alert( this.intl.t('box_main.error.mic_not_available'))
         }
       }
 
@@ -109,42 +165,14 @@ export default class BoxMainComponent extends Component {
     super.willDestroy(...arguments)
     this.audio.stop()
   }
-
-  // mixCode = null
-  // showMixCode = false
-
-
-
-  
-
-
-
-  
-
   
   @action
   showMixCodeModal(){
-
     if( !this.trackCount ){
       alert(this.intl.t('box_main.error.add_one_sample'))
     }
     else{
-
-      // let mixCode = `${intToChar( this.args.versionIdx)}-`
-      // let idx = 0
-
-      // this.get('mixConf').forEach(function(idxSample){
-
-      //   mixCode += intToChar( parseInt(idxSample));
-      //   idx++;
-      //   if( idx % 4 == 0 && idx < Constants.TRACK_COUNT ){
-      //     mixCode += '-';
-      //   }
-      // });
-
-      // this.onMixCodeUpdate(mixCode)
-      // this.set('showMixCode', true);
+      this.showMixCode = true
     }
   }
-
 }

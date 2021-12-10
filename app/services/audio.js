@@ -78,6 +78,11 @@ export default class AudioService extends Service {
     this.trackSamples = A(new Array(Constants.TRACK_COUNT).fill(undefined))
   }
 
+  resetTracks() {
+    this.stop()
+    this.trackSamples.replace(0, Constants.TRACK_COUNT, new Array(Constants.TRACK_COUNT).fill(undefined))
+  }
+
   _forEachSample(callback) {
     this.trackSamples.forEach(function (value, idx) {
       if (value) {
@@ -152,13 +157,17 @@ export default class AudioService extends Service {
     }
 
     this.trackSamples.replace(trackIdx, 1, [sample])
+    sample.isUsed = true
     this._integrateSample(sample)
   }
 
   @action
   unbindSample(trackIdx) {
     let sample = this.trackSamples.objectAt(trackIdx)
-    this._clearSample(sample)
+    if (sample) {
+      this._clearSample(sample)
+    }
+  
 
     this.trackSamples.replace(trackIdx, 1, [undefined])
   }

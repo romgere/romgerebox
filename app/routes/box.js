@@ -4,6 +4,10 @@ import { inject as service } from '@ember/service'
 
 export default class BoxRoute extends Route {
 
+  queryParams = {
+    mixConfString: { replace: true }
+  }
+
   @service audio
   @service sample
 
@@ -13,7 +17,8 @@ export default class BoxRoute extends Route {
     // Get info about "version" (loop duration, name, samples)
     let version = this.modelFor('application').versions[versionIdx]
 
-    // Update loopTime on audio service
+    // Init/reset audio service
+    this.audio.resetTracks()
     this.audio.loopTime = version.loopTime
 
     return hash({

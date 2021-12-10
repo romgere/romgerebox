@@ -55,6 +55,6 @@ export default class IndexController extends Controller {
       }
     })
 
-    this.router.transitionTo('box', versionIdx, { queryParams: { mixConf } })
+    this.router.transitionTo('box', versionIdx, { queryParams: { mixConf: mixConf.join('|') } })
   }  
 }
