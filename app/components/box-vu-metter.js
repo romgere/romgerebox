@@ -94,7 +94,6 @@ export default Component.extend({
 
         canvasContext.fillStyle = "#FFF";
         canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
-
       }
     }
 

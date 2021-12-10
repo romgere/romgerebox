@@ -168,6 +168,7 @@ export default class BoxMainComponent extends Component {
   registerBoxTrack( boxTrack){
     this.get('boxTracks').pushObject(boxTrack);
 
+  return
     //Pre-set sample for this box-track (from QP)
     let trackIdx = this.get('boxTracks.length')-1;
     if( parseInt(this.get('mixConf')[trackIdx]) >= 0 ){
@@ -209,7 +210,7 @@ export default class BoxMainComponent extends Component {
     this.get('boxSamples')[idxBox] = newSample;
 
     //Save to QP
-    this.onMixCodeUpdate(this.get('mixConf').replace(idxBox, 1, [idxSample]))
+    // this.onMixCodeUpdate(this.get('mixConf').replace(idxBox, 1, [idxSample]))
     
     //No recording : nothing to do.
     if( this.get('recording')){

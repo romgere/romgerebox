@@ -23,16 +23,14 @@
 />
 
 
-<div class="layout-col" id="box-main">
-  
+<div>
+ 
 
-{{!-- 
-
-  <div id="BoxMain-TrackContainer" class="flex layout-row layout-gt-xs-align-space-around-start">
+  <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
     {{#each this.trackCountArray as |empty idx|}}
-      {{box-track boxMain=this trackNumber=(inc idx)}}
+      <BoxTrack @boxMain={{this}} @trackNumber={{inc idx}} />
     {{/each}}
-  </div> --}}
+  </UkFlex>
 
   <h3 class="uk-text-center">{{t 'box_main.sample_title'}} : </h3>
   <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
