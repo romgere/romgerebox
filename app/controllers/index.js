@@ -9,13 +9,7 @@ import { tracked } from '@glimmer/tracking'
 
 export default class IndexController extends Controller {
 
-  @service intl
   @service router
-
-  availableLocales = ['fr', 'en']
-  get currentLocale() {
-    return this.intl.locale.firstObject
-  }
 
   @tracked mixCode = ''
   @tracked showValidationError = false
@@ -33,12 +27,6 @@ export default class IndexController extends Controller {
 
   get mixCodeValid() {
     return this.mixCodeRegExp.test(this.undashedMixCode)
-  }
-   
-
-  @action
-  localeChangeAction(locale) {
-    localStorage.setItem('romgereBoxLocale', locale)
   }
 
   @action

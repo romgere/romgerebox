@@ -6,7 +6,8 @@ export default class FlagLinkComponent extends Component {
   @service intl
 
   @action
-  changeLocale() {
+  changeLocale(e) {
+    e.preventDefault()
     let { locale } =this.args
     this.intl.setLocale(locale)
     this.args.onChange(locale)
