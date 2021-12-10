@@ -8,3 +8,19 @@
 .uk-button-noupper {
   text-transform: none;
 }
+
+.button-group-label {
+  line-height: 38px;
+  border: 1px solid #e5e5e5;
+
+  .label{
+    padding: 0 30px;
+  }
+
+  .progress {
+    height: 4px;
+    margin-top: -4px;
+    display: block;
+    background-color: red;
+  }
+}

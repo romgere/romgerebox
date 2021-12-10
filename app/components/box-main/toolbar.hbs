@@ -10,19 +10,20 @@
       <FaIcon @icon={{if @playing "stop" "play"}} />
     </button>
 
-    <button
-      type="button"
-      class="uk-button uk-button-default uk-text-primary uk-text-italic uk-button-noupper"
-      id="loop-button"
-      disabled
-    >
-      {{@loopValue}}% - 
-      {{#if (eq this.loopInfo 'side')}}
-        {{if @loopSideA "A" "B"}}
-      {{else}}
-        #{{@loopCount}}
-      {{/if}}
-    </button>
+    <div
+      class="button-group-label uk-text-primary uk-text-italic uk-button-noupper"
+    > 
+      <span class="label">
+        {{#if (eq this.loopInfo 'side')}}
+          {{if @loopSideA "A" "B"}}
+        {{else}}
+          #{{@loopCount}}
+        {{/if}}
+
+        
+      </span>
+      <span class="progress" style={{this.progressStyle}} />
+    </div>
 
     <button
       type="button"
