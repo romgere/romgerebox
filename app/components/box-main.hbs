@@ -1,10 +1,5 @@
-<nav class="uk-navbar-container" uk-navbar>
-  <LinkTo @route="index" class="uk-navbar-item uk-logo">
-    {{t 'app_title'}}
-  </LinkTo>
-</nav>
 
-<BoxToolbar
+<BoxMain::Toolbar
   @playing={{this.playing}}
   @loopSideA={{this.loopSideA}}
   @loopValue={{this.loopValue}}
@@ -28,7 +23,7 @@
 
   <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
     {{#each this.trackCountArray as |empty idx|}}
-      <BoxTrack @boxMain={{this}} @trackNumber={{inc idx}} />
+      <BoxMain::Track @boxMain={{this}} @trackNumber={{inc idx}} />
     {{/each}}
   </UkFlex>
 
@@ -36,10 +31,10 @@
   <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
     {{#each @samples as |sample|}}
       {{#if sample.isUsed}}
-        <BoxSample @sample={{sample}} />
+        <BoxMain::Sample @sample={{sample}} />
       {{else}}
         <DraggableObject @content={{sample}}>
-          <BoxSample @sample={{sample}} />
+          <BoxMain::Sample @sample={{sample}} />
         </DraggableObject>
       {{/if}}
     {{/each}}  
@@ -47,20 +42,8 @@
 </div>
 
 
-<UkModal @visible={{this.showMixCode}} @on-hide={{fn (mut this.showMixCode) false}} as |modal|>
-  <modal.header>
-    <h2 class="uk-modal-title">{{t 'box_main.mix_code_title'}}</h2>
-  </modal.header>
-  <modal.body>
-    <p class="uk-text-center">
-      {{t 'box_main.mix_code_notice'}}
-    </p>
-    <p class="uk-text-lead uk-text-primary">
-      <FaIcon @icon="tag" />
-      {{this.mixCode}}
-    </p>
-  </modal.body>
-  <modal.footer @class="uk-text-right">
-    <UkButton @color="primary" @label={{t 'box_main.mix_code_close_btn'}} @on-click={{fn (mut this.showMixCode) false}} />
-  </modal.footer>
-</UkModal>
+<BoxMain::MixCodeModal
+  @visible={{this.showMixCode}}
+  @onHide={{fn (mut this.showMixCode) false}}
+  @mixCode={{this.mixCode}}
+/>

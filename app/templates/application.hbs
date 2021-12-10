@@ -1,2 +1,20 @@
 {{page-title (t "app_title")}}
+<nav class="uk-navbar-container" uk-navbar>
+  <a class="uk-navbar-item uk-logo" href="#">
+    {{t 'app_title'}}
+  </a>
+
+  <div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+      {{#each this.availableLocales as |locale|}}
+        <Misc::LocaleLink
+          @locale={{locale}}
+          @selected={{eq locale this.currentLocale}}
+          @onChange={{this.localeChangeAction}}
+        />
+      {{/each}}
+    </ul>
+  </div>
+</nav>
+
 {{outlet}}

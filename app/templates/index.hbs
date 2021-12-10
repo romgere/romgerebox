@@ -1,21 +1,3 @@
-<nav class="uk-navbar-container" uk-navbar>
-  <a class="uk-navbar-item uk-logo" href="#">
-    {{t 'app_title'}}
-  </a>
-
-  <div class="uk-navbar-right">
-    <ul class="uk-navbar-nav">
-      {{#each this.availableLocales as |locale|}}
-        <FlagLink
-          @locale={{locale}}
-          @selected={{eq locale this.currentLocale}}
-          @onChange={{this.localeChangeAction}}
-        />
-      {{/each}}
-    </ul>
-  </div>
-</nav>
-
 <h2 class="uk-text-center">{{t 'index.choose_version'}}</h2>
 <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
   {{#each this.model.versions as |version idx|}}
@@ -42,7 +24,7 @@
       {{t 'index.mix_code_input.label'}}
     </label>
     {{#let (and this.showValidationError (not this.mixCodeValid)) as |showError|}}
-      <UkInput
+      <Misc::UkInput
         @placeholder={{t 'index.mix_code_input.placeholder'}}
         @value={{this.mixCode}}
         @type="text"

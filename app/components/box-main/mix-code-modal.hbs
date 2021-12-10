@@ -1,0 +1,17 @@
+<UkModal @visible={{@visible}} @on-hide={{@onHide}} as |modal|>
+  <modal.header>
+    <h2 class="uk-modal-title">{{t 'box_main.mix_code_title'}}</h2>
+  </modal.header>
+  <modal.body>
+    <p class="uk-text-center">
+      {{t 'box_main.mix_code_notice'}}
+    </p>
+    <p class="uk-text-lead uk-text-primary">
+      <FaIcon @icon="tag" />
+      {{@mixCode}}
+    </p>
+  </modal.body>
+  <modal.footer @class="uk-text-right">
+    <UkButton @color="primary" @label={{t 'box_main.mix_code_close_btn'}} @on-click={{@onHide}} />
+  </modal.footer>
+</UkModal>
