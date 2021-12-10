@@ -1,103 +1,73 @@
-import Component from '@ember/component';
-import { alias, notEmpty } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
+import Component from '@glimmer/component'
+import { inject as service } from '@ember/service'
+import { action } from '@ember/object'
+import Constants from 'romgerebox/constants'
 
-import Constants from 'romgerebox/constants';
-
-export default Component.extend({
-
-  audioService : service('audio'),
-
-  tagName : 'canvas',
-  classNames : ['vueMeter'],
+export default class VuMetterComponent extends Component {
 
 
-  classNameBindings: ['sampleColor'],
-  sampleColor: alias('sample.color'),
+  @service audio
 
-  attributeBindings: ['width', 'height'],
+  width = Constants.VUMETTER_CANVAS_WIDTH
+  height = Constants.VUMETTER_CANVAS_HEIGHT
 
-  width: Constants.VUMETTER_CANVAS_WIDTH,
-  height: Constants.VUMETTER_CANVAS_HEIGHT,
+  canvas = null
+  meter = null
 
-  meter: null,
+  // Keep ref to connected Stream and disconnect when sample change
+  connectedStreams = undefined
 
-  hasSample: notEmpty('sample'),
-  currentSample: null,
-
-  //Keep ref to connected Stream and disconnect when sample change
-  connectedStreams: null,
-
-  init() {
-    this._super(...arguments);
-
-    this.set('connectedStreams', []);
-
-    // grab the app audio context
-    let audioContext = this.get('audioService.audioContext');
+  constructor() {
+    super(...arguments)
 
     // Create a new volume meter and connect it.
     /* global createAudioMeter */
-    let meter = createAudioMeter(audioContext, Constants.VUMETTER_CLIPLVL, Constants.VUMETTER_AVG);
-    this.set('meter', meter);
-  },
+    this.meter = createAudioMeter(this.audio.audioContext, Constants.VUMETTER_CLIPLVL, Constants.VUMETTER_AVG) 
+  }
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    this.updateSample();
-  },
+  @action
+  registerCanvas(canvasElement) {
+    this.canvas = canvasElement
+  }
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.updateSample();
-  },
+  @action
+  updateSample(){
 
-  updateSample: function(){
+    let { meter } = this
+    let { sample } = this.args
 
-    let meter = this.get('meter');
+    // Connect sample stream to meter
+    if (sample){
+      let stream = sample.mediaStream
+      stream.connect(meter)
+      this.connectedStream = stream
+      this.onLevelChange()
+    } else {
+      // Disconnect the "old sample" (stream) from "meter"
+      this.connectedStream?.disconnect(meter)
+      this.connectedStreams = undefined
+    }
+  }
 
-    //Connect sample stream to meter
-    if( this.get('hasSample') ){
+  onLevelChange(){
+    let { canvas, meter, args: { sample } } = this
+    if (canvas && meter) {
 
-      if( this.get('currentSample') != this.get('sample') ){
+      let canvasContext = canvas.getContext("2d")
+      canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT)
 
-          this.set('currentSample', this.get('sample'));
-          let stream = this.get('sample').mediaStream
-          stream.connect( meter);
-          this.get('connectedStreams').pushObject(stream)
+      if (sample) {
+        canvasContext.fillStyle = "#FFF"
+        canvasContext.fillRect(
+          0,
+          0,
+          Constants.VUMETTER_CANVAS_WIDTH,
+          Constants.VUMETTER_CANVAS_HEIGHT - (meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO)
+        )
 
-          this.onLevelChange();
+        window.requestAnimationFrame( this.onLevelChange.bind(this))
       }
     }
-    //Disconnect the "old sample" (stream) from "meter"
-    else{
-      this.get('connectedStreams').forEach(( stream) => {
-        stream.disconnect( meter);
-      });
+  }
 
-      this.set('connectedStreams', []);
-
-      this.set('currentSample', null);
-    }
-  },
-
-  onLevelChange: function(){
-    if( this.get('element') ){
-
-      let canvasContext = this.get('element').getContext("2d");
-      let meter = this.get('meter');
-
-      canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT);
-
-      if( this.get('hasSample') && meter ){
-
-        canvasContext.fillStyle = "#FFF";
-        canvasContext.fillRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT-(meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO));
-      }
-    }
-
-    window.requestAnimationFrame( this.onLevelChange.bind(this));
-
-  },
-
-});
+}
