@@ -1,8 +1,9 @@
 <div
   draggable
   role="button"
-  class="boxSample {{this.additionnalClasses}}" 
+  class="boxSample {{this.additionnalClasses}}"
   uk-tooltip={{t (if @sample.isUsed 'box_sample.used_tooltip' 'box_sample.drag_tooltip')}}
+  ...attributes
   {{on "dblclick" this.play}}
 >
   <FaIcon @icon={{@sample.icon}} />

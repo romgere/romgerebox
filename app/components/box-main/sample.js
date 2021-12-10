@@ -15,7 +15,7 @@ export default class BoxSampleComponent extends Component{
       classes.push('is-used')
     }
 
-    return classes
+    return classes.join(' ')
   }
   
   @action

@@ -17,11 +17,11 @@ export default class BoxTrackComponent extends Component {
     }
 
     if (this.dragPending) {
-      classes.push('dragPending')
+      classes.push('drag-pending')
     }
 
     if (this.args.sample) {
-      classes.push('hasSample')
+      classes.push('has-sample')
     }
 
     return classes.join(' ')

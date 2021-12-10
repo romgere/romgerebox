@@ -1,9 +1,12 @@
 <div
+  class="uk-flex uk-flex-column"
+  uk-height-viewport="expand: true"
   {{did-insert this.updateFromMixConf}}
   {{did-update this.updateFromMixConf @mixConf}}
 >
 
   <BoxMain::Toolbar
+    class="uk-flex-none uk-margin-top"
     @playing={{this.audio.isPlaying}}
     @loopSideA={{this.audio.isLoopSideA}}
     @loopCount={{this.audio.loopCount}}
@@ -21,36 +24,33 @@
     @saveAction={{this.showMixCodeModal}}
   />
 
-  <div>
-  
-    <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
-      {{#each this.audio.trackSamples as |sample idx|}}
-        <BoxMain::Track
-          @sample={{sample}}
-          @trackNumber={{inc idx}}
-          @isSolo={{eq this.soloTrack idx}}
-          @onVolumeChange={{fn this.changeVolume idx}}
-          @onMuteToggle={{fn this.muteToggle idx}}
-          @onSoloToggle={{fn this.soloToggle idx}}
-          
-          @onDropSample={{fn this.bindSample idx}}
-          @onClearSample={{fn this.unbindSample idx}}
-        />
-      {{/each}}
-    </UkFlex>
+  <div class="uk-flex uk-flex-around">
+    {{#each this.audio.trackSamples as |sample idx|}}
+      <BoxMain::Track
+        @sample={{sample}}
+        @trackNumber={{inc idx}}
+        @isSolo={{eq this.soloTrack idx}}
+        @onVolumeChange={{fn this.changeVolume idx}}
+        @onMuteToggle={{fn this.muteToggle idx}}
+        @onSoloToggle={{fn this.soloToggle idx}}
+        
+        @onDropSample={{fn this.bindSample idx}}
+        @onClearSample={{fn this.unbindSample idx}}
+      />
+    {{/each}}
+  </div>
 
-    <h3 class="uk-text-center">{{t 'box_main.sample_title'}} : </h3>
-    <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
-      {{#each @samples as |sample|}}
-        {{#if sample.isUsed}}
-          <BoxMain::Sample @sample={{sample}} />
-        {{else}}
-          <DraggableObject @content={{sample}}>
-            <BoxMain::Sample @sample={{sample}} />
-          </DraggableObject>
-        {{/if}}
-      {{/each}}  
-    </UkFlex>
+  <span class="uk-flex-none uk-text-center uk-text-lead uk-margin-top">{{t 'box_main.sample_title'}} : </span>
+  <div class="uk-flex-none uk-flex uk-flex-center uk-flex-wrap uk-margin uk-margin-left uk-margin-right">
+    {{#each @samples as |sample|}}
+      {{#if sample.isUsed}}
+        <BoxMain::Sample @sample={{sample}} class="uk-margin-right" />
+      {{else}}
+        <DraggableObject @content={{sample}}>
+          <BoxMain::Sample @sample={{sample}} class="uk-margin-right" />
+        </DraggableObject>
+      {{/if}}
+    {{/each}}  
   </div>
 </div>
 

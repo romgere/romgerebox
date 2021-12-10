@@ -9,16 +9,16 @@
     @dragOutAction={{fn (mut this.dragPending) false}}
   >
 
-    <div>
+    <div class="uk-text-center track-icon">
       <FaIcon
         @size="2x"
-        @icon={{if @sample.icon @sample.icon 'question-circle-o'}}
+        @icon={{if @sample.icon @sample.icon 'question-circle'}}
         class={{if @sample.color @sample.color 's-color-0'}}
       />    
     </div>
 
-    <div>
-      <BoxMain::VuMetter @sample={{@sample}} />
+    <div class="uk-text-center">
+      <BoxMain::VuMeter @sample={{@sample}} />
     </div>
 
     <div class="volumeBar">
@@ -41,10 +41,10 @@
     </div>
 
 
-    <div class="uk-button-group">
+    <div class="uk-flex uk-flex-around uk-margin-top">
       <button
         type="button"
-        class="uk-button {{if @sample.isMute "uk-button-danger" "uk-button-default"}}"
+        class="uk-button uk-button-round {{if @sample.isMute "uk-button-danger" "uk-button-default"}}"
         disabled={{not @sample}}
         uk-tooltip={{t 'box_track.mute_tooltip'}}
         {{on "click" @onMuteToggle}}
@@ -54,7 +54,7 @@
 
       <button
         type="button"
-        class="uk-button {{if @isSolo "uk-button-primary" "uk-button-default"}}"
+        class="uk-button uk-button-round {{if @isSolo "uk-button-primary" "uk-button-default"}}"
         disabled={{not @sample}}
         uk-tooltip={{t 'box_track.solo_tooltip'}}
         {{on "click" @onSoloToggle}}
@@ -63,10 +63,10 @@
       </button>
     </div>
 
-    <div>
+    <div class="uk-flex uk-flex-around">
       <button
         type="button"
-        class="uk-button uk-button-default"
+        class="uk-button uk-button-round uk-button-default"
         disabled={{not @sample}}
         uk-tooltip={{t 'box_track.delete_tooltip'}}
         {{on "click" @onClearSample}}
@@ -75,9 +75,9 @@
       </button>
     </div>
 
-    <div class="flex-initial trackNumber">
+    {{!-- <div class="uk-text-meta uk-text-center uk-margin-top">
       #{{@trackNumber}}
-    </div>
+    </div> --}}
   </DraggableObjectTarget>
 
 </div>
