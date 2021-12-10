@@ -14,16 +14,16 @@ export default class IndexController extends Controller {
 
   availableLocales = ['fr', 'en']
   get currentLocale() {
-    return intl.locale.firstObject
+    return this.intl.locale.firstObject
   }
 
   @tracked mixCode = ''
   @tracked showValidationError = false
 
   get mixCodeRegExp() {
-    let maxVersionChar = intToChar(this.model.versions.length-1);
-    let regExp = `[A-${maxVersionChar}]`;
-    regExp += '[A-Z]{'+Constants.TRACK_COUNT+'}'
+    let maxVersionChar = intToChar(this.model.versions.length-1)
+    let regExp = `[A-${maxVersionChar}]`
+    regExp += `[A-Z]{${Constants.TRACK_COUNT}}`
     return new RegExp(regExp) 
   }
 
@@ -49,7 +49,7 @@ export default class IndexController extends Controller {
     let mixConf = []
     let usedSample = []
     mixCode.substring(1).split('').forEach((c, i) => {
-      if (usedSample.indexOf(c) == -1 ) {
+      if (usedSample.indexOf(c) === -1 ) {
         mixConf[i] = charToInt(c)
         usedSample.pushObject(c)
       }

@@ -7,8 +7,6 @@ import { cloneBuffer } from 'romgerebox/misc/clone-buffer';
 
 export default Service.extend({
 
-  userAgent : service(),
-
   //Audio Context for application (one instance)
   audioContext: null,
 

@@ -1,6 +1,6 @@
-import EmberObject from '@ember/object';
-import { notEmpty } from '@ember/object/computed';
-import Constants from 'romgerebox/constants';
+import EmberObject from '@ember/object'
+import Constants from 'romgerebox/constants'
+import { notEmpty } from '@ember/object/computed'
 
 export default EmberObject.extend({
 

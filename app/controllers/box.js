@@ -14,6 +14,7 @@ export const mixConfigParams = new QueryParams({
     serialize(value) {
       return value.join('|')
     },
+
     deserialize(value = '') {
       return A(value.split('|'))
     }
