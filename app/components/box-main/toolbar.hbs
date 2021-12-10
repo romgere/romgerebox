@@ -43,10 +43,6 @@
     <FaIcon @icon="circle" />
   </button>
 
-  <button class="uk-button uk-button-default" type="button" disabled>
-    {{ms-to-time @recordingTime}}
-  </button>
-
   <button
     type="button"
     class="uk-button {{if @micEnable "uk-button-danger" "uk-button-default"}}"
@@ -55,4 +51,19 @@
   >
     <FaIcon @icon={{if @micEnable 'microphone-alt' 'microphone-alt-slash'}} />
   </button>
+
+  <button class="uk-button uk-button-default" type="button" disabled>
+    {{ms-to-time @recordingTime}}
+  </button>
+
+  <button
+    type="button"
+    class="uk-button uk-button-default"
+    disabled={{not @canDownload}}
+    uk-tooltip={{t 'box_main.download_record'}}
+    {{on "click" @downloadAction}}
+  >
+    <FaIcon @icon="file-download" />
+  </button>
+
 </div>

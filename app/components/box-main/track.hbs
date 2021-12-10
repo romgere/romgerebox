@@ -1,24 +1,24 @@
 <div
-  class="boxTrack"
-  uk-tooltip={{unless this.sample (t 'box_track.drop_tooltip')}}
+  class="boxTrack {{this.additionnalClasses}}"
+  uk-tooltip={{unless @sample (t 'box_track.drop_tooltip')}}
 >
 
   <DraggableObjectTarget
-    @action={{this.onDragSample}}
-    @dragOverAction={{this.onOverAction}}
-    @dragOutAction={{this.onDragOutAction}}
+    @action={{@onDropSample}}
+    @dragOverAction={{fn (mut this.dragPending) true}}
+    @dragOutAction={{fn (mut this.dragPending) false}}
   >
 
     <div>
       <FaIcon
         @size="2x"
-        @icon={{if this.sampleIcon this.sampleIcon 'question-circle-o'}}
-        class={{if this.sampleColor this.sampleColor 's-color-0'}}
+        @icon={{if @sample.icon @sample.icon 'question-circle-o'}}
+        class={{if @sample.color @sample.color 's-color-0'}}
       />    
     </div>
 
     <div>
-      <BoxMain::VuMetter @sample={{this.sample}} />
+      <BoxMain::VuMetter @sample={{@sample}} />
     </div>
 
     <div class="volumeBar">
@@ -33,10 +33,10 @@
         step="1"
         title={{t 'box_track.volume_title'}}
         max={{this.maxVolume}}
-        value={{this.sample.volume}}
-        disabled={{not this.sample}}
-        {{on "change" this.changeVolume}}
-        {{on "input" this.changeVolume}}
+        value={{@sample.volume}}
+        disabled={{not @sample}}
+        {{on "change" (pick "target.value" @onVolumeChange)}}
+        {{on "input" (pick "target.value" @onVolumeChange)}}
       >
     </div>
 
@@ -44,20 +44,20 @@
     <div class="uk-button-group">
       <button
         type="button"
-        class="uk-button {{if this.sample.mute "uk-button-danger" "uk-button-default"}}"
-        disabled={{not this.sample}}
+        class="uk-button {{if @sample.isMute "uk-button-danger" "uk-button-default"}}"
+        disabled={{not @sample}}
         uk-tooltip={{t 'box_track.mute_tooltip'}}
-        {{on "click" this.muteToggle}}
+        {{on "click" @onMuteToggle}}
       >
-        <FaIcon @icon={{if this.sample.mute "volume-mute" "volume-up"}} />
+        <FaIcon @icon={{if @sample.isMute "volume-mute" "volume-up"}} />
       </button>
 
       <button
         type="button"
-        class="uk-button {{if this.solo "uk-button-primary" "uk-button-default"}}"
-        disabled={{not this.sample}}
-        uk-tooltip={{t 'box_track.mute_tooltip'}}
-        {{on "click" this.soloAction}}
+        class="uk-button {{if @isSolo "uk-button-primary" "uk-button-default"}}"
+        disabled={{not @sample}}
+        uk-tooltip={{t 'box_track.solo_tooltip'}}
+        {{on "click" @onSoloToggle}}
       >
         <FaIcon @icon="music" />
       </button>
@@ -67,9 +67,9 @@
       <button
         type="button"
         class="uk-button uk-button-default"
-        disabled={{not this.sample}}
+        disabled={{not @sample}}
         uk-tooltip={{t 'box_track.delete_tooltip'}}
-        {{on "click" this.removeAction}}
+        {{on "click" @onClearSample}}
       >
         <FaIcon @icon="trash-alt" />
       </button>

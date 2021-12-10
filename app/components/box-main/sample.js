@@ -1,9 +1,12 @@
 import Component from '@glimmer/component'
 import { tracked } from '@glimmer/tracking'
 import { action } from '@ember/object'
+import { inject as service } from '@ember/service'
 
 export default class BoxSampleComponent extends Component{
   
+  @service audio
+
   @tracked isSinglePlaying = false
 
   get additionnalClasses() {
@@ -11,6 +14,7 @@ export default class BoxSampleComponent extends Component{
     if (this.isSinglePlaying || this.args.sample.isUsed) {
       classes.push('is-used')
     }
+
     return classes
   }
   
@@ -18,7 +22,7 @@ export default class BoxSampleComponent extends Component{
   play() {
     if (!this.isUsed) {
       this.isSinglePlaying = true
-      this.args.sample.playOnce().finally(() => {
+      this.audio.playSampleOnce().finally(() => {
         this.isSinglePlaying = false
       })
     }

@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route'
 import { isEmpty } from '@ember/utils'
 import { inject as service } from '@ember/service'
-import SampleObject from 'romgerebox/models/sample'
+import SampleModel from 'romgerebox/models/sample'
 import fetch from 'fetch'
 
 export default class ApplicationRoute extends Route {
@@ -23,14 +23,14 @@ export default class ApplicationRoute extends Route {
     }
 
     async model() {
-      let samplesConf = await fetch('./samples/samples.json').then(function(response) {
+      let samplesConf = await fetch('./samples/samples.json').then(function (response) {
         return response.json()
       })
         
       // Create Ember Object for sample
       samplesConf.versions.forEach(function (version){
         version.samples = version.samples.map(function (sample){
-            return SampleObject.create(sample)
+            return new SampleModel(sample, version)
         })
       })
 

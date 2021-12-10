@@ -1,20 +1,20 @@
-
 <BoxMain::Toolbar
-  @playing={{this.playing}}
-  @loopSideA={{this.loopSideA}}
-  @loopValue={{this.loopValue}}
-  @loopCount={{this.loopCount}}
 
-  @recording={{this.recording}}
-  @showDownload={{and (not this.recording) this.recordedFileUri}}
-  @recordingTime={{this.recordingTime}}
-  @micEnable={{this.micEnable}}
+  @playing={{this.audio.isPlaying}}
+  @loopSideA={{this.audio.isLoopSideA}}
+  @loopCount={{this.audio.loopCount}}
+  @loopValue={{this.audio.currentLoopValue}}
+
+  @recording={{this.audio.isRecording}}
+  @micEnable={{this.audio.isMicroEnable}}
+  @recordingTime={{this.audio.recordTime}}
+  @canDownload={{and (not this.audio.isRecording) this.audio.recordedFileUri}}
 
   @playAction={{this.togglePlay}}
-  @saveAction={{this.showMixCodeModal}}
   @recordAction={{this.toggleRecord}}
   @micAction={{this.toggleMic}}
-  @downloadAction={{this.downloadAudioAction}}
+  @downloadAction={{this.downloadRecord}}
+  @saveAction={{this.showMixCodeModal}}
 />
 
 
@@ -22,8 +22,18 @@
  
 
   <UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
-    {{#each this.trackCountArray as |empty idx|}}
-      <BoxMain::Track @boxMain={{this}} @trackNumber={{inc idx}} />
+    {{#each this.audio.trackSamples as |sample idx|}}
+      <BoxMain::Track
+        @sample={{sample}}
+        @trackNumber={{inc idx}}
+        @isSolo={{eq this.soloTrack idx}}
+        @onVolumeChange={{fn this.changeVolume idx}}
+        @onMuteToggle={{fn this.muteToggle idx}}
+        @onSoloToggle={{fn this.soloToggle idx}}
+        
+        @onDropSample={{fn this.audio.bindSample idx}}
+        @onClearSample={{fn this.audio.unbindSample idx}}
+      />
     {{/each}}
   </UkFlex>
 

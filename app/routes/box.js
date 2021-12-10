@@ -2,36 +2,37 @@ import Route from '@ember/routing/route'
 import { hash } from 'rsvp'
 import { inject as service } from '@ember/service'
 
-import Constants from 'romgerebox/constants'
-
 export default class BoxRoute extends Route {
 
-  @service('audio') audio
+  @service audio
+  @service sample
 
   model(params) {
     let versionIdx = parseInt(params.version_idx)
+    
+    // Get info about "version" (loop duration, name, samples)
     let version = this.modelFor('application').versions[versionIdx]
+
+    // Update loopTime on audio service
+    this.audio.loopTime = version.loopTime
 
     return hash({
       // Load the "Audio" elements for all samples
-      samples: this.loadSample(version.samples, version.loopTime),
-      // Metronome timing
-      loopTime: version.loopTime,
+      samples: this.initSample(version.samples),
       // Version index
       versionIdx
     })
   }
 
-  loadSample(samples, loopTime) {
+  initSample(samples) {
 
     let loadSamplesPromises = samples.map(async (sample) => {
       if (!sample.mediaStreamInit) {
-        await this.audio.initAudioSample(sample, loopTime)
+        await this.sample.initAudioSample(sample)
       }
 
-      // New mix "reset" old changes
-      sample.isUsed = false
-      sample.volume = Constants.INITIAL_TRACK_VOLUME
+      // "reset" sample settings (from old mix)
+      this.sample.releaseSample(sample)
 
       return sample
     })

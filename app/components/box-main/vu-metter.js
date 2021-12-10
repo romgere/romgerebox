@@ -62,10 +62,9 @@ export default Component.extend({
       if( this.get('currentSample') != this.get('sample') ){
 
           this.set('currentSample', this.get('sample'));
-          this.get('sample').getMediaStreams().forEach(( stream) => {
-            stream.connect( meter);
-            this.get('connectedStreams').pushObject( stream);
-          });
+          let stream = this.get('sample').mediaStream
+          stream.connect( meter);
+          this.get('connectedStreams').pushObject(stream)
 
           this.onLevelChange();
       }
