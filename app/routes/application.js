@@ -7,7 +7,7 @@ import fetch from 'fetch'
 export default class ApplicationRoute extends Route {
 
     @service intl
-    
+    @service router
     @service audio
 
     audioUnlockPreviousTransition = null
@@ -49,7 +49,7 @@ export default class ApplicationRoute extends Route {
         // Deal with "suspended" audio Context on Safari
         transition.abort()
         this.audioUnlockPreviousTransition = transition
-        this.transitionTo('unlock-audio')
+        this.router.transitionTo('unlock-audio')
       }
     }
 
@@ -60,7 +60,7 @@ export default class ApplicationRoute extends Route {
         transition.retry()
       }
       else{
-        this.transitionTo('index')
+        this.router.transitionTo('index')
       }
     }
 }
