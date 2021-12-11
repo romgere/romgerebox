@@ -10,10 +10,6 @@
     border-color: gray;
   }
 
-  &.drag-pending{
-    border-color: gray;
-  }
-
   &.s-color-0 {
     border-color: $color-0;
     box-shadow: $color-0 0px 0px 5px 2px;
@@ -33,6 +29,10 @@
   &.s-color-4 {
     border-color: $color-4;
     box-shadow: $color-4 0px 0px 5px 2px;
+  }
+
+  &.drag-pending{
+    border-color: gray;
   }
 
   .uk-button {

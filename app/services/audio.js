@@ -73,7 +73,7 @@ export default class AudioService extends Service {
     window.AudioContext = window.AudioContext || window.webkitAudioContext
     this.audioContext = new AudioContext()
     
-    this.initRecorder()
+    this._initRecorder()
 
     this.trackSamples = A(new Array(Constants.TRACK_COUNT).fill(undefined))
   }
@@ -153,7 +153,7 @@ export default class AudioService extends Service {
     let oldSample = this.trackSamples.objectAt(trackIdx)
 
     if (oldSample) {
-      this._clearSample(sample)
+      this._clearSample(oldSample)
     }
 
     this.trackSamples.replace(trackIdx, 1, [sample])
@@ -186,16 +186,13 @@ export default class AudioService extends Service {
     clearInterval(this._loopProgressInterval)
   }
 
-  initRecorder() {
-    let { audioContext } = this
-
+  _initRecorder() {
     // Create, once for all, a stream (for the recorder)
-    let recorderDestinationStream = audioContext.createGain()
-    this.recorderDestinationStream = recorderDestinationStream
+    this.recorderDestinationStream = this.audioContext.createGain()
 
     // Same for web audio recorder
     /* global WebAudioRecorder */
-    this.recorder = new WebAudioRecorder(recorderDestinationStream, {
+    this.recorder = new WebAudioRecorder(this.recorderDestinationStream, {
       workerDir: "web-audio-recorder/",
       encoding: Constants.RECORDING_FORMAT,
       
