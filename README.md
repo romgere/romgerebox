@@ -4,6 +4,14 @@ Music "Loop box" : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
 
 Samples come from [slooply.com](https://slooply.com/sample-packs/free) / Inspired by [incredibox](https://www.incredibox.com/).
 
+TODO 2021 : 
+
+- Write tests
+- Swicth to Typescript
+- check if it's possible to use web-audio-recorder as regular npm package
+- integrate volume-meter into app code
+- get rid of ember-ui-kit
+
 
 ## Prerequisites
 
@@ -34,6 +42,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 * `ember test`
 * `ember test --server`
+
+### Linting
+
+* `yarn lint`
+* `yarn lint:fix`
 
 ### Building
 

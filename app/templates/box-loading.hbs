@@ -1,6 +1,12 @@
-{{#paper-dialog class="flex-50" fullscreen=fullscreen clickOutsideToClose=false}}
-    {{#paper-dialog-content}}
-        <p>{{t 'box_loading'}}</p>
-        {{paper-progress-linear}}
-    {{/paper-dialog-content}}
-{{/paper-dialog}}
+<UkModal
+  @modalClass="uk-flex-top"
+  @dialogClass="uk-margin-auto-vertical"
+  @visible={{true}}
+as |modal|>
+  <modal.body>
+    <p class="uk-text-center">
+      <p>{{t 'box_loading'}}</p>
+      <UkSpinner @ratio={{4}} />
+    </p>
+  </modal.body>
+</UkModal>

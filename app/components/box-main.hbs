@@ -1,0 +1,61 @@
+<div
+  class="uk-flex uk-flex-column"
+  uk-height-viewport="expand: true"
+  {{did-insert this.updateFromMixConf}}
+  {{did-update this.updateFromMixConf @mixConf}}
+>
+
+  <BoxMain::Toolbar
+    class="uk-flex-none uk-margin-top"
+    @playing={{this.audio.isPlaying}}
+    @loopSideA={{this.audio.isLoopSideA}}
+    @loopCount={{this.audio.loopCount}}
+    @loopValue={{this.audio.currentLoopValue}}
+
+    @recording={{this.audio.isRecording}}
+    @micEnable={{this.audio.isMicroEnable}}
+    @recordingTime={{this.audio.recordTime}}
+    @canDownload={{and (not this.audio.isRecording) this.audio.recordedFileUri}}
+
+    @playAction={{this.togglePlay}}
+    @recordAction={{this.toggleRecord}}
+    @micAction={{this.toggleMic}}
+    @downloadAction={{this.downloadRecord}}
+    @saveAction={{this.showMixCodeModal}}
+  />
+
+  <div class="uk-flex uk-flex-around">
+    {{#each this.audio.trackSamples as |sample idx|}}
+      <BoxMain::Track
+        @sample={{sample}}
+        @trackNumber={{inc idx}}
+        @isSolo={{eq this.soloTrack idx}}
+        @onVolumeChange={{fn this.changeVolume idx}}
+        @onMuteToggle={{fn this.muteToggle idx}}
+        @onSoloToggle={{fn this.soloToggle idx}}
+        
+        @onDropSample={{fn this.bindSample idx}}
+        @onClearSample={{fn this.unbindSample idx}}
+      />
+    {{/each}}
+  </div>
+
+  <span class="uk-flex-none uk-text-center uk-text-lead uk-margin-top">{{t 'box_main.sample_title'}} : </span>
+  <div class="uk-flex-none uk-flex uk-flex-center uk-flex-wrap uk-margin uk-margin-left uk-margin-right">
+    {{#each @samples as |sample|}}
+      {{#if sample.isUsed}}
+        <BoxMain::Sample @sample={{sample}} class="uk-margin-right" />
+      {{else}}
+        <DraggableObject @content={{sample}}>
+          <BoxMain::Sample @sample={{sample}} class="uk-margin-right" />
+        </DraggableObject>
+      {{/if}}
+    {{/each}}  
+  </div>
+</div>
+
+<BoxMain::MixCodeModal
+  @visible={{this.showMixCode}}
+  @onHide={{fn (mut this.showMixCode) false}}
+  @mixCode={{this.currentMixCode}}
+/>

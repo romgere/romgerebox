@@ -1,48 +1,52 @@
-<a style="position: fixed; top: 0px; left: 0px; z-index: 9999;" href="https://github.com/romgere/romgerebox"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
-{{#paper-toolbar class="flex-initial"}}
-  {{#paper-toolbar-tools}}
-    <div class="flex-60 flex-offset-20">
-      <h2 style="margin-left: 0px; text-align: center;">
-        {{t 'app_title'}}
-      </h2>
-    </div>
-    <div class="flex-20 layout-row layout-align-end-center">
-      {{#each availableLocales as |locale|}}
-        {{flag-btn locale=locale selected=(eq locale currentLocale) onChange=(action 'localeChangeAction')}}
-      {{/each}}
-    </div>
-  {{/paper-toolbar-tools}}
-{{/paper-toolbar}}
-
-<h2 style="text-align: center;">{{t 'index.choose_version'}}</h2>
-<div class="layout-row layout-xs-column layout-align-space-around-center">
-
-  {{#each model.versions as |version idx|}}
-    {{#paper-button raised=true primary=true onClick=(transition-to "box" idx (query-params mixConf=(default-mix-conf)))}}
+<h2 class="uk-text-center">{{t 'index.choose_version'}}</h2>
+<UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
+  {{#each this.model.versions as |version idx|}}
+    <UkButton
+      @color="primary"
+      @size="small"
+      @fill={{true}}
+      @on-click={{transition-to "box" idx (query-params mixConf=(default-mix-conf))}}
+    >
       {{version.name}}
-    {{/paper-button}}
+    </UkButton>
   {{/each}}
+</UkFlex>
 
-</div>
 
-<br /><br />
+<h2 class="uk-text-center">{{t 'index.load_mix_code'}}</h2>
 
-<h2 style="text-align: center;">
-  {{t 'index.load_mix_code'}}
-</h2>
-<div class="layout-column layout-align-center-center">
-  <p style="text-align: center;">{{t 'index.enter_mix_code'}}</p>
-  {{paper-input-mask
-    mask=mixCodeinputMask
-    customValidations=mixCodeValidation
-    label=(t 'index.mix_code_input.label')
-    placeholder=(t 'index.mix_code_input.placeholder')
-    icon="loyalty"
-    type="text"
-    value=mixCode
-    onChange=(action (mut mixCode))
-  }}
-  {{#paper-button disabled=(not mixCodeValid) primary=true raised=true onClick=(action 'loadMixCode')}}
+<div class="uk-text-center">
+
+  <p class="uk-text-center">{{t 'index.enter_mix_code'}}</p>
+  
+  <div class="uk-margin">
+    <label class="uk-form-label" for="mix-code-input">
+      {{t 'index.mix_code_input.label'}}
+    </label>
+    {{#let (and this.showValidationError (not this.mixCodeValid)) as |showError|}}
+      <Misc::UkInput
+        @placeholder={{t 'index.mix_code_input.placeholder'}}
+        @value={{this.mixCode}}
+        @type="text"
+        @onChange={{fn (mut this.mixCode)}}
+        id="mix-code-input"
+        class="uk-input uk-form-width-medium {{if showError "uk-form-danger"}}"
+        {{on "blur" (fn (mut this.showValidationError) true)}}
+      />
+      
+      {{#if showError}}
+        <span class="uk-text-danger">{{t "index.mix_code_input.invalid"}}</span>
+      {{/if}}
+    {{/let}}
+  </div>
+  
+  <UkButton
+    @color="primary"
+    @size="small"
+    @fill={{true}}
+    @disabled={{not this.mixCodeValid}}
+    @on-click={{this.loadMixCode}}
+  >
     {{t 'index.load'}}
-  {{/paper-button}}
+  </UkButton>
 </div>

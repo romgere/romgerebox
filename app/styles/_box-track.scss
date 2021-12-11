@@ -1,0 +1,45 @@
+.boxTrack {
+
+  border: 2px solid #d4d4d4;
+  border-radius: 6px;
+  margin: 10px 5px;
+  padding: 10px 0px 4px 0px;
+  max-width: 110px;
+
+  &:hover:not(.has-sample){
+    border-color: gray;
+  }
+
+  &.drag-pending{
+    border-color: gray;
+  }
+
+  &.s-color-0 {
+    border-color: $color-0;
+    box-shadow: $color-0 0px 0px 5px 2px;
+  }
+  &.s-color-1 {
+    border-color: $color-1;
+    box-shadow: $color-1 0px 0px 5px 2px;
+  }
+  &.s-color-2 {
+    border-color: $color-2;
+    box-shadow: $color-2 0px 0px 5px 2px;
+  }
+  &.s-color-3 {
+    border-color: $color-3;
+    box-shadow: $color-3 0px 0px 5px 2px;
+  }
+  &.s-color-4 {
+    border-color: $color-4;
+    box-shadow: $color-4 0px 0px 5px 2px;
+  }
+
+  .uk-button {
+    &.uk-button-round {
+      padding: 0;
+      width: 40px;
+      border-radius: 19px;
+    }
+  }
+}

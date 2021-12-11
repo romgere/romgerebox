@@ -1,115 +1,296 @@
-import Service from '@ember/service';
-import { inject as service } from '@ember/service';
+import Service, { inject as service } from '@ember/service'
+import Constants from 'romgerebox/constants'
+import { tracked } from '@glimmer/tracking'
+import { A } from '@ember/array'
+import { action } from '@ember/object'
 
-import Constants from 'romgerebox/constants';
+// Handle all the logic of sync playing somes tracks made of sample
+export default class AudioService extends Service {
 
-import { cloneBuffer } from 'romgerebox/misc/clone-buffer';
+  @service('sample') sampleService
 
-export default Service.extend({
+  // Audio Context for application (one instance)
+  audioContext = null
 
-  userAgent : service(),
+  // Array of samples used on tracks
+  @tracked trackSamples = undefined
+    
+  // Play stuff
+  @tracked isPlaying = false
+  loopTime = 0 // Duration of a loop
+  @tracked currentPlayTime = 0
+  startPlayTime = 0 // "audioContext.currentTime" when start playing for sync
 
-  //Audio Context for application (one instance)
-  audioContext: null,
-
-  init() {
-    this._super(...arguments);
-
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    let audioContext = new AudioContext();
-
-    this.set('audioContext', audioContext);
-  },
-
-  /**
-   * Create and set mediaStreamSource on sample for audio file (A & B)
-   * @param Sample sample     Sample to used (model)
-   * @param integer loopTime  Time of loop in second
-   */
-  initAudioSample: async function( sample, loopTime){
-
-    sample.set('loopTime', loopTime);
-
-    let audioContext = this.get('audioContext');
-    let sampleMediaSource = null;
-
-    //Load buffer and create BufferSource with buffer(s)s
-    let buffer = await this._loadAudioBufferFromFile( sample.get('file_a'));
-    if( sample.get('doubleSample') ){
-
-      let buffer_b = await this._loadAudioBufferFromFile( sample.get('file_b'));
-
-      //Concat buffers
-      let tmp = new Uint8Array(buffer.byteLength + buffer_b.byteLength);
-      tmp.set(new Uint8Array(buffer), 0);
-      tmp.set(new Uint8Array(buffer_b), buffer.byteLength);
-
-      buffer = tmp.buffer;
+  get playTime(){
+    if (!this.isPlaying) {
+      return 0
     }
-    sample.set('buffer', buffer);
-
-    sampleMediaSource = await this._createBufferSource( buffer, loopTime);
-    sample.set('sampleMediaSource', sampleMediaSource);
-
-
-    //Create GainNode to control volume
-    let gainNode = audioContext.createGain();
-    sampleMediaSource.connect( gainNode);
-    sample.set('gainNode', gainNode);
-
-    //Connecte gainNode to output
-    gainNode.connect(audioContext.destination);
-
-    sample.set('volume', Constants.INITIAL_TRACK_VOLUME);
-    sample.set('audioService', this);
-    sample.set('sampleInit', true);
-  },
-
-  /**
-   * Load audio file and create audio buffer
-   * @author mestresj
-   * @param  string url             URL of audio file
-   * @return Promise<ArrayBuffer>   Promise resolve with AudioBuffer if success
-   */
-  _loadAudioBufferFromFile: function( url ){
-
-    let request = new XMLHttpRequest();
-    request.open('GET', '/samples/'+url, true);
-    request.responseType = 'arraybuffer';
-    return new Promise((resolve, reject) => {
-
-      request.onload = function(){
-          resolve(request.response);
-      };
-
-      request.onError = reject;
-
-      request.send();
-    });
-  },
-
-  /**
-   * Create a bufferSource with buffer(s)
-   * @author mestresj
-   * @param  ArrayBuffer buffer         Sample Array buffer
-   * @return AudioBuffer                 Buffer source for playing array(s) buffer(s)
-   */
-  _createBufferSource: function( buffer, loopTime){
-
-    let audioContext = this.get('audioContext');
-    return new Promise((resolve, reject) => {
-
-      //Clone buffer to keep it in sample to create again an audioBufferSource each time we stop it
-      audioContext.decodeAudioData( cloneBuffer(buffer), function(response) {
-
-          let audio = audioContext.createBufferSource();
-          audio.buffer = response;
-          audio.loop = true;
-          audio.loopEnd = loopTime;
-
-          resolve( audio);
-      }, reject);
-    });
+  
+    return this.currentPlayTime - this.startPlayTime
   }
 
-});
+  get currentLoopTime(){
+    return this.playTime % this.loopTime
+  }
+
+  get currentLoopValue(){
+    return parseInt(this.currentLoopTime / this.loopTime * 100)
+  }
+
+  get loopCount() {
+    return Math.ceil(this.playTime / this.loopTime)
+  }
+
+  get isLoopSideA() {
+    return (this.playTime / this.currentLoopTime) % 2 > 1
+  }
+
+  get isLoopSideB() {
+    return !this.isLoopSideA
+  }
+
+  // Recorder stuff
+  recorder = undefined
+  recorderDestinationStream = undefined
+  @tracked recordedFileUri = undefined
+
+  @tracked isRecording = false
+  startRecordTime = 0
+  @tracked currentRecordTime = 0
+
+  get recordTime(){
+    return this.currentRecordTime - this.startRecordTime
+  }  
+
+  // Mic stuff
+  micStream = null
+  isMicroReady = false
+  @tracked isMicroEnable = false
+
+  constructor() {
+    super(...arguments)
+
+    window.AudioContext = window.AudioContext || window.webkitAudioContext
+    this.audioContext = new AudioContext()
+    
+    this.initRecorder()
+
+    this.trackSamples = A(new Array(Constants.TRACK_COUNT).fill(undefined))
+  }
+
+  resetTracks() {
+    this.stop()
+    this.trackSamples.replace(0, Constants.TRACK_COUNT, new Array(Constants.TRACK_COUNT).fill(undefined))
+  }
+
+  _forEachSample(callback) {
+    this.trackSamples.forEach(function (value, idx) {
+      if (value) {
+        callback(value, idx)
+      }
+    })
+  }
+
+  _clearSample(sample) {
+    let { sampleService } = this
+
+    // remove sample from recording if needed
+    if (this.isRecording) {
+      sampleService.mediaStream.disconnect(this.recorderDestinationStream)      
+    }
+
+    sampleService.stopSample(sample)
+    sampleService.releaseSample(sample)
+  }
+  
+  @action
+  play(){
+    this.isPlaying = true
+    this.startPlayTime = this.audioContext.currentTime
+
+    this._forEachSample((sample) => {
+      this.sampleService.playSample(sample)
+    })
+
+    this._startLoopInterval()
+  }
+
+  // Start playing (+ recording) a sample at the correct start time when added during playing
+  _integrateSample(sample) {
+
+    // recording: Add new track to recordStream
+    if (this.isRecording) {
+      sample.mediaStream.connect(this.recorderDestinationStream)
+    }
+
+    if (this.isPlaying) {
+      if( this.isLoopSideB && sample.isDoubleSample){
+        this.sampleService.playSample(sample, this.currentLoopTime + this.loopTime)
+      } else {      
+        this.sampleService.playSample(sample, this.currentLoopTime)
+      }
+    }
+  }
+
+  @action
+  stop(){
+    if (this.recording) {
+      this.stopRecord()
+    }
+
+    this._stopLoopInterval()
+
+    this._forEachSample((sample) => {
+      this.sampleService.stopSample(sample)
+    })
+
+    this.isPlaying = false
+    this.startPlayTime = 0
+  }
+
+  @action
+  bindSample(trackIdx, sample) {
+    let oldSample = this.trackSamples.objectAt(trackIdx)
+
+    if (oldSample) {
+      this._clearSample(sample)
+    }
+
+    this.trackSamples.replace(trackIdx, 1, [sample])
+    sample.isUsed = true
+    this._integrateSample(sample)
+  }
+
+  @action
+  unbindSample(trackIdx) {
+    let sample = this.trackSamples.objectAt(trackIdx)
+    if (sample) {
+      this._clearSample(sample)
+    }
+  
+
+    this.trackSamples.replace(trackIdx, 1, [undefined])
+  }
+
+
+  _loopProgressInterval = undefined
+  _startLoopInterval() {
+    this._loopProgressInterval = setInterval(this._loopProgress.bind(this), 100)
+  }
+
+  _loopProgress() {
+    this.currentPlayTime = this.audioContext.currentTime
+  }
+
+  _stopLoopInterval() {
+    clearInterval(this._loopProgressInterval)
+  }
+
+  initRecorder() {
+    let { audioContext } = this
+
+    // Create, once for all, a stream (for the recorder)
+    let recorderDestinationStream = audioContext.createGain()
+    this.recorderDestinationStream = recorderDestinationStream
+
+    // Same for web audio recorder
+    /* global WebAudioRecorder */
+    this.recorder = new WebAudioRecorder(recorderDestinationStream, {
+      workerDir: "web-audio-recorder/",
+      encoding: Constants.RECORDING_FORMAT,
+      
+      onComplete: this._recordOnComplete.bind(this),
+      onTimeout: this.stopRecord.bind(this),
+      options: {
+        timeLimit: Constants.RECORDING_MAX_TIME
+      }
+    })
+  }
+
+  _recorderInterval = undefined 
+
+  _getTracksMediaStreamArray(){
+    return this.trackSamples.reduce(function (a, sample){
+      if (sample) {
+        a.push(sample.mediaStream)
+      }
+
+      return a
+    }, [])
+  }
+
+  _recordOnComplete(rec, blob) {
+    let audioURL = window.URL.createObjectURL(blob)
+    this.recordedFileUri = audioURL
+  }
+
+  _recordProgress() {
+    this.currentRecordTime = (new Date()).getTime()
+  }
+
+  @action
+  startRecord(){
+    this.startRecordTime = (new Date()).getTime()
+    this._recorderInterval = setInterval( this._recordProgress.bind(this), 100)
+
+    let mediaStreams = this._getTracksMediaStreamArray()
+
+    // connect all source audioMediaStream (from audio file)
+    for (let stream of mediaStreams) {
+      stream.connect(this.recorderDestinationStream)
+    }
+
+    // Mic
+    if (this.isMicroEnable){
+      this.micStream.connect( this.recorderDestinationStream)
+    }
+
+    // Start recording
+    this.recorder.startRecording()
+    if (!this.isPlaying){
+      this.play()
+    }
+
+    this.isRecording = true
+  }
+
+  @action
+  stopRecord(){
+    clearInterval(this._recorderInterval)
+    this._recorderInterval = undefined
+
+    this.startRecordTime = 0
+    this.currentRecordTime = 0
+
+    this.recorder.finishRecording()
+
+    this.isRecording = false
+  }
+
+  async requireMicro() {
+    // Get mic access and create the MediaSourceStream
+    let stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    this.micStream = this.audioContext.createMediaStreamSource( stream)
+    this.isMicroReady = true
+  }
+
+  enableMicro() {
+    if(this.isMicroReady) {
+      if (this.isRecording) {
+        this.micStream.connect( this.recorderDestinationStream)
+      }
+  
+      this.isMicroEnable = true
+    } else {
+      throw 'Micro is not available, did you call audioService.requireMicro() before ?'
+    }
+  }
+
+  disableMicro() {
+    if (this.isRecording) {
+      this.micStream.disconnect( this.recorderDestinationStream)
+    }
+
+    this.isMicroEnable = false
+  }
+}

@@ -1,0 +1,20 @@
+canvas.vueMeter {
+  width: 50px;
+  height: 30vh;
+
+  &.s-color-0 {
+    background-color: $color-0;
+  }
+  &.s-color-1 {
+    background-color: $color-1;
+  }
+  &.s-color-2 {
+    background-color: $color-2;
+  }
+  &.s-color-3 {
+    background-color: $color-3;
+  }
+  &.s-color-4 {
+    background-color: $color-4;
+  }
+}

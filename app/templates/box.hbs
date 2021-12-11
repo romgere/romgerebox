@@ -1,1 +1,6 @@
-{{box-main versionIdx=model.versionIdx samples=model.samples loopTime=model.loopTime mixConf=mixConf}}
+<BoxMain
+  @versionIdx={{this.model.versionIdx}}
+  @samples={{this.model.samples}}
+  @mixConf={{this.mixConf}}
+  @onMixConfUpdate={{fn (mut this.mixConf)}}
+/>

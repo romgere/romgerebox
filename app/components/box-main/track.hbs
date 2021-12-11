@@ -1,0 +1,83 @@
+<div
+  class="boxTrack {{this.additionnalClasses}}"
+  uk-tooltip={{unless @sample (t 'box_track.drop_tooltip')}}
+>
+
+  <DraggableObjectTarget
+    @action={{@onDropSample}}
+    @dragOverAction={{fn (mut this.dragPending) true}}
+    @dragOutAction={{fn (mut this.dragPending) false}}
+  >
+
+    <div class="uk-text-center track-icon">
+      <FaIcon
+        @size="2x"
+        @icon={{if @sample.icon @sample.icon 'question-circle'}}
+        class={{if @sample.color @sample.color 's-color-0'}}
+      />    
+    </div>
+
+    <div class="uk-text-center">
+      <BoxMain::VuMeter @sample={{@sample}} />
+    </div>
+
+    <div class="volumeBar">
+      <label hidden for="track-volume-{{@trackNumber}}" class="">
+        {{t "box_track.volume_label" number=@trackNumber}}
+      </label>
+      <input
+        id="track-volume-{{@trackNumber}}"
+        class="uk-range"
+        type="range"
+        min="0"
+        step="1"
+        title={{t 'box_track.volume_title'}}
+        max={{this.maxVolume}}
+        value={{@sample.volume}}
+        disabled={{not @sample}}
+        {{on "change" (pick "target.value" @onVolumeChange)}}
+        {{on "input" (pick "target.value" @onVolumeChange)}}
+      >
+    </div>
+
+
+    <div class="uk-flex uk-flex-around uk-margin-top">
+      <button
+        type="button"
+        class="uk-button uk-button-round {{if @sample.isMute "uk-button-danger" "uk-button-default"}}"
+        disabled={{not @sample}}
+        uk-tooltip={{t 'box_track.mute_tooltip'}}
+        {{on "click" @onMuteToggle}}
+      >
+        <FaIcon @icon={{if @sample.isMute "volume-mute" "volume-up"}} />
+      </button>
+
+      <button
+        type="button"
+        class="uk-button uk-button-round {{if @isSolo "uk-button-primary" "uk-button-default"}}"
+        disabled={{not @sample}}
+        uk-tooltip={{t 'box_track.solo_tooltip'}}
+        {{on "click" @onSoloToggle}}
+      >
+        <FaIcon @icon="music" />
+      </button>
+    </div>
+
+    <div class="uk-flex uk-flex-around">
+      <button
+        type="button"
+        class="uk-button uk-button-round uk-button-default"
+        disabled={{not @sample}}
+        uk-tooltip={{t 'box_track.delete_tooltip'}}
+        {{on "click" @onClearSample}}
+      >
+        <FaIcon @icon="trash-alt" />
+      </button>
+    </div>
+
+    {{!-- <div class="uk-text-meta uk-text-center uk-margin-top">
+      #{{@trackNumber}}
+    </div> --}}
+  </DraggableObjectTarget>
+
+</div>

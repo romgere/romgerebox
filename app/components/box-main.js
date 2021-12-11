@@ -1,404 +1,178 @@
-import Component from '@ember/component';
-import { inject as service } from '@ember/service';
+import Component from '@glimmer/component'
+import { action } from '@ember/object'
+import { inject as service } from '@ember/service'
+import Constants from 'romgerebox/constants'
+import { intToChar } from 'romgerebox/misc/conv-int-char'
+import { tracked } from '@glimmer/tracking'
 
-import Constants from 'romgerebox/constants';
+export default class BoxMainComponent extends Component {
 
-import { intToChar } from 'romgerebox/misc/conv-int-char';
+  @service intl
 
-export default Component.extend({
+  @service('audio') audio
 
-  intl: service(),
-  audioService: service('audio'),
+  @tracked showMixCode = false
 
-  trackCount: Constants.TRACK_COUNT,
+  get trackCount() {
+    return this.audio.trackSamples.filter((s) => s !== undefined).length
+  }
 
-  playing: false,
-  playStartTime : 0, //"audioContext.currentTime" when start playing for sync
+  get soloTrack() {
 
+    if (this.trackCount > 1) {
+      let noMutedSamplesIdx = this.audio.trackSamples.reduce(function (a, sample, idx) {
+        if (sample && !sample.isMute) {
+          a.push(idx)
+        }
 
-  loopSideA: true,
-  loopValue: 0,
-  loopCount: 1,
-
-  recording: false,
-  recorder: null,
-  recordedFileUri : null,
-  recorderDestinationStream: null,
-  recordStartTime: null,
-  recorderInterval: null,
-  recordingTime: 0,
-
-
-  boxTracks: null,
-  boxSamples: null,
-
-  loopProgressInterval: null,
-
-
-  micReady: false,
-  micEnable: false,
-  micStream: null,
-
-
-  mixCode: null,
-  showMixCode: false,
-
-  init() {
-    this._super(...arguments);
-
-    this.set('boxTracks', []);
-    this.set('boxSamples', []);
-
-    this.set('loopProgressInterval', setInterval( this.loopProgress.bind(this), 50));
-
-    let audioContext = this.get('audioService.audioContext')
-
-    //Create, once for all, a stream for the recorder
-    let recorderDestinationStream = audioContext.createGain();
-    this.set('recorderDestinationStream', recorderDestinationStream);
-
-    //Same for recorder
-    /* global WebAudioRecorder */
-    let recorder = new WebAudioRecorder(recorderDestinationStream, {
-      workerDir: "web-audio-recorder/",
-      encoding: Constants.RECORDING_FORMAT,
-      options: {
-        timeLimit: Constants.RECORDING_MAX_TIME,
-      },
-      onComplete: this.recordOnComplete.bind(this),
-      onTimeout: () => { this.stopRecord(); } //Stop "recording" state on timeout
-    });
-
-    this.set('recorder', recorder);
-  },
-
-  willDestroy(){
-    this._super(...arguments);
-
-    this.stop();
-
-    let metronomeInterval = this.get('metronomeInterval');
-    if( metronomeInterval ){
-      clearInterval(metronomeInterval);
+        return a
+      }, [])
+      return noMutedSamplesIdx.length === 1 ? noMutedSamplesIdx[0] : undefined
     }
-    let loopProgressInterval = this.get('loopProgressInterval');
-    if( loopProgressInterval ){
-      clearInterval(loopProgressInterval);
-    }
+    
+    return undefined
+  }
 
-    this.set('boxTracks', []);
-  },
-
-  play: function(){
-    this.set('playStartTime', this.get('audioService.audioContext').currentTime );
-    this.sendActionToTracks('play', {
-      isLoopSideA : this.get('loopSideA'),
-      startTime : this._getCurrentLoopTime(),
-      loopTime: this.get('loopTime'),
-    });
-  },
-
-
-  stop: function(){
-
-    if( this.get('recording')){
-      this.stopRecord();
-    }
-
-    this.set('playStartTime', 0);
-
-    this.sendActionToTracks('stop');
-  },
-
-  /**
-   * @return integer current time elapsed in current loop
-   */
-  _getCurrentLoopTime: function( forDoubleLoop = false){
-    if( ! this.get('playing') ){
-      return 0;
-    }
-
-    let currentTime = this.get('audioService.audioContext').currentTime;
-    let playingTime = currentTime - this.get('playStartTime');
-    return playingTime % (this.get('loopTime') * (forDoubleLoop ? 2 : 1));
-  },
-
-  _getLoopCount: function(){
-
-    let currentTime = this.get('audioService.audioContext').currentTime;
-    let playingTime = currentTime - this.get('playStartTime');
-    return Math.ceil(playingTime / this.get('loopTime'));
-  },
-
-  /**
-   * Calculate loop percent and deal with loop changement
-   */
-  loopProgress: function(){
-
-    if( this.get('playing')){
-      //Current passed time for a set of loop (A & B )
-      let loopA = this._getCurrentLoopTime( true) < this.get('loopTime');
-      this.set('loopSideA', loopA);
-
-      this.set('loopCount', this._getLoopCount());
-
-      //Percent for current loop
-      let loopPercent = Math.ceil( (this._getCurrentLoopTime() / this.get('loopTime')) * 100 );
-      this.set('loopValue', loopPercent);
-    }
-  },
-
-
-  sendActionToTracks : function(action, param = null, exclude = null){
-    this.get('boxTracks').forEach(function( boxTrack){
-      if( boxTrack != exclude )
-        boxTrack.send(action, param);
+  get currentMixConf() {
+    return this.audio.trackSamples.map((s) => {
+      let i = this.args.samples.indexOf(s)
+      return i >= 0 ? i : undefined
     })
-  },
+  }
 
-  /**
-   * Call by "box-track" component to register
-   */
-  registerBoxTrack: function( boxTrack){
-    this.get('boxTracks').pushObject(boxTrack);
+  get currentMixCode() {
+    let mixCode = intToChar( this.args.versionIdx)
 
-    //Pre-set sample for this box-track (from QP)
-    let trackIdx = this.get('boxTracks.length')-1;
-    if( parseInt(this.get('mixConf')[trackIdx]) >= 0 ){
-      let sample = this.get('samples')[ this.get('mixConf')[trackIdx]];
-      if( sample )
-        boxTrack.setSample( sample);
-    }
-  },
+    this.currentMixConf.forEach((sampleIdx, idx) => {
 
-  /**
-   * Call by "box-track" component to ask for solo (mute other tracks)
-   */
-  askForSoloForTrack: function( soloSample){
-    this.get('boxSamples').forEach(( sample) => {
-      if( sample && sample != soloSample){
-        sample.set('mute', true);
-      }
-    });
-  },
-
-  /**
-   * Call by "box-track" component to end solo (unmuted all tracks)
-   */
-  endSoloForTrack: function(){
-    this.get('boxSamples').forEach(( sample) => {
-      if( sample )
-        sample.set('mute', false);
-    });
-  },
-
-  /**
-   * Call by "box-track" component when sample change
-   */
-  sampleChangedForTrack: function( boxTrack, newSample ){
-
-    let idxBox = this.get('boxTracks').indexOf( boxTrack);
-    let idxSample = !newSample ? null : this.get('samples').indexOf( newSample);
-    let currentSample = this.get('boxSamples')[ idxBox];
-    this.get('boxSamples')[idxBox] = newSample;
-
-    //Save to QP
-    this.get('mixConf').replace(idxBox, 1, [idxSample]);
-
-
-
-    //No recording : nothing to do.
-    if( this.get('recording')){
-
-      let recorderDestinationStream = this.get('recorderDestinationStream');
-
-      //disconnect old sample
-      if( currentSample ){
-          currentSample.getMediaStreams().forEach(function( stream){
-            stream.disconnect(recorderDestinationStream);
-          });
+      if( idx % 4 === 0 ){
+        mixCode += '-'
       }
 
-      //Connect new one
-      if( newSample ){
-        newSample.getMediaStreams().forEach(function( stream){
-          stream.connect(recorderDestinationStream);
-        });
-      }
-    }
+      mixCode += intToChar( parseInt(sampleIdx))    
+    })
 
-    //Play sample
-    if( newSample && this.get('playing') ){
-      boxTrack.send('play', {
-          isLoopSideA : this.get('loopSideA'),
-          startTime : this._getCurrentLoopTime(),
-          loopTime: this.get('loopTime'),
-      });
-    }
-  },
+    return mixCode
+  }
 
-
-  stopRecord: function(){
-    this.set('recordStartTime', null);
-    clearInterval( this.get('recorderInterval'));
-
-    this.set('recorderInterval', null);
-    this.set('recordingTime', 0);
-
-    this.get('recorder').finishRecording();
-  },
-
-  startRecord: function(){
-    this.set('chunks', []);
-    this.set('recordStartTime', new Date());
-    this.set('recorderInterval', setInterval( this.recordProgress.bind(this), 100));
-
-    let mediaStreams = this.getTracksMediaStreamArray();
-
-
-    //connect all source audioMediaStream (from audio file)
-    let recorderDestinationStream = this.get('recorderDestinationStream');
-
-    mediaStreams.forEach(function(stream){
-        stream.connect( recorderDestinationStream);
-    });
-
-    //Mic
-    if( this.get('micEnable') ){
-      this.get('micStream').connect( recorderDestinationStream);
-    }
-
-    //Start recording
-    let recorder = this.get('recorder');
-    recorder.startRecording();
-    if( ! this.get('playing')){
-      this.play();
-      this.set('playing', true);
-    }
-  },
-
-  recordOnComplete: function(rec, blob){
-    var audioURL = window.URL.createObjectURL(blob);
-    this.set('recordedFileUri', audioURL);
-    this.downloadAudio();
-  },
-
-  downloadAudio: function(){
-
-    //Download file
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
-    a.href = this.get('recordedFileUri');
-    a.download = 'mix.'+Constants.RECORDING_FORMAT;
-    a.target = '_blank';
-    a.click();
-  },
-
-  getTracksMediaStreamArray: function(){
-    return this.get('boxSamples').reduce(function(tab, sample){
-      return sample ? tab.concat( sample.getMediaStreams()) : tab;
-    },[]);
-  },
-
-  recordProgress: function(){
-    let recordStartTime = this.get('recordStartTime');
-    this.set('recordingTime', (new Date()).getTime() - recordStartTime.getTime());
-  },
-
-
-  actions: {
-
-    togglePlay: function(){
-      if( this.get('playing')){
-        this.stop();
-        this.set('playing', false);
-      }
-      else{
-        this.play();
-        this.set('playing', true);
-      }
-    },
-
-    toggleRecord: function(){
-
-      if( this.get('recording')){
-        this.stopRecord();
-      }
-      else{
-        this.startRecord();
-      }
-      this.toggleProperty('recording');
-    },
-
-    toggleMic: async function(){
-
-      let micStream = this.get('micStream');
-
-      if( ! this.get('micReady') ){
-
-        try{
-          //Get mic access and create the MediaSourceStream
-          let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          let audioContext = this.get('audioService.audioContext');
-          micStream = audioContext.createMediaStreamSource( stream)
-
-          this.set('micStream', micStream);
-          this.set('micReady', true);
+  @action
+  updateFromMixConf() {
+    let { mixConf } = this.args
+    if (this.currentMixConf.join() !== mixConf.join()) {
+      mixConf.forEach((sampleIdx, trackIdx) => {
+        if (sampleIdx >= 0) {
+          this.audio.bindSample(trackIdx, this.args.samples[sampleIdx])
+        } else {
+          this.audio.unbindSample(trackIdx)
         }
-        catch(e){
-          alert( this.get('intl').t('box_main.error.mic_not_available'));
-          return;
-        }
-      }
-
-      //Recording => add mic stream to recorder
-      if( this.get('recording') ){
-
-        let recorderDestinationStream = this.get('recorderDestinationStream');
-
-        if( this.get('micEnable') ){
-          micStream.disconnect( recorderDestinationStream);
-        }
-        else{
-          micStream.connect( recorderDestinationStream);
-        }
-      }
-
-
-      this.toggleProperty('micEnable');
-    },
-
-    downloadAudioAction: function(){
-      this.downloadAudio();
-    },
-
-    showMixCode: function(){
-      let nbSample = this.get('boxSamples').filter(s => s != null).length;
-      if( ! nbSample ){
-        alert( this.get('intl').t('box_main.error.add_one_sample'));
-      }
-      else{
-
-        let mixCode = intToChar( this.get('versionIdx'))+'-';
-        let idx = 0;
-
-        this.get('mixConf').forEach(function(idxSample){
-
-          mixCode += intToChar( parseInt(idxSample));
-          idx++;
-          if( idx % 4 == 0 && idx < Constants.TRACK_COUNT ){
-            mixCode += '-';
-          }
-        });
-
-        this.set('mixCode', mixCode);
-        this.set('showMixCode', true);
-      }
-    },
-
-    willDestroyElement: function(){
-      this.stop();
+      })
     }
   }
-});
+
+  @action
+  updateMixConf() {
+    this.args.onMixConfUpdate(this.currentMixConf)
+  }
+
+  @action
+  bindSample(trackIdx, sample) {
+    this.audio.bindSample(trackIdx, sample)
+    this.updateMixConf()
+  }
+
+  @action
+  unbindSample(trackIdx) {
+    this.audio.unbindSample(trackIdx)
+    this.updateMixConf()
+  }
+  
+
+  @action
+  changeVolume(trackIdx, value) {
+    this.audio.trackSamples.objectAt(trackIdx).volume = value
+  }
+  
+  @action
+  muteToggle(trackIdx) {
+    let sample = this.audio.trackSamples.objectAt(trackIdx)
+    sample.isMute = !sample.isMute
+  }
+
+  @action
+  soloToggle(trackIdx) {
+    let trackIsSolo = this.soloTrack === trackIdx
+
+    this.audio.trackSamples.forEach((sample, idx) => {
+      if(sample) {
+        sample.isMute = trackIsSolo
+          ? false
+          : trackIdx !== idx
+      }
+    })
+  }
+
+  @action
+  togglePlay(){
+    let { audio } = this
+    if (audio.isPlaying) {
+      audio.stop()
+    } else {
+      audio.play()
+    }
+  }
+
+  @action
+  toggleRecord(){
+    let { audio } = this
+    if( audio.isRecording){
+      audio.stopRecord()
+    } else{
+      audio.startRecord()
+    }
+  }
+
+  @action
+  async toggleMic(){
+    if (this.audio.isMicroEnable) {
+      this.audio.disableMicro()
+    } else {
+      if (!this.audio.isMicroReady) {
+        try {
+          await this.audio.requireMicro()
+        } catch(e) {
+          alert( this.intl.t('box_main.error.mic_not_available'))
+        }
+      }
+
+      this.audio.enableMicro()
+    }
+  }
+
+  
+  @action
+  downloadRecord(){
+    // Download file
+    let a = document.createElement("a")
+    document.body.appendChild(a)
+    a.style = "display: none"
+    a.href = this.audio.recordedFileUri
+    a.download = `mix.${Constants.RECORDING_FORMAT}`
+    a.target = '_blank'
+    a.click()
+  }
+
+  willDestroy(){
+    super.willDestroy(...arguments)
+    this.audio.stop()
+  }
+  
+  @action
+  showMixCodeModal(){
+    if( !this.trackCount ){
+      alert(this.intl.t('box_main.error.add_one_sample'))
+    }
+    else{
+      this.showMixCode = true
+    }
+  }
+}

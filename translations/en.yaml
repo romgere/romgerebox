@@ -27,6 +27,7 @@ box_main:
     mic_not_available: Microphone access seem to remain unavailable, please try again
     add_one_sample: Add at least one sample to your mix to get your Mix Code
 box_track:
+  volume_label: Volume control for track {number}
   drop_tooltip: Drop a sample in this area
   volume_title: Change volume
   mute_tooltip: Mute ON/OFF
@@ -36,3 +37,6 @@ box_sample:
   used_tooltip: Sample already in use
   drag_tooltip: Drag a sample on one of the track or double click to listen it
 unlock_audio: Your browser is blocking audio access, please touch/click the screen to unlock audio and use the application
+languages:
+ en: English
+ fr: Français

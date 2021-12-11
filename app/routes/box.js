@@ -1,42 +1,47 @@
-import Route from '@ember/routing/route';
-import { hash } from 'rsvp';
-import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route'
+import { hash } from 'rsvp'
+import { inject as service } from '@ember/service'
 
-import Constants from 'romgerebox/constants';
+export default class BoxRoute extends Route {
 
-export default Route.extend({
+  queryParams = {
+    mixConfString: { replace: true }
+  }
 
-  audioService : service('audio'),
+  @service audio
+  @service sample
 
-  model: function( params){
+  model(params) {
+    let versionIdx = parseInt(params.version_idx)
+    
+    // Get info about "version" (loop duration, name, samples)
+    let version = this.modelFor('application').versions[versionIdx]
 
-    let version = this.modelFor('application').versions[parseInt(params.version_idx)];
+    // Init/reset audio service
+    this.audio.resetTracks()
+    this.audio.loopTime = version.loopTime
 
     return hash({
-      //Load the "Audio" elements for all samples
-      'samples' : this.loadSample(version.samples, version.loopTime),
-      //Metronome timing
-      'loopTime' : version.loopTime,
-      //Version index
-      'versionIdx' : parseInt(params.version_idx),
-    });
-  },
+      // Load the "Audio" elements for all samples
+      samples: this.initSample(version.samples),
+      // Version index
+      versionIdx
+    })
+  }
 
+  initSample(samples) {
 
-  loadSample: function(samples, loopTime){
-
-    return Promise.all(samples.map(async ( sample) => {
-
-      if( ! sample.get('mediaStreamInit') ){
-        await this.get('audioService').initAudioSample( sample, loopTime);
+    let loadSamplesPromises = samples.map(async (sample) => {
+      if (!sample.mediaStreamInit) {
+        await this.sample.initAudioSample(sample)
       }
 
-      //New mix "reset" old changes
-      sample.set('isUsed', false);
-      sample.set('volume', Constants.INITIAL_TRACK_VOLUME );
+      // "reset" sample settings (from old mix)
+      this.sample.releaseSample(sample)
 
-      return sample;
-    }));
-  },
+      return sample
+    })
 
-});
+    return Promise.all(loadSamplesPromises)
+  }
+}

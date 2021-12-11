@@ -1,0 +1,26 @@
+$color-0: #d1d1d1;
+$color-1: #f4e6c8;
+$color-2: #cbe6ea;
+$color-3: #f8d2d4;
+$color-4: #d3d5f1;
+
+
+
+
+svg {
+  &.s-color-0 {
+    color: $color-0;
+  }
+  &.s-color-1 {
+    color: $color-1;
+  }
+  &.s-color-2 {
+    color: $color-2;
+  }
+  &.s-color-3 {
+    color: $color-3;
+  }
+  &.s-color-4 {
+    color: $color-4;
+  }
+}

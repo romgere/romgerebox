@@ -1,128 +1,64 @@
-import EmberObject from '@ember/object';
-import { notEmpty } from '@ember/object/computed';
-import Constants from 'romgerebox/constants';
-
-export default EmberObject.extend({
-
-  // audioService: service('audio'),
-  audioService: null, //Manually injected, see "audio" service
-
-  file_a : null,
-  file_b : null,
-
-  loopSize: 0, //loop duration
-
-  doubleSample: notEmpty('file_b'),
-
-  //Sample already init ? (bufferSource & gainNode created)
-  sampleInit: false,
-
-  //ArrayBuffer (contains sound)
-  buffer: null,
-
-  //AudioBufferSourceNode
-  sampleMediaSource: null,
-
-  //Gain Node to control output volume of the sample
-  gainNode: null,
-
-  isPlaying: false,
-
-  mute: false,
-  volume : 0,
-
-  //"Style" for this sample
-  color : "s-color-0",
-  icon : "music",
-
-  isUsed: false, //Sample bind to track ?
+import { tracked } from '@glimmer/tracking'
 
 
-  init() {
-    this._super(...arguments);
-
-    //Add oberservers to deal with volume & mute changes
-    this.addObserver('volume', this, 'volumeChange');
-    this.addObserver('mute', this, 'muteChange');
-    this.addObserver('isUsed', this, 'usedChange');
-  },
+export default class SampleModel {
 
 
-  volumeChange: function(){
-    if( ! this.get('mute') ){
-      this.get('gainNode').gain.value = this.get('volume') / 100;
-    }
-  },
+  // name of audio file(s)
+  file_a = undefined // eslint-disable-line camelcase
+  file_b = undefined // eslint-disable-line camelcase
 
-  muteChange: function(){
-    if( this.get('mute') ){
-      this.get('gainNode').gain.value = 0;
-    }
-    else{
-      this.get('gainNode').gain.value = this.get('volume') / 100;
-    }
-  },
-
-
-  usedChange: function(){
-    //Reset "settings" when sample is "release" by track
-    if( ! this.get('isUsed') ){
-      this.set('volume', Constants.INITIAL_TRACK_VOLUME)
-      this.set('mute', false);
-    }
-  },
-
-  /**
-   * Return AudioNodes(s) for this sample
-   */
-  getMediaStreams: function(){
-    return [
-      this.get('gainNode')
-    ];
-  },
-
-  stop: function(){
-    if( this.get('isPlaying') ){
-      this.get('sampleMediaSource').stop(0);
-      this.set('isPlaying', false);
-
-      this.set('sampleMediaSource', null);
-
-      //"An AudioBufferSourceNode can only be played once"
-      //Prepare future play : create new AudioBufferSourceNode
-      this.get('audioService')._createBufferSource( this.get('buffer'), this.get('loopTime')).then( (sampleMediaSource) => {
-        sampleMediaSource.connect( this.get('gainNode'));
-        this.set('sampleMediaSource', sampleMediaSource);
-      });
-    }
-  },
-
-  play: function( startTime = 0){
-    if( ! this.get('isPlaying') && this.get('sampleMediaSource') ){
-      this.get('sampleMediaSource').start(0, startTime);
-      this.set('isPlaying', true);
-    }
-  },
-
-  playOnce: function(){
-    return new Promise((resolve, reject) => {
-
-      let sampleMediaSource = this.get('sampleMediaSource');
-
-      sampleMediaSource.loop = false;
-      sampleMediaSource.start(0, 0);
-
-      sampleMediaSource.onended = () => {
-
-        this.set('sampleMediaSource', null);
-        //"An AudioBufferSourceNode can only be played once"
-        //Prepare future play : create new AudioBufferSourceNode
-        this.get('audioService')._createBufferSource( this.get('buffer'), this.get('loopTime')).then( (sampleMediaSource) => {
-          sampleMediaSource.connect( this.get('gainNode'));
-          this.set('sampleMediaSource', sampleMediaSource);
-          resolve();
-        }, reject);
-      }
-    });
+  get isDoubleSample() {
+    return Boolean(this.file_b)
   }
-});
+
+  // Sample already init ? (bufferSource & gainNode created)
+  sampleInit = false
+
+  // Audio stuff
+  buffer = null // ArrayBuffer (contains sound)  
+  sampleMediaSource = null // AudioBufferSourceNode  
+  gainNode = null // Gain Node to control output volume of the sample
+  loopTime = 0
+  
+  get mediaStream(){
+    return this.gainNode
+  }
+
+  @tracked isUsed = false // Sample bind to track ?
+  @tracked isPlaying = false
+  @tracked _isMute = false
+  @tracked _volume = 0
+
+  set volume(value) {
+    this._volume = value
+    this._isMute = false
+    this.gainNode.gain.value = value / 100
+  }
+
+  get volume() {
+    return this._isMute ? 0 : this._volume
+  }
+
+  set isMute(value) {
+    this._isMute = Boolean(value)
+    this.gainNode.gain.value = this._isMute ? 0 : (this._volume / 100)
+  }
+
+  get isMute() {
+    return this._isMute
+  }
+
+  // "Style" for this sample
+  color = "s-color-0"
+  icon = "music"
+
+  constructor(attrs, version) {
+    this.file_a = attrs.file_a // eslint-disable-line camelcase
+    this.file_b = attrs.file_b // eslint-disable-line camelcase
+    this.color = attrs.color
+    this.icon = attrs.icon
+
+    this.loopTime = version.loopTime
+  } 
+}

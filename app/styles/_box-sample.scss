@@ -1,0 +1,32 @@
+.boxSample{
+  display: inline-block;
+  cursor: grab;
+  margin: 10px 6px 0px 6px;
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  text-align: center;
+  min-width: 0;
+  padding: 8px;
+  border-radius: 50%;
+
+  &.s-color-0 {
+    background-color: $color-0;
+  }
+  &.s-color-1 {
+    background-color: $color-1;
+  }
+  &.s-color-2 {
+    background-color: $color-2;
+  }
+  &.s-color-3 {
+    background-color: $color-3;
+  }
+  &.s-color-4 {
+    background-color: $color-4;
+  }
+  &.is-used{
+    background-color: rgba(0,0,0,.12);
+    cursor: not-allowed;
+  }
+}

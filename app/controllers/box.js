@@ -1,25 +1,23 @@
-import Controller from '@ember/controller';
-import { A } from '@ember/array';
+import Controller from '@ember/controller'
+import { tracked } from '@glimmer/tracking'
+import { defaultMixConf } from 'romgerebox/helpers/default-mix-conf'
 
-import Constants from 'romgerebox/constants';
-import QueryParams from 'ember-parachute';
-
-
-export const mixConfigParams = new QueryParams({
-
-  mixConf: {
-    defaultValue: Array(Constants.TRACK_COUNT).fill(null,0, Constants.TRACK_COUNT),
-    refresh: false,
-    replace: true,
-    serialize(value) {
-      return value.join('|');
-    },
-    deserialize(value = '') {
-      return A(value.split('|'));
+export default class BoxController extends Controller {
+  
+  @tracked mixConfString = defaultMixConf()
+  
+  queryParams = [{
+    mixConfString: {
+      type: 'string',
+      as: 'mixConf'
     }
+  }]
+
+  get mixConf() {
+    return this.mixConfString.split('|').map((v) =>  v ? parseInt(v) : undefined)
   }
-});
 
-export default Controller.extend(mixConfigParams.Mixin, {
-
-});
+  set mixConf(value) {
+    this.mixConfString = value.join('|')
+  }
+}

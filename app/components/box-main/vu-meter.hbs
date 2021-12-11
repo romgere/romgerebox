@@ -1,0 +1,10 @@
+<canvas
+  class="vueMeter {{@sample.color}}"
+  width={{this.width}}
+  height={{this.height}}
+  {{did-insert this.registerCanvas}}
+  {{did-insert this.updateSample}}
+  {{did-update this.updateSample @sample}}
+>
+
+</canvas>
