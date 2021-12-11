@@ -6,6 +6,7 @@ Samples come from [slooply.com](https://slooply.com/sample-packs/free) / Inspire
 
 TODO 2021 : 
 
+- Write tests
 - Swicth to Typescript
 - check if it's possible to use web-audio-recorder as regular npm package
 - integrate volume-meter into app code

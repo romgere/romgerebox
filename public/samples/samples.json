@@ -32,12 +32,12 @@
                 {
                     "file_a" : "v1/9_bass_a.ogg",
                     "color" : "s-color-1",
-                    "icon" : "usd"
+                    "icon" : "coins"
                 },
                 {
                     "file_a" : "v1/10_uh_a.ogg",
                     "color" : "s-color-3",
-                    "icon" : "bullseye"
+                    "icon" : "eye"
                 },
                 {
                     "file_a" : "v1/11_nugu_a.ogg",
@@ -47,7 +47,7 @@
                 {
                     "file_a" : "v1/12_guit_a.ogg",
                     "color" : "s-color-3",
-                    "icon" : "flash"
+                    "icon" : "fighter-jet"
                 },
                 {
                     "file_a" : "v1/13_tromp_a.ogg",
@@ -67,7 +67,7 @@
                 {
                     "file_a" : "v1/16_aoun_a.ogg",
                     "color" : "s-color-3",
-                    "icon" : "support"
+                    "icon" : "moon"
                 },
                 {
                     "file_a" : "v1/17_hum_a.ogg",
@@ -87,7 +87,7 @@
                 {
                     "file_a" : "v1/20_make_a.ogg",
                     "color" : "s-color-4",
-                    "icon" : "snowflake-o"
+                    "icon" : "snowflake"
                 },
                 {
                     "file_a" : "v1/6_nouana_a.ogg",
@@ -158,13 +158,13 @@
                 {
                     "file_a" : "v2/effet4_tululou_a.ogg",
                     "color" : "s-color-2",
-                    "icon" : "usd"
+                    "icon" : "coins"
                 },
                 {
                     "file_a" : "v2/effet5_tumttt_a.ogg",
                     "file_b" : "v2/effet5_tumttt_b.ogg",
                     "color" : "s-color-2",
-                    "icon" : "bullseye"
+                    "icon" : "eye"
                 },
                 {
                     "file_a" : "v2/melo1_nananana_a.ogg",
@@ -176,7 +176,7 @@
                     "file_a" : "v2/melo2_pelulu_a.ogg",
                     "file_b" : "v2/melo2_pelulu_b.ogg",
                     "color" : "s-color-3",
-                    "icon" : "flash"
+                    "icon" : "fighter-jet"
                 },
                 {
                     "file_a" : "v2/melo3_siffle_a.ogg",
@@ -200,7 +200,7 @@
                     "file_a" : "v2/coeur1_oaaah_a.ogg",
                     "file_b" : "v2/coeur1_oaaah_b.ogg",
                     "color" : "s-color-4",
-                    "icon" : "support"
+                    "icon" : "moon"
                 },
                 {
                     "file_a" : "v2/coeur2_cougou_a.ogg",
@@ -224,7 +224,7 @@
                     "file_a" : "v2/voix2_uare_a.ogg",
                     "file_b" : "v2/voix2_uare_b.ogg",
                     "color" : "s-color-4",
-                    "icon" : "snowflake-o"
+                    "icon" : "snowflake"
                 }
             ]
         },
@@ -276,13 +276,13 @@
                 {
                     "file_a" : "v3/effet4_daft2_a.ogg",
                     "color" : "s-color-2",
-                    "icon" : "usd"
+                    "icon" : "coins"
                 },
                 {
                     "file_a" : "v3/effet5_rythme_a.ogg",
                     "file_b" : "v3/effet5_rythme_b.ogg",
                     "color" : "s-color-2",
-                    "icon" : "bullseye"
+                    "icon" : "eye"
                 },
                 {
                     "file_a" : "v3/melo1_tuu_a.ogg",
@@ -292,7 +292,7 @@
                 {
                     "file_a" : "v3/melo2_indien_a.ogg",
                     "color" : "s-color-3",
-                    "icon" : "flash"
+                    "icon" : "fighter-jet"
                 },
                 {
                     "file_a" : "v3/melo3_armo_a.ogg",
@@ -313,7 +313,7 @@
                 {
                     "file_a" : "v3/voix1_waya_a.ogg",
                     "color" : "s-color-4",
-                    "icon" : "support"
+                    "icon" : "moon"
                 },
                 {
                     "file_a" : "v3/voix2_ride_a.ogg",
@@ -336,7 +336,7 @@
                     "file_a" : "v3/voix5_sunrise_a.ogg",
                     "file_b" : "v3/voix5_sunrise_b.ogg",
                     "color" : "s-color-4",
-                    "icon" : "snowflake-o"
+                    "icon" : "snowflake"
                 }
             ]
         },
@@ -391,12 +391,12 @@
                 {
                     "file_a" : "v4/effect4_odoyouno_a.ogg",
                     "color" : "s-color-2",
-                    "icon" : "usd"
+                    "icon" : "coins"
                 },
                 {
                     "file_a" : "v4/effect5_oua_a.ogg",
                     "color" : "s-color-2",
-                    "icon" : "bullseye"
+                    "icon" : "eye"
                 },
                 {
                     "file_a" : "v4/melo1_toun_a.ogg",
@@ -408,7 +408,7 @@
                     "file_a" : "v4/melo2_flute_a.ogg",
                     "file_b" : "v4/melo2_flute_b.ogg",
                     "color" : "s-color-3",
-                    "icon" : "flash"
+                    "icon" : "fighter-jet"
                 },
                 {
                     "file_a" : "v4/melo3_neou_a.ogg",
@@ -430,7 +430,7 @@
                     "file_a" : "v4/chips1_feel_a.ogg",
                     "file_b" : "v4/chips1_feel_b.ogg",
                     "color" : "s-color-4",
-                    "icon" : "support"
+                    "icon" : "moon"
                 },
                 {
                     "file_a" : "v4/chips2_chillin_a.ogg",
@@ -451,7 +451,7 @@
                 {
                     "file_a" : "v4/chips5_teylo_a.ogg",
                     "color" : "s-color-4",
-                    "icon" : "snowflake-o"
+                    "icon" : "snowflake"
                 }
             ]
         }
