@@ -55,7 +55,6 @@
     "ember-source": "~3.28.0",
     "ember-template-lint": "^3.6.0",
     "ember-truth-helpers": "^3.0.0",
-    "ember-uikit": "^4.0.0",
     "eslint": "^7.32.0",
     "eslint-config-peopledoc": "^3.0.2",
     "eslint-config-prettier": "^8.3.0",
@@ -76,5 +75,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "uikit": "^3.9.4"
   }
 }

@@ -1,0 +1,10 @@
+<div 
+  uk-modal
+  {{did-insert this.showModal}}
+  {{on "hide" this.onClose}}
+  ...attributes
+>
+  <div class="uk-modal-dialog uk-modal-body {{@dialogClass}}">
+    {{yield}}
+  </div>
+</div>

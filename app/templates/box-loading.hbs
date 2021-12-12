@@ -1,12 +1,6 @@
-<UkModal
-  @modalClass="uk-flex-top"
-  @dialogClass="uk-margin-auto-vertical"
-  @visible={{true}}
-as |modal|>
-  <modal.body>
-    <p class="uk-text-center">
-      <p>{{t 'box_loading'}}</p>
-      <UkSpinner @ratio={{4}} />
-    </p>
-  </modal.body>
-</UkModal>
+<Misc::UkModal class="uk-flex-top" @dialogClass="uk-margin-auto-vertical">
+  <p class="uk-text-center">
+    <p>{{t 'box_loading'}}</p>
+    <div uk-spinner="ratio: 4"></div>
+  </p>
+</Misc::UkModal>

@@ -9,5 +9,7 @@ module.exports = function (defaults) {
     }
   })
 
+  app.import('node_modules/uikit/dist/js/uikit.min.js')
+
   return app.toTree()
 }
