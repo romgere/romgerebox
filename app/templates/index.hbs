@@ -1,16 +1,16 @@
 <h2 class="uk-text-center">{{t 'index.choose_version'}}</h2>
-<UkFlex @direction="row" @horizontal="around" @wrap="wrap" @wrapAlignment="around">
-  {{#each this.model.versions as |version idx|}}
-    <UkButton
-      @color="primary"
-      @size="small"
-      @fill={{true}}
-      @on-click={{transition-to "box" idx (query-params mixConf=(default-mix-conf))}}
+
+<div class="uk-flex uk-flex-around">  {{#each this.model.versions as |version idx|}}
+    <LinkTo 
+      class="uk-button uk-button-primary"
+      @route="box" 
+      @model={{idx}}
+      @query={{hash mixConf=(default-mix-conf)}}
     >
       {{version.name}}
-    </UkButton>
+    </LinkTo>
   {{/each}}
-</UkFlex>
+</div>
 
 
 <h2 class="uk-text-center">{{t 'index.load_mix_code'}}</h2>
@@ -39,14 +39,13 @@
       {{/if}}
     {{/let}}
   </div>
-  
-  <UkButton
-    @color="primary"
-    @size="small"
-    @fill={{true}}
-    @disabled={{not this.mixCodeValid}}
-    @on-click={{this.loadMixCode}}
+
+  <button
+    type="button"
+    class="uk-button uk-button-primary"
+    disabled={{not this.mixCodeValid}}
+    {{on "click" this.loadMixCode}}
   >
     {{t 'index.load'}}
-  </UkButton>
+  </button>
 </div>

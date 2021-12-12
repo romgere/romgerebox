@@ -1,13 +1,7 @@
-<UkModal
-  @modalClass="uk-flex-top"
-  @dialogClass="uk-margin-auto-vertical"
-  @visible={{true}}
-as |modal|>
-  <modal.body>
-    <p class="uk-text-center">
-      {{t 'unlock_audio'}}
-      <br /><br />
-      <FaIcon @icon="lock" @size="2x" />
-    </p>
-  </modal.body>
-</UkModal>
+<Misc::UkModal class="uk-flex-top" @dialogClass="uk-margin-auto-vertical">
+  <p class="uk-text-center">
+    {{t 'unlock_audio'}}
+    <br /><br />
+    <FaIcon @icon="lock" @size="2x" />
+  </p>
+</Misc::UkModal>
