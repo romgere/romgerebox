@@ -1,5 +1,5 @@
-import EmberRouter from '@ember/routing/router';
-import config from 'romgerebox/config/environment';
+import EmberRouter from '@ember/routing/router'
+import config from 'romgerebox/config/environment'
 
 export default class Router extends EmberRouter {
   location = config.locationType;
@@ -7,6 +7,6 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('box', {path : 'box/:version_idx'});
-  this.route('unlock-audio');
-});
+  this.route('box', {path : 'box/:version_idx'})
+  this.route('unlock-audio')
+})

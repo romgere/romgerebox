@@ -4,7 +4,7 @@ import { action } from '@ember/object'
 export default class MiscUkModalComponent extends Component {
 
   @action
-  showModal (modalElement) {
+  showModal(modalElement) {
     /* global UIkit */
     UIkit.modal(modalElement).show()
   }
