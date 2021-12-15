@@ -6,6 +6,7 @@ export default {
       second: 'numeric'
     }
   },
+
   date: {
     hhmmss: {
       hour: 'numeric',
@@ -13,18 +14,17 @@ export default {
       second: 'numeric'
     }
   },
+
   number: {
+    compact: { notation: 'compact' },
     EUR: {
       style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      currency: 'EUR'
     },
+
     USD: {
       style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      currency: 'USD'
     }
   }
-};
+}
