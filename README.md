@@ -4,13 +4,20 @@ Music "Loop box" : [romgerebox.mestres.fr](https://romgerebox.mestres.fr/).
 
 Samples come from [slooply.com](https://slooply.com/sample-packs/free) / Inspired by [incredibox](https://www.incredibox.com/).
 
-TODO 2021 : 
+## TODO 2021 : 
 
-- Write tests
-- Swicth to Typescript
-- check if it's possible to use web-audio-recorder as regular npm package
-- integrate volume-meter into app code
-- get rid of ember-ui-kit
+### Write tests
+
+and run test on CI
+
+### Switch to Typescript
+
+### check if it's possible to use web-audio-recorder as regular npm package 
+- error with npm package web-audio-recorder-js
+- worker issue with mp3-mediarecorder
+
+### integrate volume-meter into app code
+see https://github.com/krzaku281/audio-stream-meter ?
 
 
 ## Prerequisites
