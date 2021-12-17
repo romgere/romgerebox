@@ -16,10 +16,6 @@ and run test on CI
 - error with npm package web-audio-recorder-js
 - worker issue with mp3-mediarecorder
 
-### integrate volume-meter into app code
-see https://github.com/krzaku281/audio-stream-meter ?
-
-
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
