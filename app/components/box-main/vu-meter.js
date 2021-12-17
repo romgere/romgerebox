@@ -2,6 +2,7 @@ import Component from '@glimmer/component'
 import { inject as service } from '@ember/service'
 import { action } from '@ember/object'
 import Constants from 'romgerebox/constants'
+import { audioStreamProcessor } from 'audio-stream-meter'
 
 export default class VuMetterComponent extends Component {
 
@@ -21,8 +22,7 @@ export default class VuMetterComponent extends Component {
     super(...arguments)
 
     // Create a new volume meter and connect it.
-    /* global createAudioMeter */
-    this.meter = createAudioMeter(this.audio.audioContext, Constants.VUMETTER_CLIPLVL, Constants.VUMETTER_AVG) 
+    this.meter = audioStreamProcessor(this.audio.audioContext, function () {})
   }
 
   @action
