@@ -1,10 +1,16 @@
 import Route from '@ember/routing/route'
 import { inject as service } from '@ember/service'
 import { getOwner } from '@ember/application'
+import type AudioService from 'romgerebox/services/audio'
+
+import type { BoxVersionModels } from 'romgerebox/routes/application'
+import type RouterService from '@ember/routing/router-service';
+type Transition = ReturnType<RouterService['transitionTo']>;
 
 // https://www.mattmontag.com/web/unlock-web-audio-in-safari-for-ios-and-macos
 export default class UnlockAudioRoute extends Route {
-  @service audio
+
+  @service declare audio: AudioService
 
   events = ['touchstart', 'touchend', 'mousedown', 'keydown']
 
@@ -12,7 +18,7 @@ export default class UnlockAudioRoute extends Route {
     this.unlock()
   }
 
-  afterModel(model, transition) {
+  afterModel(model: BoxVersionModels, transition: Transition) {
     super.afterModel(model, transition)
 
     let { body } = document

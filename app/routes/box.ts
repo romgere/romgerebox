@@ -2,20 +2,31 @@ import Route from '@ember/routing/route'
 import { hash } from 'rsvp'
 import { inject as service } from '@ember/service'
 
+import type AudioService from 'romgerebox/services/audio'
+import type SampleService from 'romgerebox/services/sample'
+import type { BoxVersionModels } from 'romgerebox/routes/application'
+import SampleModel from 'romgerebox/models/sample'
+
+interface QP {
+  version_idx: string
+}
+
+type ASampleModel = Array<SampleModel>
+
 export default class BoxRoute extends Route {
 
   queryParams = {
     mixConfString: { replace: true }
   }
 
-  @service audio
-  @service sample
+  @service declare audio: AudioService
+  @service declare sample: SampleService
 
-  model(params) {
+  model(params: QP) {
     let versionIdx = parseInt(params.version_idx)
     
     // Get info about "version" (loop duration, name, samples)
-    let version = this.modelFor('application').versions[versionIdx]
+    let version = (this.modelFor('application') as BoxVersionModels)[versionIdx]
 
     // Init/reset audio service
     this.audio.resetTracks()
@@ -29,10 +40,10 @@ export default class BoxRoute extends Route {
     })
   }
 
-  initSample(samples) {
+  initSample(samples: ASampleModel): Promise<ASampleModel> {
 
     let loadSamplesPromises = samples.map(async (sample) => {
-      if (!sample.mediaStreamInit) {
+      if (!sample.sampleInit) {
         await this.sample.initAudioSample(sample)
       }
 

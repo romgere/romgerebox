@@ -4,6 +4,8 @@ declare global {
   interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
   // interface Function extends Ember.FunctionPrototypeExtensions {}
 
+  type mixCodeValue = number | undefined
+
   interface BoxSample {
     file_a: string;
     file_b?: string;
@@ -15,6 +17,27 @@ declare global {
     name: string;
     loopTime: number;
     samples: Array<BoxSample>;
+  }
+
+  interface VersionsDef {
+    versions: Array<BoxVersion>
+  }
+  
+  interface WebAudioRecorderOptions {
+    timeLimit :number
+  }
+  
+  interface WebAudioRecorderArgs {
+    workerDir: string;
+    encoding: string,
+    
+    onComplete: () => void;
+    onTimeout: () => void;
+    options ?: WebAudioRecorderOptions
+  }
+
+  interface Window {
+    webkitAudioContext: typeof AudioContext
   }
 }
 

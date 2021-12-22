@@ -2,17 +2,19 @@ import Controller from '@ember/controller'
 import { inject as service } from '@ember/service'
 import { action } from '@ember/object'
 
+import type IntlService from 'ember-intl/services/intl'
+
 export default class ApplicationController extends Controller {
 
-  @service intl
+  @service declare intl: IntlService
 
   availableLocales = ['fr', 'en']
   get currentLocale() {
-    return this.intl.locale.firstObject
+    return this.intl.primaryLocale
   }
 
   @action
-  localeChangeAction(locale) {
+  localeChangeAction(locale: string) {
     localStorage.setItem('romgereBoxLocale', locale)
   }
 }

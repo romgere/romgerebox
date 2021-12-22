@@ -4,3 +4,9 @@ declare module 'romgerebox/templates/*' {
   const tmpl: TemplateFactory;
   export default tmpl;
 }
+
+declare class WebAudioRecorder extends Error {
+  startRecording() :void
+  finishRecording() :void
+  constructor(n: GainNode, o: WebAudioRecorderArgs);
+}

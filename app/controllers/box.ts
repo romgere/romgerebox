@@ -8,8 +8,8 @@ export default class BoxController extends Controller {
   
   queryParams = [{
     mixConfString: {
-      type: 'string',
-      as: 'mixConf'
+      as: 'mixConf',
+      type: 'string' as const
     }
   }]
 

@@ -1,6 +1,6 @@
 <h2 class="uk-text-center">{{t 'index.choose_version'}}</h2>
 
-<div class="uk-flex uk-flex-around">  {{#each this.model.versions as |version idx|}}
+<div class="uk-flex uk-flex-around">  {{#each this.model as |version idx|}}
     <LinkTo 
       class="uk-button uk-button-primary"
       @route="box" 
