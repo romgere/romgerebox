@@ -43,7 +43,7 @@ export default class IndexController extends Controller {
       alert(this.intl.t('index.mix_code_input.invalid'))
       return
     }
-    let mixConf: Array<mixCodeValue> = []
+    let mixConf: MixCodeArray = []
     let usedSample: Array<string> = []
     mixCode.substring(1).split('').forEach((c, i) => {
       if (usedSample.indexOf(c) === -1 ) {

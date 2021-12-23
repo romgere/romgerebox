@@ -4,7 +4,8 @@ declare global {
   interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
   // interface Function extends Ember.FunctionPrototypeExtensions {}
 
-  type mixCodeValue = number | undefined
+  type MixCodeValue = number | undefined
+  type MixCodeArray = Array<MixCodeValue>
 
   interface BoxSample {
     file_a: string;

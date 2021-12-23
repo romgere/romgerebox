@@ -5,11 +5,21 @@ import Constants from 'romgerebox/constants'
 import { intToChar } from 'romgerebox/misc/conv-int-char'
 import { tracked } from '@glimmer/tracking'
 
-export default class BoxMainComponent extends Component {
+import type SampleModel from 'romgerebox/models/sample'
+import type AudioService from 'romgerebox/services/audio'
+import type IntlService from 'ember-intl/services/intl'
 
-  @service intl
+interface UiInputArgs {
+  versionIdx: number;
+  samples: Array<SampleModel>
+  mixConf: MixCodeArray
+  onMixConfUpdate: (mixCode :MixCodeArray) => void;
+}
 
-  @service('audio') audio
+export default class BoxMainComponent extends Component<UiInputArgs> {
+
+  @service declare intl: IntlService
+  @service declare audio: AudioService
 
   @tracked showMixCode = false
 
@@ -17,7 +27,7 @@ export default class BoxMainComponent extends Component {
     return this.audio.trackSamples.filter((s) => s !== undefined).length
   }
 
-  get soloTrack() {
+  get soloTrack(): number | undefined {
 
     if (this.trackCount > 1) {
       let noMutedSamplesIdx = this.audio.trackSamples.reduce(function (a, sample, idx) {
@@ -26,14 +36,14 @@ export default class BoxMainComponent extends Component {
         }
 
         return a
-      }, [])
+      }, [] as Array<number>)
       return noMutedSamplesIdx.length === 1 ? noMutedSamplesIdx[0] : undefined
     }
     
     return undefined
   }
 
-  get currentMixConf() {
+  get currentMixConf(): MixCodeArray {
     return this.audio.trackSamples.map((s) => {
       let i = this.args.samples.indexOf(s)
       return i >= 0 ? i : undefined
@@ -41,7 +51,7 @@ export default class BoxMainComponent extends Component {
   }
 
   get currentMixCode() {
-    let mixCode = intToChar( this.args.versionIdx)
+    let mixCode = intToChar(this.args.versionIdx)
 
     this.currentMixConf.forEach((sampleIdx, idx) => {
 
@@ -49,7 +59,7 @@ export default class BoxMainComponent extends Component {
         mixCode += '-'
       }
 
-      mixCode += intToChar( parseInt(sampleIdx))    
+      mixCode += intToChar(sampleIdx)    
     })
 
     return mixCode
@@ -60,7 +70,7 @@ export default class BoxMainComponent extends Component {
     let { mixConf } = this.args
     if (this.currentMixConf.join() !== mixConf.join()) {
       mixConf.forEach((sampleIdx, trackIdx) => {
-        if (sampleIdx >= 0) {
+        if (sampleIdx && sampleIdx >= 0) {
           this.audio.bindSample(trackIdx, this.args.samples[sampleIdx])
         } else {
           this.audio.unbindSample(trackIdx)
@@ -75,31 +85,36 @@ export default class BoxMainComponent extends Component {
   }
 
   @action
-  bindSample(trackIdx, sample) {
+  bindSample(trackIdx: number, sample: SampleModel) {
     this.audio.bindSample(trackIdx, sample)
     this.updateMixConf()
   }
 
   @action
-  unbindSample(trackIdx) {
+  unbindSample(trackIdx: number) {
     this.audio.unbindSample(trackIdx)
     this.updateMixConf()
   }
   
 
   @action
-  changeVolume(trackIdx, value) {
-    this.audio.trackSamples.objectAt(trackIdx).volume = value
+  changeVolume(trackIdx: number, value: number) {
+    let sample = this.audio.trackSamples.objectAt(trackIdx)
+    if (sample) {
+      sample.volume = value
+    }
   }
   
   @action
-  muteToggle(trackIdx) {
+  muteToggle(trackIdx: number) {
     let sample = this.audio.trackSamples.objectAt(trackIdx)
-    sample.isMute = !sample.isMute
+    if (sample) {
+      sample.isMute = !sample.isMute
+    }
   }
 
   @action
-  soloToggle(trackIdx) {
+  soloToggle(trackIdx: number) {
     let trackIsSolo = this.soloTrack === trackIdx
 
     this.audio.trackSamples.forEach((sample, idx) => {
@@ -151,10 +166,14 @@ export default class BoxMainComponent extends Component {
   
   @action
   downloadRecord(){
+    if (!this.audio.recordedFileUri) {
+      return
+    }
+
     // Download file
     let a = document.createElement("a")
     document.body.appendChild(a)
-    a.style = "display: none"
+    a.setAttribute('style', 'display: none')
     a.href = this.audio.recordedFileUri
     a.download = `mix.${Constants.RECORDING_FORMAT}`
     a.target = '_blank'
@@ -162,7 +181,7 @@ export default class BoxMainComponent extends Component {
   }
 
   willDestroy(){
-    super.willDestroy(...arguments)
+    super.willDestroy()
     this.audio.stop()
   }
   

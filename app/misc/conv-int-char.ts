@@ -1,4 +1,4 @@
-export function intToChar(intValue: mixCodeValue): string{
+export function intToChar(intValue: MixCodeValue): string{
 
   if( Number.isNaN(intValue) || intValue == null || intValue === undefined ){
     return 'Z'
@@ -7,7 +7,7 @@ export function intToChar(intValue: mixCodeValue): string{
   return String.fromCharCode(65 + intValue)
 }
 
-export function  charToInt(char: string): mixCodeValue {
+export function  charToInt(char: string): MixCodeValue {
 
   if( char === 'Z' ){
     return undefined
