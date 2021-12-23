@@ -2,8 +2,21 @@ import Component from '@glimmer/component'
 import { tracked } from '@glimmer/tracking'
 import Constants from 'romgerebox/constants'
 
+import type SampleModel from 'romgerebox/models/sample'
 
-export default class BoxTrackComponent extends Component {
+interface UiInputArgs {
+  sample ?:SampleModel;
+  trackNumber: number;
+  isSolo: boolean
+  onVolumeChange: () => void;
+  onMuteToggle: () => void;
+  onSoloToggle: () => void;
+
+  onDropSample: (sample: SampleModel) => void;
+  onClearSample: () => void;
+}
+
+export default class BoxTrackComponent extends Component<UiInputArgs> {
 
   @tracked dragPending = false
 

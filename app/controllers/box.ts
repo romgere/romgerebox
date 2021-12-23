@@ -8,16 +8,16 @@ export default class BoxController extends Controller {
   
   queryParams = [{
     mixConfString: {
-      type: 'string',
-      as: 'mixConf'
+      as: 'mixConf',
+      type: 'string' as const
     }
   }]
 
-  get mixConf() {
+  get mixConf(): MixCodeArray {
     return this.mixConfString.split('|').map((v) =>  v ? parseInt(v) : undefined)
   }
 
-  set mixConf(value) {
+  set mixConf(value: MixCodeArray) {
     this.mixConfString = value.join('|')
   }
 }

@@ -2,31 +2,37 @@ import Component from '@glimmer/component'
 import { inject as service } from '@ember/service'
 import { action } from '@ember/object'
 import Constants from 'romgerebox/constants'
-import { audioStreamProcessor } from 'audio-stream-meter'
+import { AudioStreamProcessor, audioStreamProcessor } from 'audio-stream-meter'
 
-export default class VuMetterComponent extends Component {
+import type SampleModel from 'romgerebox/models/sample'
+import type AudioService from 'romgerebox/services/audio'
 
+interface UiInputArgs {
+  sample: SampleModel;
+}
 
-  @service audio
+export default class VuMetterComponent extends Component<UiInputArgs> {
+
+  @service declare audio: AudioService
 
   width = Constants.VUMETTER_CANVAS_WIDTH
   height = Constants.VUMETTER_CANVAS_HEIGHT
 
-  canvas = null
-  meter = null
+  canvas ?:HTMLCanvasElement
+  meter:AudioStreamProcessor
 
   // Keep ref to connected Stream and disconnect when sample change
-  connectedStreams = undefined
+  connectedStream?:AudioNode
 
-  constructor() {
-    super(...arguments)
+  constructor(owner: unknown, args: UiInputArgs) {
+    super(owner, args)
 
     // Create a new volume meter and connect it.
     this.meter = audioStreamProcessor(this.audio.audioContext, function () {})
   }
 
   @action
-  registerCanvas(canvasElement) {
+  registerCanvas(canvasElement: HTMLCanvasElement) {
     this.canvas = canvasElement
   }
 
@@ -45,7 +51,7 @@ export default class VuMetterComponent extends Component {
     } else {
       // Disconnect the "old sample" (stream) from "meter"
       this.connectedStream?.disconnect(meter)
-      this.connectedStreams = undefined
+      this.connectedStream = undefined
     }
   }
 
@@ -54,6 +60,10 @@ export default class VuMetterComponent extends Component {
     if (canvas && meter) {
 
       let canvasContext = canvas.getContext("2d")
+      if (!canvasContext) {
+        return
+      }
+
       canvasContext.clearRect(0, 0, Constants.VUMETTER_CANVAS_WIDTH, Constants.VUMETTER_CANVAS_HEIGHT)
 
       if (sample) {

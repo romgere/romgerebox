@@ -1,14 +1,17 @@
 import { tracked } from '@glimmer/tracking'
 
-
 export default class SampleModel {
 
 
   // name of audio file(s)
-  file_a = undefined // eslint-disable-line camelcase
-  file_b = undefined // eslint-disable-line camelcase
+  file_a : string // eslint-disable-line camelcase
+  file_b ?: string = undefined // eslint-disable-line camelcase
 
-  get isDoubleSample() {
+  // "Style" for this sample
+  color = "s-color-0"
+  icon = "music"
+
+  get isDoubleSample(): boolean {
     return Boolean(this.file_b)
   }
 
@@ -16,12 +19,12 @@ export default class SampleModel {
   sampleInit = false
 
   // Audio stuff
-  buffer = null // ArrayBuffer (contains sound)  
-  sampleMediaSource = null // AudioBufferSourceNode  
-  gainNode = null // Gain Node to control output volume of the sample
+  buffer ?:ArrayBuffer //  (contains sound)  
+  sampleMediaSource ?:AudioBufferSourceNode // AudioBufferSourceNode  
+  declare gainNode:GainNode // Gain Node to control output volume of the sample
   loopTime = 0
   
-  get mediaStream(){
+  get mediaStream() {
     return this.gainNode
   }
 
@@ -49,11 +52,7 @@ export default class SampleModel {
     return this._isMute
   }
 
-  // "Style" for this sample
-  color = "s-color-0"
-  icon = "music"
-
-  constructor(attrs, version) {
+  constructor(attrs: BoxSample, version: BoxVersion) {
     this.file_a = attrs.file_a // eslint-disable-line camelcase
     this.file_b = attrs.file_b // eslint-disable-line camelcase
     this.color = attrs.color

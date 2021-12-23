@@ -1,26 +1,27 @@
 import Service, { inject as service } from '@ember/service'
 import Constants from 'romgerebox/constants'
 import { cloneBuffer } from 'romgerebox/misc/clone-buffer'
+import type SampleModel from 'romgerebox/models/sample'
+import type AudioService from 'romgerebox/services/audio'
 
 export default class SampleService extends Service {
-
-  @service audio
+ 
+  @service declare audio: AudioService
  
    /**
    * @public
-   * Create and set mediaStreamSource on sample for audio file (A & B)
+   * Create and set sampleMediaSource on sample for audio file (A & B)
    * @param Sample sample     Sample to used (model)
    * @param integer loopTime  Time of loop in second
    */
-   async initAudioSample(sample){
+   async initAudioSample(sample: SampleModel){
 
     let { audioContext } = this.audio
     
     // Load buffer and create BufferSource with buffer(s)s
     let buffer = await this._loadAudioBufferFromFile( sample.file_a)
-    if (sample.isDoubleSample) {
-
-      let bufferB = await this._loadAudioBufferFromFile( sample.file_b)
+    if (sample.file_b) {
+      let bufferB = await this._loadAudioBufferFromFile(sample.file_b)
 
       // Concat buffers
       let tmp = new Uint8Array(buffer.byteLength + bufferB.byteLength)
@@ -36,7 +37,7 @@ export default class SampleService extends Service {
     
     // Create GainNode to control volume
     sample.gainNode = audioContext.createGain()
-    sample.sampleMediaSource.connect( sample.gainNode)
+    sample.sampleMediaSource.connect(sample.gainNode)
     
     // Connect gainNode to output
     sample.gainNode.connect(audioContext.destination)
@@ -44,14 +45,7 @@ export default class SampleService extends Service {
     sample.sampleInit = true
   }
 
-  /**
-   * @private
-   * Load audio file and create audio buffer
-   * @author mestresj
-   * @param  string url             URL of audio file
-   * @return Promise<ArrayBuffer>   Promise resolve with AudioBuffer if success
-   */
-  _loadAudioBufferFromFile(url) {
+  private _loadAudioBufferFromFile(url: string): Promise<ArrayBuffer> {
 
     let request = new XMLHttpRequest()
     request.open('GET', `/samples/${url}`, true)
@@ -62,26 +56,19 @@ export default class SampleService extends Service {
         resolve(request.response)
       }
 
-      request.onError = reject
+      request.onerror = reject
       request.send()
     })
   }
 
-  /**
-   * @private
-   * Create a bufferSource with buffer(s)
-   * @author mestresj
-   * @param  ArrayBuffer buffer         Sample Array buffer
-   * @return AudioBuffer                 Buffer source for playing array(s) buffer(s)
-   */
-  _createBufferSource(buffer, loopTime) {
+  private _createBufferSource(buffer: ArrayBuffer, loopTime: number): Promise<AudioBufferSourceNode> {
 
     let { audioContext }  = this.audio
     return new Promise((resolve, reject) => {
 
       // Clone buffer & keep it in sample.
       // Use to create again the audioBufferSource each time we stop it
-      audioContext.decodeAudioData( cloneBuffer(buffer), function (response) {
+      audioContext.decodeAudioData( cloneBuffer(buffer), function (response: AudioBuffer) {
 
         let audio = audioContext.createBufferSource()
         audio.buffer = response
@@ -93,8 +80,12 @@ export default class SampleService extends Service {
     })
   }
   
-  async resetSampleBufferSource(sample) {
-    sample.sampleMediaSource = null
+  async resetSampleBufferSource(sample: SampleModel) {
+    sample.sampleMediaSource = undefined
+
+    if (!sample.buffer || !sample.gainNode) {
+      return
+    }
 
     // "An AudioBufferSourceNode can only be played once"
     // Prepare future play : create new AudioBufferSourceNode
@@ -102,22 +93,32 @@ export default class SampleService extends Service {
     sample.sampleMediaSource.connect(sample.gainNode)
   }
 
-  playSample(sample, startTime = 0){
+  playSample(sample: SampleModel, startTime = 0){
     if (!sample.isPlaying && sample.sampleMediaSource) {
       sample.sampleMediaSource.start(0, startTime)
       sample.isPlaying = true
     }
   }
 
-  async playSampleOnce(sample){
+  async playSampleOnce(sample: SampleModel): Promise<void> {
+    
+    if (sample.isPlaying) {
+      return Promise.reject()
+    }
+
     sample.isPlaying = true
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
+      
+      if (!sample.sampleMediaSource) {
+        return reject()
+      }
+
       let { sampleMediaSource } = sample
       sampleMediaSource.loop = false
       sampleMediaSource.start(0, 0)
       sampleMediaSource.onended = () => {
         sample.isPlaying = false
-        resolve()
+        resolve(null)
       }
     })
 
@@ -125,8 +126,8 @@ export default class SampleService extends Service {
   }
   
 
-  async stopSample(sample){
-    if (sample.isPlaying) {
+  async stopSample(sample: SampleModel){
+    if (sample.isPlaying && sample.sampleMediaSource) {
       sample.sampleMediaSource.stop(0)
       sample.isPlaying = false
       this.resetSampleBufferSource(sample)      
@@ -134,10 +135,16 @@ export default class SampleService extends Service {
   }
   
   // Reset "settings" when sample is "release" by track
-  releaseSample(sample){
+  releaseSample(sample: SampleModel){
     sample.isUsed = false
     sample.isPlaying = false
     sample.isMute = false
     sample.volume = Constants.INITIAL_TRACK_VOLUME
+  }
+}
+
+declare module '@ember/service' {
+  interface Registry {
+    'sample': SampleService
   }
 }

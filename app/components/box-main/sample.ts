@@ -3,9 +3,16 @@ import { tracked } from '@glimmer/tracking'
 import { action } from '@ember/object'
 import { inject as service } from '@ember/service'
 
-export default class BoxSampleComponent extends Component{
+import type SampleModel from 'romgerebox/models/sample'
+import type SampleService from 'romgerebox/services/sample'
+
+interface UiInputArgs {
+  sample: SampleModel;
+}
+
+export default class BoxSampleComponent extends Component<UiInputArgs>{
   
-  @service audio
+  @service('sample') declare sampleSerice: SampleService
 
   @tracked isSinglePlaying = false
 
@@ -20,9 +27,10 @@ export default class BoxSampleComponent extends Component{
   
   @action
   play() {
-    if (!this.isUsed) {
+    let { sample } = this.args
+    if (!sample.isUsed) {
       this.isSinglePlaying = true
-      this.audio.playSampleOnce().finally(() => {
+      this.sampleSerice.playSampleOnce(sample).finally(() => {
         this.isSinglePlaying = false
       })
     }
