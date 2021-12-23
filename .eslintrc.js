@@ -32,7 +32,5 @@ module.exports = {
         'ember-suave/no-const-outside-module-scope': 'off'
       }
     }
-  ],  
-
-  ignorePatterns: ['public/**/*.js', 'maquette/**/*.js']
+  ]
 }
