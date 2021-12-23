@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import Ember from 'ember'
 
 declare global {
+  // eslint-disable-next-line ember-suave/no-direct-property-access
   interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
   // interface Function extends Ember.FunctionPrototypeExtensions {}
 
@@ -8,8 +9,8 @@ declare global {
   type MixCodeArray = Array<MixCodeValue>
 
   interface BoxSample {
-    file_a: string;
-    file_b?: string;
+    file_a: string; // eslint-disable-line camelcase
+    file_b?: string; // eslint-disable-line camelcase
     color: string;
     icon: string;
   }
@@ -43,4 +44,4 @@ declare global {
 }
 
 
-export {};
+export {}

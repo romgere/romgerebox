@@ -4,6 +4,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'off' // to remove after update prettier conf to allow empty line
   },
+
   parser: '@typescript-eslint/parser',
   overrides: [
     {
@@ -31,9 +32,7 @@ module.exports = {
         'ember-suave/no-const-outside-module-scope': 'off'
       }
     }
-  ]
-
-  
+  ],  
 
   ignorePatterns: ['public/**/*.js', 'maquette/**/*.js']
 }

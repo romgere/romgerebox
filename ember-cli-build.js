@@ -1,14 +1,14 @@
 'use strict'
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app')
-const Funnel = require('broccoli-funnel');
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
-const mergeTrees = require('broccoli-merge-trees');
-const { buildWorkers } = require('./lib/worker-build');
+const Funnel = require('broccoli-funnel')
+const path = require('path')
+const os = require('os')
+const fs = require('fs')
+const mergeTrees = require('broccoli-merge-trees')
+const { buildWorkers } = require('./lib/worker-build')
 
-var environment = process.env.EMBER_ENV || 'development';
+let environment = process.env.EMBER_ENV || 'development'
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
@@ -17,25 +17,25 @@ module.exports = function (defaults) {
     },
 
     'ember-cli-babel': {
-      enableTypeScriptTransform: true,
+      enableTypeScriptTransform: true
     }
   })
 
   app.import('node_modules/uikit/dist/js/uikit.min.js')
 
-  let buildDir = fs.mkdtempSync(path.join(os.tmpdir(), '@romgerebox--'));
+  let buildDir = fs.mkdtempSync(path.join(os.tmpdir(), '@romgerebox--'))
 
   let options = {
     isProduction: environment === 'production',
-    buildDir,
-  };
+    buildDir
+  }
 
   // Build all .ts files located in app/workers in `buildDir`
-  buildWorkers(options);
+  buildWorkers(options)
   // "move" all compiled workers files in 'asset/workers/'
   let workersFunnel = new Funnel(buildDir, {
-    destDir: 'assets/workers/',
-  });
+    destDir: 'assets/workers/'
+  })
 
   return mergeTrees([app.toTree(), workersFunnel])
 }

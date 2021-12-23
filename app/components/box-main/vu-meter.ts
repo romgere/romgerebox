@@ -2,7 +2,6 @@ import Component from '@glimmer/component'
 import { inject as service } from '@ember/service'
 import { action } from '@ember/object'
 import Constants from 'romgerebox/constants'
-import { AudioStreamProcessor, audioStreamProcessor } from 'audio-stream-meter'
 
 import type SampleModel from 'romgerebox/models/sample'
 import type AudioService from 'romgerebox/services/audio'
@@ -18,8 +17,9 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
   width = Constants.VUMETTER_CANVAS_WIDTH
   height = Constants.VUMETTER_CANVAS_HEIGHT
 
-  canvas ?:HTMLCanvasElement
-  meter:AudioStreamProcessor
+  canvas?:HTMLCanvasElement
+
+  meter:AudioWorkletNode
 
   // Keep ref to connected Stream and disconnect when sample change
   connectedStream?:AudioNode
@@ -27,8 +27,10 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
   constructor(owner: unknown, args: UiInputArgs) {
     super(owner, args)
 
-    // Create a new volume meter and connect it.
-    this.meter = audioStreamProcessor(this.audio.audioContext, function () {})
+    this.meter = this.audio.createVueMeter()
+    this.meter.port.onmessage = (event) => {
+      this.onLevelChange(event.data.volume ?? 0)
+    }
   }
 
   @action
@@ -47,7 +49,7 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
       let stream = sample.mediaStream
       stream.connect(meter)
       this.connectedStream = stream
-      this.onLevelChange()
+      this.onLevelChange(0)
     } else {
       // Disconnect the "old sample" (stream) from "meter"
       this.connectedStream?.disconnect(meter)
@@ -55,9 +57,9 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
     }
   }
 
-  onLevelChange(){
-    let { canvas, meter, args: { sample } } = this
-    if (canvas && meter) {
+  onLevelChange(volume: number){
+    let { canvas, args: { sample } } = this
+    if (canvas) {
 
       let canvasContext = canvas.getContext("2d")
       if (!canvasContext) {
@@ -72,10 +74,8 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
           0,
           0,
           Constants.VUMETTER_CANVAS_WIDTH,
-          Constants.VUMETTER_CANVAS_HEIGHT - (meter.volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO)
+          Constants.VUMETTER_CANVAS_HEIGHT - (volume * Constants.VUMETTER_CANVAS_HEIGHT * Constants.VUMETTER_RATIO)
         )
-
-        window.requestAnimationFrame( this.onLevelChange.bind(this))
       }
     }
   }
