@@ -75,6 +75,8 @@ export default class AudioService extends Service {
     window.AudioContext = window.AudioContext || window.webkitAudioContext
     this.audioContext = new AudioContext()
     
+    this.audioContext.audioWorklet.addModule('/assets/workers/vue-meter-processor.js')
+
     this._initRecorder()
 
     this.trackSamples = A(new Array(Constants.TRACK_COUNT).fill(undefined))
@@ -103,6 +105,10 @@ export default class AudioService extends Service {
 
     sampleService.stopSample(sample)
     sampleService.releaseSample(sample)
+  }
+
+  createVueMeter(): AudioWorkletNode {
+    return new AudioWorkletNode(this.audioContext, 'vumeter')
   }
   
   @action
