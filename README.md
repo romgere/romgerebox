@@ -7,14 +7,7 @@ Samples come from [slooply.com](https://slooply.com/sample-packs/free) / Inspire
 ## TODO 2021 : 
 
 ### Write tests
-
-and run test on CI
-
-### Switch to Typescript
-
-### check if it's possible to use web-audio-recorder as regular npm package 
-- error with npm package web-audio-recorder-js
-- worker issue with mp3-mediarecorder
+and run tests on CI
 
 ## Prerequisites
 
