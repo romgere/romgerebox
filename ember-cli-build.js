@@ -37,5 +37,11 @@ module.exports = function (defaults) {
     destDir: 'assets/workers/'
   })
 
-  return mergeTrees([app.toTree(), workersFunnel])
+  // Add "vmsg.wasm" (needed for mp3 recording) to output build
+  let vmsgFunnel = new Funnel('node_modules/vmsg/', {
+    include: ['vmsg.wasm'],
+    destDir: 'assets/workers/'
+  })
+
+  return mergeTrees([app.toTree(), workersFunnel, vmsgFunnel])
 }

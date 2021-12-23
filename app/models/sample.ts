@@ -24,7 +24,7 @@ export default class SampleModel {
   declare gainNode:GainNode // Gain Node to control output volume of the sample
   loopTime = 0
   
-  get mediaStream() {
+  get mediaStream(): AudioNode {
     return this.gainNode
   }
 

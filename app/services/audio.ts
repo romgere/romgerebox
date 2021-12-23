@@ -4,12 +4,15 @@ import { tracked } from '@glimmer/tracking'
 import { A } from '@ember/array'
 import { action } from '@ember/object'
 import type SampleService from 'romgerebox/services/sample'
+import type RecorderService from 'romgerebox/services/recorder'
 import type SampleModel from 'romgerebox/models/sample'
+
 
 // Handle all the logic of sync playing somes tracks made of sample
 export default class AudioService extends Service {
 
   @service('sample') declare sampleService: SampleService
+  @service declare recorder: RecorderService
 
   // Audio Context for application (one instance)
   audioContext :AudioContext
@@ -51,19 +54,20 @@ export default class AudioService extends Service {
     return !this.isLoopSideA
   }
 
-  // Recorder stuff
-  declare recorder :WebAudioRecorder
-  declare recorderDestinationStream :GainNode
-  @tracked recordedFileUri ?: string
+  // Recorder service aliases
 
-  @tracked isRecording = false
-  startRecordTime = 0
-  @tracked currentRecordTime = 0
+  get isRecording() {
+    return this.recorder.isRecording
+  }
 
-  get recordTime():number {
-    return this.currentRecordTime - this.startRecordTime
-  }  
+  get recordTime() {
+    return this.recorder.recordTime
+  }
 
+  get recordedFileUri() {
+    return this.recorder.recordedFileUri
+  }
+ 
   // Mic stuff
   micStream ?:MediaStreamAudioSourceNode
   isMicroReady = false
@@ -76,8 +80,6 @@ export default class AudioService extends Service {
     this.audioContext = new AudioContext()
     
     this.audioContext.audioWorklet.addModule('/assets/workers/vue-meter-processor.js')
-
-    this._initRecorder()
 
     this.trackSamples = A(new Array(Constants.TRACK_COUNT).fill(undefined))
   }
@@ -99,8 +101,8 @@ export default class AudioService extends Service {
     let { sampleService } = this
 
     // remove sample from recording if needed
-    if (this.isRecording && sample.mediaStream) {
-      sample.mediaStream.disconnect(this.recorderDestinationStream)      
+    if (this.recorder.isRecording && sample.mediaStream) {
+      sample.mediaStream.disconnect(this.recorder.recorderDestinationStream)      
     }
 
     sampleService.stopSample(sample)
@@ -127,8 +129,8 @@ export default class AudioService extends Service {
   _integrateSample(sample: SampleModel) {
 
     // recording: Add new track to recordStream
-    if (this.isRecording && sample.mediaStream) {
-      sample.mediaStream.connect(this.recorderDestinationStream)
+    if (this.recorder.isRecording && sample.mediaStream) {
+      sample.mediaStream.connect(this.recorder.recorderDestinationStream)
     }
 
     if (this.isPlaying) {
@@ -142,7 +144,7 @@ export default class AudioService extends Service {
 
   @action
   stop(){
-    if (this.isRecording) {
+    if (this.recorder.isRecording) {
       this.stopRecord()
     }
 
@@ -196,26 +198,6 @@ export default class AudioService extends Service {
     }
   }
 
-  _initRecorder() {
-    // Create, once for all, a stream (for the recorder)
-    this.recorderDestinationStream = this.audioContext.createGain()
-
-    // Same for web audio recorder
-    /* global WebAudioRecorder */
-    this.recorder = new WebAudioRecorder(this.recorderDestinationStream, {
-      workerDir: "web-audio-recorder/",
-      encoding: Constants.RECORDING_FORMAT,
-      
-      onComplete: this._recordOnComplete.bind(this),
-      onTimeout: this.stopRecord.bind(this),
-      options: {
-        timeLimit: Constants.RECORDING_MAX_TIME
-      }
-    })
-  }
-
-  _recorderInterval ?:NodeJS.Timer 
-
   _getTracksMediaStreamArray() :Array<AudioNode>{
     return this.trackSamples.reduce(function (a, sample){
       if (sample?.mediaStream) {
@@ -226,30 +208,19 @@ export default class AudioService extends Service {
     }, [] as Array<AudioNode>)
   }
 
-  _recordOnComplete(_ :WebAudioRecorder, blob: Blob) {
-    let audioURL = window.URL.createObjectURL(blob)
-    this.recordedFileUri = audioURL
-  }
-
-  _recordProgress() {
-    this.currentRecordTime = (new Date()).getTime()
-  }
-
   @action
   startRecord(){
-    this.startRecordTime = (new Date()).getTime()
-    this._recorderInterval = setInterval( this._recordProgress.bind(this), 100)
-
+    
     let mediaStreams = this._getTracksMediaStreamArray()
 
     // connect all source audioMediaStream (from audio file)
     for (let stream of mediaStreams) {
-      stream.connect(this.recorderDestinationStream)
+      stream.connect(this.recorder.recorderDestinationStream)
     }
 
     // Mic
     if (this.isMicroEnable && this.micStream){
-      this.micStream.connect( this.recorderDestinationStream)
+      this.micStream.connect( this.recorder.recorderDestinationStream)
     }
 
     // Start recording
@@ -257,24 +228,11 @@ export default class AudioService extends Service {
     if (!this.isPlaying){
       this.play()
     }
-
-    this.isRecording = true
   }
 
   @action
   stopRecord(){
-    if (this._recorderInterval) {
-      clearInterval(this._recorderInterval)
-    }
-
-    this._recorderInterval = undefined
-
-    this.startRecordTime = 0
-    this.currentRecordTime = 0
-
-    this.recorder.finishRecording()
-
-    this.isRecording = false
+    this.recorder.stopRecord()    
   }
 
   async requireMicro() {
@@ -286,8 +244,8 @@ export default class AudioService extends Service {
 
   enableMicro() {
     if(this.isMicroReady) {
-      if (this.isRecording && this.micStream) {
-        this.micStream.connect( this.recorderDestinationStream)
+      if (this.recorder.isRecording && this.micStream) {
+        this.micStream.connect( this.recorder.recorderDestinationStream)
       }
   
       this.isMicroEnable = true
@@ -297,8 +255,8 @@ export default class AudioService extends Service {
   }
 
   disableMicro() {
-    if (this.isRecording && this.micStream) {
-      this.micStream.disconnect( this.recorderDestinationStream)
+    if (this.recorder.isRecording && this.micStream) {
+      this.micStream.disconnect( this.recorder.recorderDestinationStream)
     }
 
     this.isMicroEnable = false

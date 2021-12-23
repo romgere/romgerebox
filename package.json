@@ -30,6 +30,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "@types/dom-mediacapture-record": "^1.0.11",
     "@types/ember-qunit": "^3.4.15",
     "@types/ember-resolver": "^5.0.10",
     "@types/ember__application": "^3.16.3",
@@ -98,6 +99,7 @@
     "qunit-dom": "^1.6.0",
     "sass": "^1.44.0",
     "typescript": "^4.5.4",
+    "vmsg": "^0.4.0",
     "webpack": "^5.65.0"
   },
   "engines": {
@@ -107,6 +109,7 @@
     "edition": "octane"
   },
   "dependencies": {
+    "mp3-mediarecorder": "^4.0.5",
     "uikit": "^3.9.4"
   }
 }

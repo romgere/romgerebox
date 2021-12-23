@@ -1539,6 +1539,11 @@
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
   integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
 
+"@types/dom-mediacapture-record@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@types/dom-mediacapture-record/-/dom-mediacapture-record-1.0.11.tgz#f61b17e6131d76629d4039b02634c7e786b82c3a"
+  integrity sha512-ODVOH95x08arZhbQOjH3no7Iye64akdO+55nM+IGtTzpu2ACKr9CQTrI//CCVieIjlI/eL+rK1hQjMycxIgylQ==
+
 "@types/ember-qunit@^3.4.15":
   version "3.4.15"
   resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.4.15.tgz#333b3644f4c80af755f54f82ccdf3f1652cfac8d"
@@ -6457,6 +6462,11 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+event-target-shim@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-6.0.2.tgz#ea5348c3618ee8b62ff1d344f01908ee2b8a2b71"
+  integrity sha512-8q3LsZjRezbFZ2PN+uP+Q7pnHUMmAOziU2vA2OwoFaKIXxlxl38IylhSSgUorWu/rf4er67w0ikBqjBFk/pomA==
+
 eventemitter3@^4.0.0:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
@@ -9145,6 +9155,14 @@ move-concurrently@^1.0.1:
     mkdirp "^0.5.1"
     rimraf "^2.5.4"
     run-queue "^1.0.3"
+
+mp3-mediarecorder@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/mp3-mediarecorder/-/mp3-mediarecorder-4.0.5.tgz#8c47358453533d080988802d3ef9bf3f20472ded"
+  integrity sha512-tu8XvKGMrdwNmEQTzBbaJRLBAuVNEzbzmCOnYzUyYuEb48Kwl97qA6f5nBEaZXveNmHgvvi0i85TjROPC49qFA==
+  dependencies:
+    event-target-shim "6.0.2"
+    vmsg "0.4.0"
 
 ms@2.0.0:
   version "2.0.0"
@@ -12024,6 +12042,11 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vmsg@0.4.0, vmsg@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/vmsg/-/vmsg-0.4.0.tgz#b61684226274afcf441b5348cc596c80fc50bf9f"
+  integrity sha512-46BBqRSfqdFGUpO2j+Hpz8T9YE5uWG0/PWal1PT+R1o8NEthtjG/XWl4HzbB8hIHpg/UtmKvsxL2OKQBrIYcHQ==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
