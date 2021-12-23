@@ -1,6 +1,6 @@
 import Component from '@glimmer/component'
 import { action } from '@ember/object'
-import UIkit from 'uikit';
+import UIkit from 'uikit'
 
 interface UiInputArgs {
   onClose: () => void;

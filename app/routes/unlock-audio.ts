@@ -4,7 +4,7 @@ import { getOwner } from '@ember/application'
 import type AudioService from 'romgerebox/services/audio'
 
 import type { BoxVersionModels } from 'romgerebox/routes/application'
-import type RouterService from '@ember/routing/router-service';
+import type RouterService from '@ember/routing/router-service'
 type Transition = ReturnType<RouterService['transitionTo']>;
 
 // https://www.mattmontag.com/web/unlock-web-audio-in-safari-for-ios-and-macos

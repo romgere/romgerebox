@@ -8,7 +8,7 @@ import type { BoxVersionModels } from 'romgerebox/routes/application'
 import SampleModel from 'romgerebox/models/sample'
 
 interface QP {
-  version_idx: string
+  version_idx: string // eslint-disable-line camelcase
 }
 
 type ASampleModel = Array<SampleModel>

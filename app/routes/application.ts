@@ -7,7 +7,7 @@ import type AudioService from 'romgerebox/services/audio'
 import type IntlService from 'ember-intl/services/intl'
 import { Registry as Services } from '@ember/service'
 
-import type RouterService from '@ember/routing/router-service';
+import type RouterService from '@ember/routing/router-service'
 type Transition = ReturnType<RouterService['transitionTo']>;
 
 interface BoxVersionModel {
