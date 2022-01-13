@@ -3,7 +3,7 @@
   <p class="uk-text-center">
     {{t 'box_main.mix_code_notice'}}
   </p>
-  <p class="uk-text-lead uk-text-primary uk-text-center">
+  <p class="uk-text-lead uk-text-primary uk-text-center" data-test-mix-code>
     <FaIcon @icon="tag" />
     {{@mixCode}}
   </p>
@@ -11,6 +11,7 @@
     <button
       type="button"
       class="uk-button uk-button-primary"
+      data-test-close-modal
       {{on "click" @onHide}}
     >
       {{t 'box_main.mix_code_close_btn'}}
