@@ -3,6 +3,7 @@ import { action } from '@ember/object'
 import UIkit from 'uikit'
 
 interface UiInputArgs {
+  dialogClass?: string;
   onClose: () => void;
 }
 
