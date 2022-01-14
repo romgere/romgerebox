@@ -8,7 +8,7 @@ export default class ApplicationController extends Controller {
 
   @service declare intl: IntlService
 
-  availableLocales = ['fr', 'en']
+  availableLocales = ['fr-fr', 'en-us']
   get currentLocale() {
     return this.intl.primaryLocale
   }

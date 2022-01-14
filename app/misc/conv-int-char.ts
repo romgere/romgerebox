@@ -1,6 +1,6 @@
 export function intToChar(intValue: MixCodeValue): string{
 
-  if( Number.isNaN(intValue) || intValue == null || intValue === undefined ){
+  if( intValue === undefined ){
     return 'Z'
   }
 

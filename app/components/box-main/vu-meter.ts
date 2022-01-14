@@ -36,6 +36,7 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
   @action
   registerCanvas(canvasElement: HTMLCanvasElement) {
     this.canvas = canvasElement
+    this.onLevelChange(0)
   }
 
   @action
@@ -54,6 +55,7 @@ export default class VuMetterComponent extends Component<UiInputArgs> {
       // Disconnect the "old sample" (stream) from "meter"
       this.connectedStream?.disconnect(meter)
       this.connectedStream = undefined
+      this.onLevelChange(0)
     }
   }
 

@@ -38,5 +38,5 @@ box_sample:
   drag_tooltip: Fais glisser un sample sur l'une des pistes ou double cliques pour l'écouter
 unlock_audio: Votre navigateur a suspendu l'accès audio, veuillez cliquez/toucher l'écran pour débloquer l'audio et utiliser l'application
 languages:
- en: English
- fr: Français
+ en-us: English
+ fr-fr: Français

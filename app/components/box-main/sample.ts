@@ -12,7 +12,7 @@ interface UiInputArgs {
 
 export default class BoxSampleComponent extends Component<UiInputArgs>{
   
-  @service('sample') declare sampleSerice: SampleService
+  @service('sample') declare sampleService: SampleService
 
   @tracked isSinglePlaying = false
 
@@ -28,9 +28,9 @@ export default class BoxSampleComponent extends Component<UiInputArgs>{
   @action
   play() {
     let { sample } = this.args
-    if (!sample.isUsed) {
+    if (!sample.isUsed && !this.isSinglePlaying) {
       this.isSinglePlaying = true
-      this.sampleSerice.playSampleOnce(sample).finally(() => {
+      this.sampleService.playSampleOnce(sample).finally(() => {
         this.isSinglePlaying = false
       })
     }
