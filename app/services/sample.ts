@@ -3,10 +3,12 @@ import Constants from 'romgerebox/constants'
 import { cloneBuffer } from 'romgerebox/misc/clone-buffer'
 import type SampleModel from 'romgerebox/models/sample'
 import type AudioService from 'romgerebox/services/audio'
+import type FetchService from 'romgerebox/services/fetch'
 
 export default class SampleService extends Service {
  
   @service declare audio: AudioService
+  @service declare fetch: FetchService
  
    /**
    * @public
@@ -45,20 +47,8 @@ export default class SampleService extends Service {
     sample.sampleInit = true
   }
 
-  private _loadAudioBufferFromFile(url: string): Promise<ArrayBuffer> {
-
-    let request = new XMLHttpRequest()
-    request.open('GET', `/samples/${url}`, true)
-    request.responseType = 'arraybuffer'
-    return new Promise((resolve, reject) => {
-
-      request.onload = function () {
-        resolve(request.response)
-      }
-
-      request.onerror = reject
-      request.send()
-    })
+  private async _loadAudioBufferFromFile(url: string): Promise<ArrayBuffer> {
+    return this.fetch.getArrayBuffer(`/samples/${url}`)
   }
 
   private _createBufferSource(buffer: ArrayBuffer, loopTime: number): Promise<AudioBufferSourceNode> {
