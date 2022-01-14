@@ -33,7 +33,7 @@ export default class ApplicationRoute extends Route {
       locale = window.navigator.language.substring(0,2)
     }
     
-    this.intl.setLocale( locale === 'fr' ? 'fr' : 'en')
+    this.intl.setLocale( locale === 'fr-fr' ? 'fr-fr' : 'en-us')
   }
 
   async model(): Promise<BoxVersionModels> {

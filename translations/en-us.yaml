@@ -38,5 +38,5 @@ box_sample:
   drag_tooltip: Drag a sample on one of the track or double click to listen it
 unlock_audio: Your browser is blocking audio access, please touch/click the screen to unlock audio and use the application
 languages:
- en: English
- fr: Français
+ en-us: English
+ fr-fr: Français
