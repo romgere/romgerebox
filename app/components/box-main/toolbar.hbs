@@ -1,10 +1,11 @@
-<div class="uk-flex uk-flex-around" ...attributes>
+<div class="uk-flex uk-flex-around" data-test-box-toolbar ...attributes>
 
   <div class="uk-button-group">
     <button
       type="button"
       class="uk-button uk-button-primary"
       uk-tooltip={{if @playing (t 'box_main.stop') (t 'box_main.play')}}
+      data-test-box-toolbar-play
       {{on "click" @playAction}}
     >
       <FaIcon @icon={{if @playing "stop" "play"}} />
@@ -12,15 +13,14 @@
 
     <div
       class="button-group-label uk-text-primary uk-text-italic uk-button-noupper"
+      data-test-box-toolbar-loop-info
     > 
       <span class="label">
         {{#if (eq this.loopInfo 'side')}}
           {{if @loopSideA "A" "B"}}
         {{else}}
           #{{@loopCount}}
-        {{/if}}
-
-        
+        {{/if}}        
       </span>
       <span class="progress" style={{this.progressStyle}} />
     </div>
@@ -29,6 +29,7 @@
       type="button"
       class="uk-button uk-button-default"
       uk-tooltip={{t 'box_main.show_mix_code'}}
+      data-test-box-toolbar-save
       {{on "click" @saveAction}}
     >
       <FaIcon @icon="save" />
@@ -40,6 +41,7 @@
       type="button"
       class="uk-button {{if @recording "uk-button-danger" "uk-button-default"}}"
       uk-tooltip={{if @recording (t 'box_main.record_stop') (t 'box_main.record')}}
+      data-test-box-toolbar-record
       {{on "click" @recordAction}}
     >
       <FaIcon @icon="circle" />
@@ -49,12 +51,18 @@
       type="button"
       class="uk-button  {{if @micEnable "uk-button-danger" "uk-button-default"}}"
       uk-tooltip={{if @micEnable (t 'box_main.mic_off') (t 'box_main.mic_on')}}
+      data-test-box-toolbar-mic
       {{on "click" @micAction}}
     >
       <FaIcon @icon={{if @micEnable 'microphone-alt' 'microphone-alt-slash'}} />
     </button>
 
-    <button class="uk-button uk-button-default uk-text-primary uk-text-italic uk-button-noupper" type="button" disabled>
+    <button
+      class="uk-button uk-button-default uk-text-primary uk-text-italic uk-button-noupper"
+      type="button"
+      disabled
+      data-test-box-toolbar-record-time
+    >
       {{ms-to-time @recordingTime}}
     </button>
 
@@ -63,6 +71,7 @@
       class="uk-button uk-button-default"
       disabled={{not @canDownload}}
       uk-tooltip={{t 'box_main.download_record'}}
+      data-test-box-toolbar-download
       {{on "click" @downloadAction}}
     >
       <FaIcon @icon="file-download" />

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component'
-import Constants from 'romgerebox/constants'
+import Constants, { loopType } from 'romgerebox/constants'
 import { htmlSafe } from '@ember/template'
 
 interface UiInputArgs {
@@ -7,6 +7,7 @@ interface UiInputArgs {
   loopSideA: boolean;
   loopCount: number;
   loopValue: number;
+  loopType?: loopType;
 
   recording: boolean;
   micEnable: boolean;
@@ -21,7 +22,10 @@ interface UiInputArgs {
 }
 
 export default class BoxToolbarComponent extends Component<UiInputArgs> {
-  loopInfo = Constants.LOOP_INFO_TYPE
+
+  get loopInfo() : loopType {
+    return this.args.loopType ?? Constants.LOOP_INFO_TYPE
+  }
 
   get progressStyle() {
     return htmlSafe(`width: ${this.args.loopValue}%`)
