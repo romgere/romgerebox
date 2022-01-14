@@ -9,14 +9,14 @@ module('Integration | Component | misc/locale-link', function (hooks) {
   test('it renders', async function (assert) {
     
     let intl = this.owner.lookup('service:intl')
-    intl.locale = 'en'
+    intl.locale = 'en-us'
 
     this.set('onChange', function (locale: string) {
       assert.step(`onChange-${locale}`)
     })
 
     await render(hbs`<Misc::LocaleLink
-      @locale="fr"
+      @locale="fr-fr"
       @onChange={{this.onChange}}
     />`)
 
@@ -28,8 +28,8 @@ module('Integration | Component | misc/locale-link', function (hooks) {
     assert.dom('li a').hasText('Français', 'link item has language as text')
 
     await click('li a')
-    assert.verifySteps(['onChange-fr'], 'onChange was called with locale')    
-    assert.equal(intl.primaryLocale, 'fr', 'locale has changed')
+    assert.verifySteps(['onChange-fr-fr'], 'onChange was called with locale')    
+    assert.equal(intl.primaryLocale, 'fr-fr', 'locale has changed')
     assert
       .dom('li')
       .hasClass('uk-active', 'item is active')
