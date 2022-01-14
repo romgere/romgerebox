@@ -224,7 +224,7 @@ export default class AudioService extends Service {
     }
 
     // Start recording
-    this.recorder.startRecording()
+    this.recorder.start()
     if (!this.isPlaying){
       this.play()
     }
@@ -232,7 +232,7 @@ export default class AudioService extends Service {
 
   @action
   stopRecord(){
-    this.recorder.stopRecord()    
+    this.recorder.stop()    
   }
 
   async requireMicro() {
