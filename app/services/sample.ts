@@ -47,11 +47,11 @@ export default class SampleService extends Service {
     sample.sampleInit = true
   }
 
-  private async _loadAudioBufferFromFile(url: string): Promise<ArrayBuffer> {
+  async _loadAudioBufferFromFile(url: string): Promise<ArrayBuffer> {
     return this.fetch.getArrayBuffer(`/samples/${url}`)
   }
 
-  private _createBufferSource(buffer: ArrayBuffer, loopTime: number): Promise<AudioBufferSourceNode> {
+  _createBufferSource(buffer: ArrayBuffer, loopTime: number): Promise<AudioBufferSourceNode> {
 
     let { audioContext }  = this.audio
     return new Promise((resolve, reject) => {
