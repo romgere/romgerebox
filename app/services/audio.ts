@@ -47,7 +47,7 @@ export default class AudioService extends Service {
   }
 
   get isLoopSideA():boolean {
-    return (this.playTime / this.currentLoopTime) % 2 > 1
+    return (this.playTime / this.currentLoopTime) % 2 >= 1
   }
 
   get isLoopSideB():boolean {
