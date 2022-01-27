@@ -47,6 +47,7 @@
         class="uk-button uk-button-round {{if @sample.isMute "uk-button-danger" "uk-button-default"}}"
         disabled={{not @sample}}
         uk-tooltip={{t 'box_track.mute_tooltip'}}
+        data-test-mute
         {{on "click" @onMuteToggle}}
       >
         <FaIcon @icon={{if @sample.isMute "volume-mute" "volume-up"}} />
@@ -57,6 +58,7 @@
         class="uk-button uk-button-round {{if @isSolo "uk-button-primary" "uk-button-default"}}"
         disabled={{not @sample}}
         uk-tooltip={{t 'box_track.solo_tooltip'}}
+        data-test-solo
         {{on "click" @onSoloToggle}}
       >
         <FaIcon @icon="music" />
@@ -69,6 +71,7 @@
         class="uk-button uk-button-round uk-button-default"
         disabled={{not @sample}}
         uk-tooltip={{t 'box_track.delete_tooltip'}}
+        data-test-delete
         {{on "click" @onClearSample}}
       >
         <FaIcon @icon="trash-alt" />
