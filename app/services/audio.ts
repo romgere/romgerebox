@@ -47,7 +47,7 @@ export default class AudioService extends Service {
   }
 
   get isLoopSideA():boolean {
-    return (this.playTime / this.currentLoopTime) % 2 >= 1
+    return !this.loopCount || this.loopCount / 2 % 1 > 0
   }
 
   get isLoopSideB():boolean {
@@ -232,7 +232,7 @@ export default class AudioService extends Service {
 
   @action
   stopRecord(){
-    this.recorder.stop()    
+    this.recorder.stop()
   }
 
   async requireMicro() {
