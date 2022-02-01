@@ -1,6 +1,9 @@
 <div
   class="boxTrack {{this.additionnalClasses}}"
   uk-tooltip={{unless @sample (t 'box_track.drop_tooltip')}}
+  ...attributes
+  is-solo={{@isSolo}}
+  is-mute={{@sample.isMute}}
 >
 
   <DraggableObjectTarget

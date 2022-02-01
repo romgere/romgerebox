@@ -22,6 +22,7 @@
     @micAction={{this.toggleMic}}
     @downloadAction={{this.downloadRecord}}
     @saveAction={{this.showMixCodeModal}}
+    data-test-boxmain-toolbar
   />
 
   <div class="uk-flex uk-flex-around">
@@ -36,18 +37,19 @@
         
         @onDropSample={{fn this.bindSample idx}}
         @onClearSample={{fn this.unbindSample idx}}
+        data-test-boxmain-track={{idx}}
       />
     {{/each}}
   </div>
 
   <span class="uk-flex-none uk-text-center uk-text-lead uk-margin-top">{{t 'box_main.sample_title'}} : </span>
   <div class="uk-flex-none uk-flex uk-flex-center uk-flex-wrap uk-margin uk-margin-left uk-margin-right">
-    {{#each @samples as |sample|}}
+    {{#each @samples as |sample idx|}}
       {{#if sample.isUsed}}
-        <BoxMain::Sample @sample={{sample}} class="uk-margin-right" />
+        <BoxMain::Sample @sample={{sample}} class="uk-margin-right" data-test-boxmain-sample={{idx}} />
       {{else}}
         <DraggableObject @content={{sample}}>
-          <BoxMain::Sample draggable @sample={{sample}} class="uk-margin-right" />
+          <BoxMain::Sample draggable @sample={{sample}} class="uk-margin-right" data-test-boxmain-sample={{idx}} />
         </DraggableObject>
       {{/if}}
     {{/each}}  
@@ -58,5 +60,6 @@
   <BoxMain::MixCodeModal
     @onHide={{fn (mut this.showMixCode) false}}
     @mixCode={{this.currentMixCode}}
+    data-test-boxmain-mix-code
   />
 {{/if}}
