@@ -40,3 +40,7 @@ unlock_audio: Votre navigateur a suspendu l'accès audio, veuillez cliquez/touch
 languages:
  en-us: English
  fr-fr: Français
+footer:
+  made_by: Créer avec ♥ par {author} avec {ember}
+  github: Contribuez ou faite un fork sur GitHub
+  issue: Un bug ? Demander une nouvelle fonctionnalité ?

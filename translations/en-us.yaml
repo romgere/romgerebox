@@ -40,3 +40,7 @@ unlock_audio: Your browser is blocking audio access, please touch/click the scre
 languages:
  en-us: English
  fr-fr: Français
+footer:
+  made_by: Made with ♥ By {author} with {ember}
+  github: Contribute or fork me on GitHub
+  issue: Find a bug ? Request a new feature ?

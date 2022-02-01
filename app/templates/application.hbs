@@ -1,20 +1,43 @@
 {{page-title (t "app_title")}}
-<nav class="uk-navbar-container" uk-navbar>
-  <a class="uk-navbar-item uk-logo" href="#">
-    {{t 'app_title'}}
-  </a>
+<div uk-height-viewport="expand: true" class="uk-flex uk-flex-column">
+  <nav class="uk-navbar-container" uk-navbar>
+    <a class="uk-navbar-item uk-logo" href="#">
+      {{t 'app_title'}}
+    </a>
 
-  <div class="uk-navbar-right">
-    <ul class="uk-navbar-nav">
-      {{#each this.availableLocales as |locale|}}
-        <Misc::LocaleLink
-          @locale={{locale}}
-          @selected={{eq locale this.currentLocale}}
-          @onChange={{this.localeChangeAction}}
-        />
-      {{/each}}
-    </ul>
+    <div class="uk-navbar-right">
+      <ul class="uk-navbar-nav">
+        {{#each this.availableLocales as |locale|}}
+          <Misc::LocaleLink
+            @locale={{locale}}
+            @selected={{eq locale this.currentLocale}}
+            @onChange={{this.localeChangeAction}}
+          />
+        {{/each}}
+      </ul>
+    </div>
+  </nav>
+  <div class="uk-flex-auto">
+    {{outlet}}
   </div>
-</nav>
 
-{{outlet}}
+  {{!-- FOOTER --}}
+  <div class="uk-flex-none" uk-sticky="bottom: true">
+    <div class="uk-text-small uk-text-muted uk-text-center app-footer">
+      {{t "footer.made_by"
+        author=this.authorLink
+        ember=this.emberLink
+        three=this.threeLink
+        htmlSafe=true
+      }}
+      |
+      <a href="https://github.com/romgere/romgerebox" target="_blank" rel="noopener noreferrer">
+        {{t "footer.github"}}
+      </a>
+      |
+      <a href="https://github.com/romgere/romgerebox/issues/new" target="_blank" rel="noopener noreferrer">
+        {{t "footer.issue"}}
+      </a>        
+    </div>
+  </div>
+</div>
