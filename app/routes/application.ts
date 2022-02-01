@@ -5,6 +5,7 @@ import SampleModel from 'romgerebox/models/sample'
 
 import type AudioService from 'romgerebox/services/audio'
 import type IntlService from 'ember-intl/services/intl'
+import type FetchService from 'romgerebox/services/fetch'
 import { Registry as Services } from '@ember/service'
 
 import type RouterService from '@ember/routing/router-service'
@@ -23,6 +24,7 @@ export default class ApplicationRoute extends Route {
   @service declare intl: IntlService
   @service declare router: Services['router']
   @service declare audio: AudioService
+  @service declare fetch: FetchService
 
   audioUnlockPreviousTransition ?:Transition
 
@@ -37,10 +39,8 @@ export default class ApplicationRoute extends Route {
   }
 
   async model(): Promise<BoxVersionModels> {
-    let samplesConf: VersionsDef = await fetch('./samples/samples.json').then(function (response: Response) {
-      return response.json()
-    })
-      
+    let samplesConf = await this.fetch.getJson<VersionsDef>('./samples/samples.json')
+          
     let versions :BoxVersionModels = []
 
     // Create Model for sample

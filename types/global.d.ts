@@ -10,3 +10,11 @@ declare class WebAudioRecorder extends Error {
   finishRecording() :void
   constructor(n: GainNode, o: WebAudioRecorderArgs);
 }
+
+declare module 'romgerebox/tests/helpers/ember-drag-drop' {
+  function drag (selector: string, options: Record<string, string>): void;
+
+  export {
+    drag
+  }
+}

@@ -19,6 +19,7 @@ export default class RecorderService extends Service {
   declare recorderDestinationStream :MediaStreamAudioDestinationNode
 
   blobs: BlobPart[] = []
+  mp3Blob ?: Blob
   @tracked recordedFileUri ?: string
 
   _recorderInterval ?:NodeJS.Timer 
@@ -62,17 +63,17 @@ export default class RecorderService extends Service {
     this.startRecordTime = 0
     this.currentRecordTime = 0
     
-    let mp3Blob = new Blob(this.blobs, { type: 'audio/mpeg' })
-    this.recordedFileUri = URL.createObjectURL(mp3Blob)    
+    this.mp3Blob = new Blob(this.blobs, { type: 'audio/mpeg' })
+    this.recordedFileUri = URL.createObjectURL(this.mp3Blob)    
 
     this.isRecording = false
   }
 
-  stopRecord(){
+  stop(){
     this.recorder.stop()
   }
 
-  startRecording(){    
+  start(){    
     this.recorder.start()
   }
 
