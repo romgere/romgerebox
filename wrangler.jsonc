@@ -1,0 +1,8 @@
+{
+  "name": "romgerebox",
+  "compatibility_date": "2026-10-01",
+  // Ember build output (`yarn build`); public/ (including _headers) is copied into it
+  "assets": { "directory": "./dist" },
+  "preview_urls": true,
+  "previews": {}
+}
